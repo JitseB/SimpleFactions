@@ -1,0 +1,5 @@
+name: SimpleFactions
+version: 0.0.1
+author: Jitse3301.
+description: A simple factions plugin made by Jitse3301.
+main: net.jitse.simplefactions.SimpleFactions
