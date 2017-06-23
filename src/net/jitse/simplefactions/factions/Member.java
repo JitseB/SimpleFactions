@@ -1,6 +1,8 @@
 package net.jitse.simplefactions.factions;
 
+import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -26,10 +28,17 @@ public class Member {
         return this.role;
     }
 
-    public Player getPlayer() throws Exception {
+    public Player getPlayer() {
         Player player = Bukkit.getPlayer(this.uuid);
         if(player == null)
-            throw new Exception("Tried to use Member#getPlayer, but did not check whether the object == null.");
-        return Bukkit.getPlayer(this.uuid);
+            Logger.log(Logger.LogLevel.ERROR, "Tried to use Member#getPlayer without null check, player is not online.");
+        return player;
+    }
+
+    public OfflinePlayer getOfflinePlayer() {
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(this.uuid);
+        if(offlinePlayer == null)
+            Logger.log(Logger.LogLevel.ERROR, "Tried to use Member#getOfflinePlayer without null check, player never logged on.");
+        return offlinePlayer;
     }
 }
