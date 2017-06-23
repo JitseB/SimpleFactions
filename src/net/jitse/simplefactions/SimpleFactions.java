@@ -1,5 +1,7 @@
 package net.jitse.simplefactions;
 
+import net.jitse.simplefactions.listeners.PlayerListener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -9,6 +11,6 @@ public class SimpleFactions extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }
 }
