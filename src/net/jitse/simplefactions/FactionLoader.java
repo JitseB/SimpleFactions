@@ -5,7 +5,9 @@ package net.jitse.simplefactions;
  */
 public class FactionLoader {
 
-    public void load(){
+    public void load(Runnable finished){
+        //fetch all data from database -> insert in-memory
 
+        finished.run();
     }
 }
