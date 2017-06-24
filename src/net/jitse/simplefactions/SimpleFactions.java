@@ -27,9 +27,9 @@ public class SimpleFactions extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
 
-        new FactionLoader().load(() -> {
-            Logger.log(Logger.LogLevel.SUCCESS, "Simple-Factions plugin loaded, ready for duty!");
-            joinable = true;
+        new FactionsLoader(this).load(() -> {
+            Logger.log(Logger.LogLevel.SUCCESS, "Plugin loaded, ready for duty!");
+            this.joinable = true;
         });
     }
 
@@ -38,12 +38,10 @@ public class SimpleFactions extends JavaPlugin {
         this.mysql.close();
     }
 
-    // Instance getter.
     public static SimpleFactions getInstance(){
         return plugin;
     }
 
-    // Getters for local variables.
     public boolean isJoinable(){
         return this.joinable;
     }
