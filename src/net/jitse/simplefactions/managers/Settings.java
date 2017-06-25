@@ -9,6 +9,7 @@ public class Settings {
     public static final String SERVER_NAME = "&c&lD&6&lE&e&lC&a&lI&b&lM&9&lA&5&lT&c&lE &f&lPVP&r";
     public static final int PLAYER_MAX_POWER = 100;
 
+    public static final String FATAL_LOAD_KICK = "&cSomething went wrong while loading your profile.";
     public static final String COMMAND_USAGE_MESSAGE = "&cUsage: &f{syntax}";
     public static final String INVALID_COMMAND_USAGE = "&cInvalid command usage.";
     public static final String PLAYER_ONLY_COMMAND = "&cSorry, but this command can only be used by players.";

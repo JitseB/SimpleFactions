@@ -27,7 +27,8 @@ public class SimpleFactions extends JavaPlugin {
 
         this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, max-power INT, balance INT, open TINYINT(1), claimed TEXT");
         this.mysql.createTable("FactionHomes", "faction VARCHAR(16), name VARCHAR(16), location TEXT");
-        this.mysql.createTable("FactionMembers", "faction VARCHAR(16), member VARCHAR(36), role VARCHAR(6), lastseen TIMESTAMP, joinedfaction TIMESTAMP, power INT, kills INT, deaths INT");
+        this.mysql.createTable("FactionMembers", "faction VARCHAR(16), uuid VARCHAR(36), role VARCHAR(6), joinedfaction TIMESTAMP");
+        this.mysql.createTable("FactionPlayers", "uuid VARCHAR(36), lastseen TIMESTAMP, power INT, kills INT, deaths INT");
         this.mysql.createTable("FactionRelations", "faction-one VARCHAR(16), faction-two VARCHAR(16), relation VARCHAR(7)");
 
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);

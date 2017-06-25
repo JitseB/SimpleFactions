@@ -17,7 +17,7 @@ public class ChunkSerializer {
         return result.toString();
     }
 
-    public static Set<Chunk> fromString(String input){
+    public static Set<Chunk> deserialize(String input){
         Set<Chunk> chunks = new HashSet<>();
         for(String element : input.split("|")){
             if(element == null || element == "") continue; // End of serialized item.

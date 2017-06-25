@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -13,11 +14,18 @@ import java.util.UUID;
 public class Member {
 
     private final UUID uuid;
+    private final Timestamp joinedFaction;
+
     private Role role;
 
-    public Member(UUID uuid, Role role){
+    public Member(UUID uuid, Timestamp joinedFaction, Role role){
         this.uuid = uuid;
+        this.joinedFaction = joinedFaction;
         this.role = role;
+    }
+
+    public Timestamp getJoinedFaction(){
+        return this.joinedFaction;
     }
 
     public UUID getUUID(){

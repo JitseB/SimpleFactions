@@ -14,6 +14,7 @@ public class FactionsCommand implements CommandExecutor {
         if(command.getName().equalsIgnoreCase("factions") || command.getName().equalsIgnoreCase("faction") || command.getName().equalsIgnoreCase("f")){
             if(args[0].equalsIgnoreCase("create")) Commands.CREATE_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("disband")) Commands.DISBAND_FACTION.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("sethome")) Commands.SET_HOME.execute(sender, args);
         }
         return false;
     }

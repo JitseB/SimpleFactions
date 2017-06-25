@@ -18,18 +18,24 @@ public class Faction {
     private Set<Member> members;
     private Set<Chunk> chunks;
     private Set<Faction> allies, enemies;
+    private Set<Home> homes;
 
-    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies){
+    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes){
         this.name = name;
         this.creator = creator;
         this.members = members;
         this.chunks = chunks;
         this.allies = allies;
         this.enemies = enemies;
+        this.homes = homes;
     }
 
     public String getName(){
         return this.name;
+    }
+
+    public Set<Home> getHomes(){
+        return this.homes;
     }
 
     public Set<Chunk> getClaimedChunks(){
@@ -56,5 +62,22 @@ public class Faction {
     public void addMember(Member member){
         this.members.add(member);
         //update mysql
+    }
+
+    // Messy functions...
+    public void initAddHome(Home home){
+        this.homes.add(home);
+    }
+
+    public void initAddMember(Member member){
+        this.members.add(member);
+    }
+
+    public void initSetEnemies(Faction faction){
+        this.enemies.add(faction);
+    }
+
+    public void initSetAllies(Faction faction){
+        this.allies.add(faction);
     }
 }
