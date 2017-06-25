@@ -14,16 +14,14 @@ public class SimpleFactions extends JavaPlugin {
 
     private static SimpleFactions plugin;
 
-    private MySql mysql;
-    private FactionsManager factionsManager;
+    private MySql mysql = new MySql("localhost", 3306, "root", "password", "projects");
+    private FactionsManager factionsManager = new FactionsManager(this);
 
     private boolean joinable = false;
 
     @Override
     public void onEnable() {
         plugin = this;
-
-        this.mysql = new MySql("localhost", 3306, "root", "password", "projects");
 
         this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, max-power INT, open TINYINT(1), claimed TEXT");
         this.mysql.createTable("FactionHomes", "faction VARCHAR(16), name VARCHAR(16), location TEXT");

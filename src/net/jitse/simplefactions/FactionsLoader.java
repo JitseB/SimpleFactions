@@ -15,8 +15,7 @@ public class FactionsLoader {
         this.plugin.getMySql().select("SELECT * FROM Factions;", resultSet -> {
 
         });
-        //fetch all data from database -> insert in-memory
-
-        finished.run();
+        // fetch all data from database -> insert in-memory
+        // after fetching is done -> finished.run();
     }
 }
