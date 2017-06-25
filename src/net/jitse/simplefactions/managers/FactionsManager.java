@@ -56,11 +56,11 @@ public class FactionsManager {
     }
 
     public void createFaction(String name, Player creator, boolean open){
-        this.plugin.getMySql().execute("INSERT INTO Factions (?,?,?,?,?);",
-                name, creator.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), Settings.PLAYER_MAX_POWER, open
+        this.plugin.getMySql().execute("INSERT INTO Factions VALUES(?,?,?,?,?,?,NULL);",
+                name, creator.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), Settings.PLAYER_MAX_POWER, 0, open
         );
-        this.plugin.getMySql().execute("INSERT INTO FactionMembers (?,?,?,?);",
-                name, creator.getUniqueId(), Role.OWNER.toString(), new Timestamp(System.currentTimeMillis())
+        this.plugin.getMySql().execute("INSERT INTO FactionMembers VALUES(?,?,?,?);",
+                name, creator.getUniqueId().toString(), Role.OWNER.toString(), new Timestamp(System.currentTimeMillis())
         );
         Chat.broadcast(Settings.CREATED_FACTION_BROADCAST.replace("{player}", creator.getName()).replace("{faction}", name));
         Set<Member> members = new HashSet<>();

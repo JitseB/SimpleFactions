@@ -31,10 +31,10 @@ public class SetHomeCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.NOT_IN_FACTION));
             return;
         }
-        if(args.length != 1){
+        if(args.length != 2){
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
-        SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionHomes (?,?,?);", faction.getName(), args[0], Locations.serialize(player.getLocation()));
+        SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionHomes VALUES(?,?,?);", faction.getName(), args[1], Locations.serialize(player.getLocation()));
     }
 }

@@ -84,6 +84,7 @@ public class FactionsLoader {
                             exception.printStackTrace();
                         }
 
+                        this.plugin.getFactionsManager().init(factions);
 
                         // And finally, execute the runnable.
                         finished.run();

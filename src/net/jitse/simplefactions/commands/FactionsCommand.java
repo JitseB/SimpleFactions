@@ -11,11 +11,15 @@ public class FactionsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(command.getName().equalsIgnoreCase("factions") || command.getName().equalsIgnoreCase("faction") || command.getName().equalsIgnoreCase("f")){
+        if(args.length == 0){
+            sender.sendMessage("TODO Help stuff");
+            return false;
+        }
+        if(command.getName().equalsIgnoreCase("factions")){
             if(args[0].equalsIgnoreCase("create")) Commands.CREATE_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("disband")) Commands.DISBAND_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("sethome")) Commands.SET_HOME.execute(sender, args);
         }
-        return false;
+        return true;
     }
 }

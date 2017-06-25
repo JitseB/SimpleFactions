@@ -2,10 +2,10 @@ package net.jitse.simplefactions.commands.subcommands;
 
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
-import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,24 +25,27 @@ public class CreateFactionCommand extends SubCommand {
             return;
         }
         Player player = (Player) sender;
-        Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
-        if(faction != null){
+        if(args.length != 2 && args.length != 3){
+            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction create <name> [open] (Open: yes/no)")));
+        }
+        if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null){
             player.sendMessage(Chat.format(Settings.ALREADY_IN_FACTION));
             return;
         }
-        if(args.length < 1 || args.length > 2){
-            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction create <name> [open] (Open: yes/no)")));
-        }
+
+        StringBuilder builder = new StringBuilder();
+        for(String str : args) builder.append(str + ",");
+        Logger.log(Logger.LogLevel.INFO, builder.toString());
 
         boolean open = false;
-        if(args[1] != null){
-            if(args[1].equalsIgnoreCase("yes")) open = true;
-            else if(args[1].equalsIgnoreCase("no")) open = false;
+        if(args.length == 3){
+            if(args[2].equalsIgnoreCase("yes")) open = true;
+            else if(args[2].equalsIgnoreCase("no")) open = false;
             else{
                 player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
                 return;
             }
         }
-        SimpleFactions.getInstance().getFactionsManager().createFaction(args[0], player, open);
+        SimpleFactions.getInstance().getFactionsManager().createFaction(args[1], player, open);
     }
 }
