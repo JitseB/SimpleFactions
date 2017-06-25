@@ -85,7 +85,7 @@ public class FactionsLoader {
                         }
 
 
-                        // And finally, run the runnable.
+                        // And finally, execute the runnable.
                         finished.run();
                     });
                 });

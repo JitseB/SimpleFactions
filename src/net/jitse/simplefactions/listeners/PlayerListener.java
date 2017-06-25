@@ -52,7 +52,7 @@ public class PlayerListener implements Listener {
             try {
                 if (resultSet.next()) return;
                 else{
-                    this.plugin.getMySql().execute("INSERT INTO FactionPlayers IF NOT EXISTS (?,?,?,?,?);",
+                    this.plugin.getMySql().execute("INSERT INTO FactionPlayers VALUES(?,?,?,?,?);",
                             player.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), 100, 0, 0
                     );
                 }

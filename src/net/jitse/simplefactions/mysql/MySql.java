@@ -20,6 +20,10 @@ public class MySql {
         hikariConfig.setJdbcUrl("jdbc:mysql://" + host + ':' + port + '/' + database);
         hikariConfig.setUsername(username);
         hikariConfig.setPassword(password);
+        hikariConfig.addDataSourceProperty("useSSL", "false");
+        hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+        hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         hikariDataSource = new HikariDataSource(hikariConfig);
     }
 
@@ -39,8 +43,9 @@ public class MySql {
         new Thread(() -> {
             try (Connection resource = getConnection(); PreparedStatement statement = resource.prepareStatement("CREATE TABLE IF NOT EXISTS " + name + "(" + info + ");")) {
                 statement.execute();
-            } catch (SQLException e) {
+            } catch (SQLException exception) {
                 Logger.log(Logger.LogLevel.ERROR, "An error occured while creating database table " + name + ".");
+                exception.printStackTrace();
             }
         }).start();
     }
@@ -52,8 +57,9 @@ public class MySql {
                     statement.setObject((i + 1), values[i]);
                 }
                 statement.execute();
-            } catch (SQLException e) {
+            } catch (SQLException exception) {
                 Logger.log(Logger.LogLevel.ERROR, "An error occured while executing an update on the database.");
+                exception.printStackTrace();
             }
         }).start();
     }
@@ -65,8 +71,9 @@ public class MySql {
                     statement.setObject((i + 1), values[i]);
                 }
                 call.call(statement.executeQuery());
-            } catch (SQLException e) {
+            } catch (SQLException exception) {
                 Logger.log(Logger.LogLevel.ERROR, "An error occured while executing a query on the database.");
+                exception.printStackTrace();
             }
         }).start();
     }

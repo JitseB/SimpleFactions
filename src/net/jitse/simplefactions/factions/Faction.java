@@ -64,7 +64,7 @@ public class Faction {
         //update mysql
     }
 
-    // Messy functions...
+    // Messy functions... Not sure how to do them in another way
     public void initAddHome(Home home){
         this.homes.add(home);
     }
