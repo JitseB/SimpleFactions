@@ -1,6 +1,7 @@
 package net.jitse.simplefactions;
 
 import net.jitse.simplefactions.listeners.PlayerListener;
+import net.jitse.simplefactions.managers.FactionsManager;
 import net.jitse.simplefactions.mysql.MySql;
 import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ public class SimpleFactions extends JavaPlugin {
     private static SimpleFactions plugin;
 
     private MySql mysql;
+    private FactionsManager factionsManager;
 
     private boolean joinable = false;
 
@@ -23,14 +25,15 @@ public class SimpleFactions extends JavaPlugin {
 
         this.mysql = new MySql("localhost", 3306, "root", "password", "projects");
 
-        this.mysql.createTable("Factions", "name VARCHAR(16), created TIMESTAMP, power INT, max-power INT, open TINYINT(1), claimed ");
-        this.mysql.createTable("FactionMembers", "faction VARCHAR(16), member VARCHAR(36), role VARCHAR(6), lastseen TIMESTAMP, joined TIMESTAMP, kills INT, deaths INT");
+        this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, max-power INT, open TINYINT(1), claimed TEXT");
+        this.mysql.createTable("FactionHomes", "faction VARCHAR(16), name VARCHAR(16), location TEXT");
+        this.mysql.createTable("FactionMembers", "faction VARCHAR(16), member VARCHAR(36), role VARCHAR(6), lastseen TIMESTAMP, joinedfaction TIMESTAMP, power INT, kills INT, deaths INT");
         this.mysql.createTable("FactionRelations", "faction-one VARCHAR(16), faction-two VARCHAR(16), relation VARCHAR(7)");
 
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
 
         new FactionsLoader(this).load(() -> {
-            Logger.log(Logger.LogLevel.SUCCESS, "Plugin loaded, ready for duty!");
+            Logger.log(Logger.LogLevel.INFO, "Plugin loaded, ready for duty!");
             this.joinable = true;
         });
     }
@@ -50,5 +53,9 @@ public class SimpleFactions extends JavaPlugin {
 
     public MySql getMySql(){
         return this.mysql;
+    }
+
+    public FactionsManager getFactionsManager(){
+        return this.factionsManager;
     }
 }

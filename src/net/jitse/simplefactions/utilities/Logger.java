@@ -15,11 +15,11 @@ public class Logger {
             case WARNING:
                 Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimple-Factions &7: &eWarning &7: &f" + message));
                 break;
-            case SUCCESS:
-                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimple-Factions &7: &aSuccess &7: &f" + message));
+            case INFO:
+                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimple-Factions &7: &aInfo &7: &f" + message));
                 break;
         }
     }
 
-    public enum LogLevel { ERROR, WARNING, SUCCESS }
+    public enum LogLevel { ERROR, WARNING, INFO }
 }
