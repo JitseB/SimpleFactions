@@ -3,6 +3,7 @@ package net.jitse.simplefactions.commands;
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.subcommands.CreateFactionCommand;
 import net.jitse.simplefactions.commands.subcommands.DisbandFactionCommand;
+import net.jitse.simplefactions.commands.subcommands.SetHomeCommand;
 import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
@@ -17,7 +18,8 @@ import java.util.Arrays;
 public enum Commands {
 
     CREATE_FACTION(new CreateFactionCommand(Role.MEMBER)),
-    DISBAND_FACTION(new DisbandFactionCommand(Role.OWNER));
+    DISBAND_FACTION(new DisbandFactionCommand(Role.OWNER)),
+    SET_HOME(new SetHomeCommand(Role.MEMBER));
 
     private SubCommand subCommand;
 

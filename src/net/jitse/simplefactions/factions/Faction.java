@@ -28,6 +28,10 @@ public class Faction {
         this.enemies = enemies;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public Set<Chunk> getClaimedChunks(){
         return this.chunks;
     }

@@ -1,6 +1,8 @@
 package net.jitse.simplefactions;
 
+import net.jitse.simplefactions.listeners.FactionsListener;
 import net.jitse.simplefactions.listeners.PlayerListener;
+import net.jitse.simplefactions.listeners.WorldListener;
 import net.jitse.simplefactions.managers.FactionsManager;
 import net.jitse.simplefactions.mysql.MySql;
 import net.jitse.simplefactions.utilities.Logger;
@@ -23,12 +25,14 @@ public class SimpleFactions extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, max-power INT, open TINYINT(1), claimed TEXT");
+        this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, max-power INT, balance INT, open TINYINT(1), claimed TEXT");
         this.mysql.createTable("FactionHomes", "faction VARCHAR(16), name VARCHAR(16), location TEXT");
         this.mysql.createTable("FactionMembers", "faction VARCHAR(16), member VARCHAR(36), role VARCHAR(6), lastseen TIMESTAMP, joinedfaction TIMESTAMP, power INT, kills INT, deaths INT");
         this.mysql.createTable("FactionRelations", "faction-one VARCHAR(16), faction-two VARCHAR(16), relation VARCHAR(7)");
 
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new FactionsListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
 
         new FactionsLoader(this).load(() -> {
             Logger.log(Logger.LogLevel.INFO, "Plugin loaded, ready for duty!");
