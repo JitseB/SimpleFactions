@@ -1,6 +1,7 @@
 package net.jitse.simplefactions;
 
 import net.jitse.simplefactions.factions.*;
+import net.jitse.simplefactions.utilities.ChunkSerializer;
 import net.jitse.simplefactions.utilities.Locations;
 import net.jitse.simplefactions.utilities.Logger;
 
@@ -29,7 +30,8 @@ public class FactionsLoader {
             try{
                 while (factionSet.next()){
                     factions.add(new Faction(factionSet.getString("name"), UUID.fromString(factionSet.getString("creator")),
-                            new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>())
+                            new HashSet<>(), ChunkSerializer.deserialize(factionSet.getString("claimed")),
+                            new HashSet<>(), new HashSet<>(), new HashSet<>())
                     );
                 }
             } catch (SQLException exception){

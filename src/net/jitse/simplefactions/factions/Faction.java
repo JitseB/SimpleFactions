@@ -1,9 +1,11 @@
 package net.jitse.simplefactions.factions;
 
 import net.jitse.simplefactions.SimpleFactions;
+import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.ChunkSerializer;
 import org.bukkit.Chunk;
 
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ public class Faction {
     private Set<Chunk> chunks;
     private Set<Faction> allies, enemies;
     private Set<Home> homes;
+    private int power, maxPower;
 
     public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes){
         this.name = name;
@@ -28,6 +31,7 @@ public class Faction {
         this.allies = allies;
         this.enemies = enemies;
         this.homes = homes;
+        this.maxPower = members.size() * Settings.PLAYER_MAX_POWER;
     }
 
     public String getName(){
@@ -54,14 +58,16 @@ public class Faction {
         return this.enemies;
     }
 
-    public void claimChunk(Chunk chunk){
+    public void claimChunk(Chunk chunk, boolean updateSql){
         this.chunks.add(chunk);
-        SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET claimed=? WHERE name=?;", ChunkSerializer.serialize(this.chunks), this.name);
+        if(updateSql)
+            SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET claimed=? WHERE name=?;", ChunkSerializer.serialize(this.chunks), this.name);
     }
 
-    public void addMember(Member member){
+    public void addMember(Member member, boolean updateSql){
         this.members.add(member);
-        //update mysql
+        if(updateSql)
+            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionMembers VALUES(?,?,?,?);", this.name, member.getUUID(), member.getRole(), new Timestamp(System.currentTimeMillis()));
     }
 
     // Messy functions... Not sure how to do them in another way
