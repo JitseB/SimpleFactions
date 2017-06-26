@@ -3,7 +3,6 @@ package net.jitse.simplefactions.factions;
 import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -11,7 +10,7 @@ import java.util.UUID;
 /**
  * Created by Jitse on 23-6-2017.
  */
-public class Member {
+public class Member extends Player {
 
     private final UUID uuid;
     private final Timestamp joinedFaction;
