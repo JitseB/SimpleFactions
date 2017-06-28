@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class CreateFactionCommand extends SubCommand {
 
     public CreateFactionCommand(Role role){
-        super(role);
+        super(role, "simplefactions.command.create");
     }
 
     @Override
@@ -26,6 +26,7 @@ public class CreateFactionCommand extends SubCommand {
         Player player = (Player) sender;
         if(args.length != 2 && args.length != 3){
             player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction create <name> [open] (Open: yes/no)")));
+            return;
         }
         if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null){
             player.sendMessage(Chat.format(Settings.ALREADY_IN_FACTION));

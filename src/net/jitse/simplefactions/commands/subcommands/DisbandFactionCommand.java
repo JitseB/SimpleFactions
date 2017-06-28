@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 public class DisbandFactionCommand extends SubCommand {
 
     public DisbandFactionCommand(Role role){
-        super(role);
+        super(role, "simplefactions.command.disband");
     }
 
     @Override

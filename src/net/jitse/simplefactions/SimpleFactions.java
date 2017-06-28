@@ -1,6 +1,7 @@
 package net.jitse.simplefactions;
 
 import net.jitse.simplefactions.commands.FactionsCommand;
+import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.listeners.FactionsListener;
 import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.listeners.WorldListener;
@@ -9,6 +10,9 @@ import net.jitse.simplefactions.mysql.MySql;
 import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Jitse on 22-6-2017.
@@ -19,6 +23,7 @@ public class SimpleFactions extends JavaPlugin {
 
     private MySql mysql;
     private FactionsManager factionsManager = new FactionsManager(this);
+    private Set<Player> players = new HashSet<>();
 
     private boolean joinable = false;
 
@@ -53,6 +58,18 @@ public class SimpleFactions extends JavaPlugin {
 
     public static SimpleFactions getInstance(){
         return plugin;
+    }
+
+    public void addPlayer(Player player){
+        this.players.add(player);
+    }
+
+    public void removePlayer(Player player){
+        this.players.remove(player);
+    }
+
+    public Set<Player> getPlayers(){
+        return this.players;
     }
 
     public boolean isJoinable(){

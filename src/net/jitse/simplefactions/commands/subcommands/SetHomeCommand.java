@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class SetHomeCommand extends SubCommand {
 
     public SetHomeCommand(Role role){
-        super(role);
+        super(role, "simplefactions.command.sethome");
     }
 
     @Override

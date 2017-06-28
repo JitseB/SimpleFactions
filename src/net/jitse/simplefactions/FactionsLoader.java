@@ -6,6 +6,7 @@ import net.jitse.simplefactions.utilities.Locations;
 import net.jitse.simplefactions.utilities.Logger;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class FactionsLoader {
             try{
                 while (factionSet.next()){
                     factions.add(new Faction(factionSet.getString("name"), UUID.fromString(factionSet.getString("creator")),
-                            new HashSet<>(), ChunkSerializer.deserialize(factionSet.getString("claimed")),
+                            new HashSet<>(), factionSet.getString("claimed") == null ? new HashSet<>() : ChunkSerializer.deserialize(factionSet.getString("claimed")),
                             new HashSet<>(), new HashSet<>(), new HashSet<>())
                     );
                 }
@@ -56,7 +57,24 @@ public class FactionsLoader {
                     try{
                         while (memberSet.next()){
                             Faction faction = this.plugin.getFactionsManager().getFaction(memberSet.getString("faction"));
-                            faction.initAddMember(new Member(UUID.fromString(memberSet.getString("uuid")), memberSet.getTimestamp("joinedfaction"), Role.valueOf(memberSet.getString("role"))));
+                            if(faction == null) continue;
+                            Role role = Role.valueOf(memberSet.getString("role"));
+                            Timestamp joinedFaction = memberSet.getTimestamp("joinedfaction");
+                            this.plugin.getMySql().select("SELECT * FROM FactionPlayers WHERE uuid=?;", playerSet -> {
+                                try{
+                                    if(!playerSet.next()) return;
+                                    faction.initAddMember(
+                                            new Member(
+                                                    UUID.fromString(playerSet.getString("uuid")), joinedFaction, role,
+                                                    playerSet.getInt("kills"), playerSet.getInt("deaths"),
+                                                    playerSet.getInt("power"), playerSet.getTimestamp("lastseen")
+                                            )
+                                    );
+                                } catch (SQLException exception){
+                                    Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while fetching a player profile from the database.");
+                                    exception.printStackTrace();
+                                }
+                            }, memberSet.getString("uuid"));
                         }
                     } catch (SQLException exception){
                         Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while fetching all faction members from the database.");

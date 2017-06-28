@@ -16,6 +16,7 @@ import org.bukkit.event.player.*;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 /**
  * Created by Jitse on 23-6-2017.
@@ -50,7 +51,12 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         this.plugin.getMySql().select("SELECT * FROM FactionPlayers WHERE uuid=?;", resultSet -> {
             try {
-                if (resultSet.next()) return;
+                if (resultSet.next()){
+                    this.plugin.addPlayer(new net.jitse.simplefactions.factions.Player(
+                            UUID.fromString(resultSet.getString("uuid")), resultSet.getInt("kills"),
+                            resultSet.getInt("deaths"), resultSet.getInt("power"), resultSet.getTimestamp("lastseen")
+                    ));
+                }
                 else{
                     this.plugin.getMySql().execute("INSERT INTO FactionPlayers VALUES(?,?,?,?,?);",
                             player.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), 100, 0, 0
