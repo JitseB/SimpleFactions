@@ -9,6 +9,7 @@ public class Settings {
     public static final String SERVER_NAME = "&c&lD&6&lE&e&lC&a&lI&b&lM&9&lA&5&lT&c&lE &f&lPVP&r";
     public static final int PLAYER_MAX_POWER = 100;
 
+    public static final String SERVER_RELOAD = "&cServer has been reloaded, please rejoin to load your profile back in.";
     public static final String SUCCESS_FULLY_RESET_SYSTEM = "&aSystem has been reset successfully.";
     public static final String SYSTEM_RESET_KICK = "&c&lResetting all factions...&r\n&cPlease check back later for our new season!";
     public static final String FATAL_LOAD_KICK = "&cSomething went wrong while loading your profile.";

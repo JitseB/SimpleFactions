@@ -6,7 +6,9 @@ import net.jitse.simplefactions.listeners.FactionsListener;
 import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.listeners.WorldListener;
 import net.jitse.simplefactions.managers.FactionsManager;
+import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.mysql.MySql;
+import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,6 +55,8 @@ public class SimpleFactions extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended for Simple-Factions because it kicks all players. However, no additional problems will occur.");
+        Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.SERVER_RELOAD)));
         this.mysql.close();
     }
 

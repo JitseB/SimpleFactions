@@ -19,7 +19,7 @@ public class ResetCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(Chat.format(Settings.SYSTEM_RESET_KICK)));
+        Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.SYSTEM_RESET_KICK)));
         SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE Factions;");
         SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionHomes;");
         SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionMembers;");

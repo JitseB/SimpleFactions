@@ -53,8 +53,11 @@ public class PlayerListener implements Listener {
             try {
                 if (resultSet.next()){
                     this.plugin.addPlayer(new net.jitse.simplefactions.factions.Player(
-                            UUID.fromString(resultSet.getString("uuid")), resultSet.getInt("kills"),
-                            resultSet.getInt("deaths"), resultSet.getInt("power"), resultSet.getTimestamp("lastseen")
+                            UUID.fromString(resultSet.getString("uuid")),
+                            resultSet.getInt("kills"),
+                            resultSet.getInt("deaths"),
+                            resultSet.getInt("power"),
+                            resultSet.getTimestamp("lastseen")
                     ));
                 }
                 else{
@@ -67,7 +70,7 @@ public class PlayerListener implements Listener {
                 Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while trying to load " + player.getName() + "'s profile.");
                 exception.printStackTrace();
             }
-        }, player.getUniqueId());
+        }, player.getUniqueId().toString());
         event.setJoinMessage(null);
     }
 
