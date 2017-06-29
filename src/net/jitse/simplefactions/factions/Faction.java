@@ -34,6 +34,10 @@ public class Faction {
         this.maxPower = members.size() * Settings.PLAYER_MAX_POWER;
     }
 
+    public String getTag(){
+        return "[" + this.getName() + "] ";
+    }
+
     public String getName(){
         return this.name;
     }
@@ -67,16 +71,12 @@ public class Faction {
     public void addMember(Member member, boolean updateSql){
         this.members.add(member);
         if(updateSql)
-            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionMembers VALUES(?,?,?,?);", this.name, member.getUUID(), member.getRole(), new Timestamp(System.currentTimeMillis()));
+            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionMembers VALUES(?,?,?,?);", this.name, member.getUUID().toString(), member.getRole().toString(), new Timestamp(System.currentTimeMillis()));
     }
 
     // Messy functions... Not sure how to do them in another way
     public void initAddHome(Home home){
         this.homes.add(home);
-    }
-
-    public void initAddMember(Member member){
-        this.members.add(member);
     }
 
     public void initSetEnemies(Faction faction){

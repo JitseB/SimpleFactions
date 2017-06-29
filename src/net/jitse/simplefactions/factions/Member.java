@@ -1,5 +1,7 @@
 package net.jitse.simplefactions.factions;
 
+import net.jitse.simplefactions.SimpleFactions;
+
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -27,6 +29,10 @@ public class Member extends Player {
         this.uuid = uuid;
         this.joinedFaction = joinedFaction;
         this.role = role;
+    }
+
+    public Faction getFaction(){
+        return SimpleFactions.getInstance().getFactionsManager().getFaction(this.getBukkitPlayer());
     }
 
     public Timestamp getJoinedFaction(){

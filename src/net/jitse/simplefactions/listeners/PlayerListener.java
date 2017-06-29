@@ -3,6 +3,7 @@ package net.jitse.simplefactions.listeners;
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.events.PlayerChangeChunkEvent;
 import net.jitse.simplefactions.events.PlayerLeaveServerEvent;
+import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.Logger;
@@ -48,22 +49,29 @@ public class PlayerListener implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event){
-        Player player = event.getPlayer();
+        handlePlayerJoin(event.getPlayer());
+        event.setJoinMessage(null);
+    }
+
+    public void handlePlayerJoin(Player player){
+        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         this.plugin.getMySql().select("SELECT * FROM FactionPlayers WHERE uuid=?;", resultSet -> {
             try {
                 if (resultSet.next()){
                     this.plugin.addPlayer(new net.jitse.simplefactions.factions.Player(
-                            UUID.fromString(resultSet.getString("uuid")),
-                            resultSet.getInt("kills"),
-                            resultSet.getInt("deaths"),
-                            resultSet.getInt("power"),
-                            resultSet.getTimestamp("lastseen")
+                            UUID.fromString(resultSet.getString("uuid")), resultSet.getInt("kills"),
+                            resultSet.getInt("deaths"), resultSet.getInt("power"), resultSet.getTimestamp("lastseen")
                     ));
+
+                    Member member = this.plugin.getFactionsManager().getMember(player);
+                    if(member == null) return;
+                    this.plugin.getFactionsTagManager().initTag(member);
                 }
                 else{
                     this.plugin.getMySql().execute("INSERT INTO FactionPlayers VALUES(?,?,?,?,?);",
                             player.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), 100, 0, 0
                     );
+                    this.plugin.addPlayer(new net.jitse.simplefactions.factions.Player(player.getUniqueId(), 0, 0, 100, new Timestamp(System.currentTimeMillis())));
                 }
             } catch (SQLException exception) {
                 player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.FATAL_LOAD_KICK));
@@ -71,7 +79,6 @@ public class PlayerListener implements Listener {
                 exception.printStackTrace();
             }
         }, player.getUniqueId().toString());
-        event.setJoinMessage(null);
     }
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -83,7 +90,9 @@ public class PlayerListener implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerLeaveServer(PlayerLeaveServerEvent event){
         Player player = event.getPlayer();
+        this.plugin.getFactionsTagManager().removeTag(this.plugin.getFactionsManager().getFactionsPlayer(player));
         this.plugin.getMySql().execute("UPDATE FactionPlayers SET lastseen=? WHERE uuid=?;", new Timestamp(System.currentTimeMillis()), player.getUniqueId().toString());
+        this.plugin.removePlayer(this.plugin.getFactionsManager().getFactionsPlayer(player));
     }
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -94,6 +103,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerChunkChange(PlayerChangeChunkEvent event){
         Player player = event.getPlayer();
-        player.sendMessage("CHUNK_CHANGE: Old: x:" + event.getFrom().getX() + " z:" + event.getFrom().getZ() + " New: x:" + event.getTo().getX() + " z:" + event.getTo().getZ());
+        player.sendMessage("CHUNK: Old: x:" + event.getFrom().getX() + " z:" + event.getFrom().getZ() + " New: x:" + event.getTo().getX() + " z:" + event.getTo().getZ());
     }
 }

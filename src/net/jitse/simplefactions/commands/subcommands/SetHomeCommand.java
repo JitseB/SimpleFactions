@@ -6,7 +6,7 @@ import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.jitse.simplefactions.utilities.Locations;
+import net.jitse.simplefactions.utilities.LocationSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -35,6 +35,6 @@ public class SetHomeCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
-        SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionHomes VALUES(?,?,?);", faction.getName(), args[1], Locations.serialize(player.getLocation()));
+        SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionHomes VALUES(?,?,?);", faction.getName(), args[1], LocationSerializer.serialize(player.getLocation()));
     }
 }

@@ -42,6 +42,10 @@ public class CreateFactionCommand extends SubCommand {
                 return;
             }
         }
+        if(args[1].length() > 14){
+            player.sendMessage(Chat.format(Settings.FACTION_NAME_TOO_LONG));
+            return;
+        }
         SimpleFactions.getInstance().getFactionsManager().createFaction(args[1], player, open);
     }
 }

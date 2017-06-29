@@ -2,8 +2,10 @@ package net.jitse.simplefactions;
 
 import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.utilities.ChunkSerializer;
-import net.jitse.simplefactions.utilities.Locations;
+import net.jitse.simplefactions.utilities.LocationSerializer;
 import net.jitse.simplefactions.utilities.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -40,12 +42,15 @@ public class FactionsLoader {
                 exception.printStackTrace();
             }
 
+            // For the next few functions, updating it once again later (with more data)
+            this.plugin.getFactionsManager().init(factions);
+
             // Fetch faction homes
             this.plugin.getMySql().select("SELECT * FROM FactionHomes;", homeSet -> {
                 try{
                     while (homeSet.next()){
                         Faction faction = this.plugin.getFactionsManager().getFaction(homeSet.getString("faction"));
-                        faction.initAddHome(new Home(homeSet.getString("name"), Locations.deserialize(homeSet.getString("location"))));
+                        faction.initAddHome(new Home(homeSet.getString("name"), LocationSerializer.deserialize(homeSet.getString("location"))));
                     }
                 } catch (SQLException exception){
                     Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while fetching all faction homes from the database.");
@@ -57,18 +62,22 @@ public class FactionsLoader {
                     try{
                         while (memberSet.next()){
                             Faction faction = this.plugin.getFactionsManager().getFaction(memberSet.getString("faction"));
-                            if(faction == null) continue;
+                            if(faction == null) {
+                                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(memberSet.getString("uuid")));
+                                Logger.log(Logger.LogLevel.ERROR, "A player with " + (offlinePlayer == null ? ("uuid: " + memberSet.getString("uuid")) : ("name: " + offlinePlayer.getName())) + " is in a faction which doesn't exist!");
+                                continue;
+                            }
                             Role role = Role.valueOf(memberSet.getString("role"));
                             Timestamp joinedFaction = memberSet.getTimestamp("joinedfaction");
                             this.plugin.getMySql().select("SELECT * FROM FactionPlayers WHERE uuid=?;", playerSet -> {
                                 try{
                                     if(!playerSet.next()) return;
-                                    faction.initAddMember(
+                                    faction.addMember(
                                             new Member(
                                                     UUID.fromString(playerSet.getString("uuid")), joinedFaction, role,
                                                     playerSet.getInt("kills"), playerSet.getInt("deaths"),
                                                     playerSet.getInt("power"), playerSet.getTimestamp("lastseen")
-                                            )
+                                            ), false
                                     );
                                 } catch (SQLException exception){
                                     Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while fetching a player profile from the database.");

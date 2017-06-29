@@ -5,6 +5,7 @@ import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.listeners.FactionsListener;
 import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.listeners.WorldListener;
+import net.jitse.simplefactions.managers.FactionsTagManager;
 import net.jitse.simplefactions.managers.FactionsManager;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.mysql.MySql;
@@ -25,6 +26,7 @@ public class SimpleFactions extends JavaPlugin {
 
     private MySql mysql;
     private FactionsManager factionsManager = new FactionsManager(this);
+    private FactionsTagManager factionsTagManager = new FactionsTagManager();
     private Set<Player> players = new HashSet<>();
 
     private boolean joinable = false;
@@ -43,11 +45,13 @@ public class SimpleFactions extends JavaPlugin {
         this.mysql.createTable("FactionPlayers", "uuid VARCHAR(36), lastseen TIMESTAMP, power INT, kills INT, deaths INT");
         this.mysql.createTable("FactionRelations", "`faction-one` VARCHAR(16), `faction-two` VARCHAR(16), relation VARCHAR(7)");
 
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+        PlayerListener playerListener = new PlayerListener(this);
+        Bukkit.getPluginManager().registerEvents(playerListener, this);
         Bukkit.getPluginManager().registerEvents(new FactionsListener(), this);
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
 
         new FactionsLoader(this).load(() -> {
+            Bukkit.getScheduler().runTask(this, () -> Bukkit.getOnlinePlayers().forEach(playerListener::handlePlayerJoin));
             Logger.log(Logger.LogLevel.INFO, "Plugin loaded, ready for duty!");
             this.joinable = true;
         });
@@ -55,8 +59,7 @@ public class SimpleFactions extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended for Simple-Factions because it kicks all players. However, no additional problems will occur.");
-        Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.SERVER_RELOAD)));
+        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Database connection might flip out if you reload too often.");
         this.mysql.close();
     }
 
@@ -86,5 +89,9 @@ public class SimpleFactions extends JavaPlugin {
 
     public FactionsManager getFactionsManager(){
         return this.factionsManager;
+    }
+
+    public FactionsTagManager getFactionsTagManager(){
+        return this.factionsTagManager;
     }
 }

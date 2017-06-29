@@ -6,6 +6,7 @@ import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.utilities.Chat;
+import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -33,7 +34,7 @@ public class FactionsManager {
             Optional<Member> memberOptional = faction.getMembers().stream().filter(member -> member.getUUID().equals(player.getUniqueId())).findFirst();
             if(memberOptional.isPresent()){
                 result = faction;
-                continue;
+                break;
             }
         }
         return result;
@@ -63,12 +64,15 @@ public class FactionsManager {
         this.plugin.getMySql().execute("INSERT INTO Factions VALUES(?,?,?,?,?,?,NULL);",
                 name, creator.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), Settings.PLAYER_MAX_POWER, 0, open
         );
-        this.plugin.getMySql().execute("INSERT INTO FactionMembers VALUES(?,?,?,?);",
-                name, creator.getUniqueId().toString(), Role.OWNER.toString(), new Timestamp(System.currentTimeMillis())
-        );
         Chat.broadcast(Settings.CREATED_FACTION_BROADCAST.replace("{player}", creator.getName()).replace("{faction}", name));
         Set<Member> members = new HashSet<>();
-        members.add(new Member(creator.getUniqueId(), new Timestamp(System.currentTimeMillis()), Role.OWNER, getFactionsPlayer(creator)));
-        Bukkit.getPluginManager().callEvent(new FactionCreatedEvent(new Faction(name, creator.getUniqueId(), members, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>())));
+        Member member = new Member(creator.getUniqueId(), new Timestamp(System.currentTimeMillis()), Role.OWNER, this.getFactionsPlayer(creator));
+        Faction createdFaction = new Faction(name, creator.getUniqueId(), members, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        createdFaction.addMember(member, true);
+        this.factions.add(createdFaction);
+        Bukkit.getPluginManager().callEvent(new FactionCreatedEvent(createdFaction));
+
+        this.plugin.getFactionsTagManager().removeTag(this.getFactionsPlayer(creator));
+        this.plugin.getFactionsTagManager().initTag(member);
     }
 }
