@@ -59,7 +59,7 @@ public class SimpleFactions extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Database connection might flip out if you reload too often.");
+        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Database connection might flip when reloading too often.");
         this.mysql.close();
     }
 
@@ -77,6 +77,10 @@ public class SimpleFactions extends JavaPlugin {
 
     public Set<Player> getPlayers(){
         return this.players;
+    }
+
+    public void setJoinable(boolean b){
+        this.joinable = b;
     }
 
     public boolean isJoinable(){

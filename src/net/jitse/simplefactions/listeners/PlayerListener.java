@@ -3,6 +3,7 @@ package net.jitse.simplefactions.listeners;
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.events.PlayerChangeChunkEvent;
 import net.jitse.simplefactions.events.PlayerLeaveServerEvent;
+import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
@@ -90,9 +91,13 @@ public class PlayerListener implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerLeaveServer(PlayerLeaveServerEvent event){
         Player player = event.getPlayer();
-        this.plugin.getFactionsTagManager().removeTag(this.plugin.getFactionsManager().getFactionsPlayer(player));
-        this.plugin.getMySql().execute("UPDATE FactionPlayers SET lastseen=? WHERE uuid=?;", new Timestamp(System.currentTimeMillis()), player.getUniqueId().toString());
-        this.plugin.removePlayer(this.plugin.getFactionsManager().getFactionsPlayer(player));
+        try{
+            this.plugin.getFactionsTagManager().removeTag(this.plugin.getFactionsManager().getFactionsPlayer(player));
+            this.plugin.getMySql().execute("UPDATE FactionPlayers SET lastseen=? WHERE uuid=?;", new Timestamp(System.currentTimeMillis()), player.getUniqueId().toString());
+            this.plugin.removePlayer(this.plugin.getFactionsManager().getFactionsPlayer(player));
+        } catch(Exception exception){
+            return; // Player had already left server -> State only occurs when /faction reset is fired.
+        }
     }
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
