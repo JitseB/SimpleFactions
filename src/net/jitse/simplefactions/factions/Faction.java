@@ -6,8 +6,7 @@ import net.jitse.simplefactions.utilities.ChunkSerializer;
 import org.bukkit.Chunk;
 
 import java.sql.Timestamp;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Jitse on 22-6-2017.
@@ -62,8 +61,8 @@ public class Faction {
         return this.enemies;
     }
 
-    public void claimChunk(Chunk chunk, boolean updateSql){
-        this.chunks.add(chunk);
+    public void claimChunk(boolean updateSql, Chunk... chunk){
+        this.chunks.addAll(Arrays.asList(chunk));
         if(updateSql)
             SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET claimed=? WHERE name=?;", ChunkSerializer.serialize(this.chunks), this.name);
     }

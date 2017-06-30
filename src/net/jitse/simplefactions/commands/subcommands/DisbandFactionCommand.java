@@ -15,6 +15,6 @@ public class DisbandFactionCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-
+        // TODO
     }
 }

@@ -27,7 +27,7 @@ public class ResetCommand extends SubCommand {
         SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionPlayers;");
         SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionRelations;");
         Bukkit.getScheduler().runTaskLater(SimpleFactions.getInstance(), () -> {
-            Chat.broadcast(Chat.format(Settings.SUCCESS_FULLY_RESET_SYSTEM));
+            Chat.broadcast(Chat.format(Settings.COMMAND_PREFIX + Settings.SUCCESS_FULLY_RESET_SYSTEM));
             Bukkit.reload();
         }, 5);
     }

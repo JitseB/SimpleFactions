@@ -29,7 +29,7 @@ public class CreateFactionCommand extends SubCommand {
             return;
         }
         if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null){
-            player.sendMessage(Chat.format(Settings.ALREADY_IN_FACTION));
+            player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.ALREADY_IN_FACTION));
             return;
         }
 
@@ -38,16 +38,16 @@ public class CreateFactionCommand extends SubCommand {
             if(args[2].equalsIgnoreCase("yes")) open = true;
             else if(args[2].equalsIgnoreCase("no")) open = false;
             else{
-                player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
+                player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.INVALID_COMMAND_USAGE));
                 return;
             }
         }
         if(args[1].length() > 14){
-            player.sendMessage(Chat.format(Settings.FACTION_NAME_TOO_LONG));
+            player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.FACTION_NAME_TOO_LONG));
             return;
         }
         if(SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]) == null){
-            player.sendMessage(Chat.format(Settings.FACTION_ALREADY_EXISTS).replace("{name}", args[1]));
+            player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.FACTION_ALREADY_EXISTS).replace("{name}", args[1]));
             return;
         }
         SimpleFactions.getInstance().getFactionsManager().createFaction(args[1], player, open);
