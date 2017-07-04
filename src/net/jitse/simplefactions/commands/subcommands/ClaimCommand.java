@@ -31,9 +31,15 @@ public class ClaimCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.NOT_IN_FACTION));
             return;
         }
-        Chunk chunk = player.getLocation().getChunk();
 
-        // TODO: Check whether chunk is already claimed
+        // TODO : Add line claim command with limit
+
+        Chunk chunk = player.getLocation().getChunk();
+        Faction chunkFaction = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
+        if(chunkFaction != null){
+            player.sendMessage(Chat.format(Settings.CHUNK_ALREADY_CLAIMED.replace("{faction}", chunkFaction.getName())));
+            return;
+        }
 
         faction.claimChunk(true, chunk);
         player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.CLAIMED_CHUNK));

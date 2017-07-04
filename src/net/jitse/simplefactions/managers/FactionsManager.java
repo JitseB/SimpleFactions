@@ -8,6 +8,7 @@ import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
@@ -33,6 +34,18 @@ public class FactionsManager {
         for(Faction faction : this.factions){
             Optional<Member> memberOptional = faction.getMembers().stream().filter(member -> member.getUUID().equals(player.getUniqueId())).findFirst();
             if(memberOptional.isPresent()){
+                result = faction;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public Faction getFaction(Chunk chunk){
+        Faction result = null;
+        for(Faction faction : this.factions){
+            Optional<Chunk> chunkOptional = faction.getClaimedChunks().stream().filter(claimed -> claimed.getX() == chunk.getX() && claimed.getZ() == chunk.getZ()).findFirst();
+            if(chunkOptional.isPresent()){
                 result = faction;
                 break;
             }
