@@ -2,14 +2,11 @@ package net.jitse.simplefactions;
 
 import net.jitse.simplefactions.commands.FactionsCommand;
 import net.jitse.simplefactions.factions.Player;
-import net.jitse.simplefactions.listeners.FactionsListener;
 import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.listeners.WorldListener;
 import net.jitse.simplefactions.managers.FactionsTagManager;
 import net.jitse.simplefactions.managers.FactionsManager;
-import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.mysql.MySql;
-import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,7 +44,6 @@ public class SimpleFactions extends JavaPlugin {
 
         PlayerListener playerListener = new PlayerListener(this);
         Bukkit.getPluginManager().registerEvents(playerListener, this);
-        Bukkit.getPluginManager().registerEvents(new FactionsListener(), this);
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
 
         new FactionsLoader(this).load(() -> {

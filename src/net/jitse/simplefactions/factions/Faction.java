@@ -33,6 +33,10 @@ public class Faction {
         this.maxPower = members.size() * Settings.PLAYER_MAX_POWER;
     }
 
+    public UUID getCreator(){
+        return this.creator;
+    }
+
     public String getTag(){
         return "[" + this.getName() + "] ";
     }

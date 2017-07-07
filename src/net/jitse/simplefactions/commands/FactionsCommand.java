@@ -20,6 +20,10 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("disband")) Commands.DISBAND_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("sethome")) Commands.SET_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("reset")) Commands.RESET_SYSTEM.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("claim")) Commands.CLAIM_LAND.execute(sender, args);
+            else{
+                sender.sendMessage("TODO Help stuff");
+            }
         }
         return true;
     }

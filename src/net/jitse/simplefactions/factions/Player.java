@@ -15,6 +15,7 @@ public class Player {
     private final UUID uuid;
     private int kills, deaths, power;
     private Timestamp lastseen;
+    private Faction location;
 
     public Player(UUID uuid, int kills, int deaths, int power, Timestamp lastseen){
         this.uuid = uuid;
@@ -22,6 +23,15 @@ public class Player {
         this.deaths = deaths;
         this.power = power;
         this.lastseen = lastseen;
+        this.location = null;
+    }
+
+    public void setLocation(Faction faction){
+        this.location = faction;
+    }
+
+    public Faction getLocation(){
+        return this.location;
     }
 
     public UUID getUUID(){

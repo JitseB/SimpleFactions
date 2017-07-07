@@ -41,6 +41,15 @@ public class FactionsManager {
         return result;
     }
 
+    public void disbandFaction(Faction faction){
+        SimpleFactions.getInstance().getMySql().execute("DELETE FROM Factions WHERE creator=?;", faction.getCreator().toString());
+        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE faction=?;", faction.getName());
+        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=?;", faction.getName());
+        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionRelations WHERE `faction-one`=? OR `faction-two`=?;", faction.getName(), faction.getName());
+        faction.getMembers().forEach(member -> SimpleFactions.getInstance().getFactionsTagManager().removeTag(member));
+        this.factions.remove(faction);
+    }
+
     public Faction getFaction(Chunk chunk){
         Faction result = null;
         for(Faction faction : this.factions){

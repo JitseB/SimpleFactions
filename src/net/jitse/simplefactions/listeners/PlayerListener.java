@@ -56,13 +56,12 @@ public class PlayerListener implements Listener {
 
     public void handlePlayerJoin(Player player){
         player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        this.plugin.getMySql().select("SELECT * FROM FactionPlayers WHERE uuid=?;", resultSet -> {
+        this.plugin.getMySql().selectSync("SELECT * FROM FactionPlayers WHERE uuid=?;", resultSet -> {
             try {
                 if (resultSet.next()){
-                    this.plugin.addPlayer(new net.jitse.simplefactions.factions.Player(
-                            UUID.fromString(resultSet.getString("uuid")), resultSet.getInt("kills"),
-                            resultSet.getInt("deaths"), resultSet.getInt("power"), resultSet.getTimestamp("lastseen")
-                    ));
+                    net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(UUID.fromString(resultSet.getString("uuid")), resultSet.getInt("kills"), resultSet.getInt("deaths"), resultSet.getInt("power"), resultSet.getTimestamp("lastseen"));
+                    joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk()));
+                    this.plugin.addPlayer(joinedPlayer);
 
                     Member member = this.plugin.getFactionsManager().getMember(player);
                     if(member == null) return;
@@ -72,7 +71,9 @@ public class PlayerListener implements Listener {
                     this.plugin.getMySql().execute("INSERT INTO FactionPlayers VALUES(?,?,?,?,?);",
                             player.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), 100, 0, 0
                     );
-                    this.plugin.addPlayer(new net.jitse.simplefactions.factions.Player(player.getUniqueId(), 0, 0, 100, new Timestamp(System.currentTimeMillis())));
+                    net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(player.getUniqueId(), 0, 0, 100, new Timestamp(System.currentTimeMillis()));
+                    joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk()));
+                    this.plugin.addPlayer(joinedPlayer);
                 }
             } catch (SQLException exception) {
                 player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.FATAL_LOAD_KICK));
@@ -108,6 +109,13 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerChunkChange(PlayerChangeChunkEvent event){
         Player player = event.getPlayer();
-        player.sendMessage("CHUNK: Old: x:" + event.getFrom().getX() + " z:" + event.getFrom().getZ() + " New: x:" + event.getTo().getX() + " z:" + event.getTo().getZ());
+        net.jitse.simplefactions.factions.Player fplayer = this.plugin.getFactionsManager().getFactionsPlayer(player);
+        Faction newLocation = this.plugin.getFactionsManager().getFaction(event.getTo());
+        if(fplayer.getLocation() != newLocation){
+            if(newLocation == null) player.sendMessage(Chat.format(Settings.ENTERING_LAND.replace("{land}", Settings.WILDERNESS_NAME)));
+            else player.sendMessage(Chat.format(Settings.ENTERING_LAND.replace("{land}", newLocation.getName())));
+            fplayer.setLocation(newLocation);
+        }
+        //Logger.log(Logger.LogLevel.INFO, "Old: x:" + event.getFrom().getX() + " z:" + event.getFrom().getZ() + " New: x:" + event.getTo().getX() + " z:" + event.getTo().getZ());
     }
 }

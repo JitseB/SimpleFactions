@@ -2,10 +2,13 @@ package net.jitse.simplefactions.mysql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.utilities.Logger;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -76,5 +79,17 @@ public class MySql {
                 exception.printStackTrace();
             }
         }).start();
+    }
+
+    public void selectSync(String query, SelectCall call, Object... values) {
+        try (Connection resource = getConnection(); PreparedStatement statement = resource.prepareStatement(query)) {
+            for (int i = 0; i < values.length; i++) {
+                statement.setObject((i + 1), values[i]);
+            }
+            call.call(statement.executeQuery());
+        } catch (SQLException exception) {
+            Logger.log(Logger.LogLevel.ERROR, "An error occured while executing a query on the database.");
+            exception.printStackTrace();
+        }
     }
 }

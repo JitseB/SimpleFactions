@@ -46,7 +46,7 @@ public class CreateFactionCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.FACTION_NAME_TOO_LONG));
             return;
         }
-        if(SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]) == null){
+        if(SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]) != null){
             player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.FACTION_ALREADY_EXISTS).replace("{name}", args[1]));
             return;
         }

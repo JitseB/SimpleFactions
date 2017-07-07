@@ -3,6 +3,7 @@ package net.jitse.simplefactions.utilities;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,15 +14,22 @@ public class ChunkSerializer {
 
     public static String serialize(Set<Chunk> set){
         StringBuilder result = new StringBuilder();
-        set.forEach(chunk -> result.append(chunk.getWorld() + ";" + chunk.getX() + ";" + chunk.getZ() + "|"));
+        if(set.size() == 1) set.forEach(chunk -> result.append(chunk.getWorld().getName() + ";" + String.valueOf(chunk.getX()) + ";" + String.valueOf(chunk.getZ())));
+        else set.forEach(chunk -> result.append(chunk.getWorld().getName() + ";" + String.valueOf(chunk.getX()) + ";" + String.valueOf(chunk.getZ()) + "|"));
         return result.toString();
     }
 
     public static Set<Chunk> deserialize(String input){
         Set<Chunk> chunks = new HashSet<>();
-        for(String element : input.split("|")){
-            if(element == null || element == "") continue; // End of serialized item.
-            String[] chunkInfo = element.split(";");
+        if(input.contains("|")){
+            Arrays.stream(input.split("|")).forEach(element -> {
+                if(!element.contains(";") || element.split(";").length != 3)
+                    return;
+                String[] chunkInfo = element.split(";");
+                chunks.add(Bukkit.getWorld(chunkInfo[0]).getChunkAt(Integer.valueOf(chunkInfo[1]), Integer.valueOf(chunkInfo[2])));
+            });
+        } else{
+            String[] chunkInfo = input.split(";");
             chunks.add(Bukkit.getWorld(chunkInfo[0]).getChunkAt(Integer.valueOf(chunkInfo[1]), Integer.valueOf(chunkInfo[2])));
         }
         return chunks;
