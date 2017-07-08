@@ -13,12 +13,12 @@ import org.bukkit.entity.Player;
 import java.util.Optional;
 
 /**
- * Created by Jitse on 25-6-2017.
+ * Created by Jitse on 8-7-2017.
  */
-public class SetHomeCommand extends SubCommand {
+public class HomeCommand extends SubCommand {
 
-    public SetHomeCommand(Role role){
-        super(role, "simplefactions.command.sethome");
+    public HomeCommand(Role role){
+        super(role, "simplefactions.command.home");
     }
 
     @Override
@@ -35,12 +35,11 @@ public class SetHomeCommand extends SubCommand {
         }
         String homeName = args.length == 2 ? args[1] : "Default";
         Optional<Home> homeOptional = faction.getHomes().stream().filter(home -> home.getName().equalsIgnoreCase(homeName)).findAny();
-        if(homeOptional.isPresent()){
-            // TODO : Check if default -> Auto override old home
-            player.sendMessage(Chat.format(Settings.HOME_ALREADY_EXISTS.replace("{home}", homeOptional.get().getName())));
+        if(!homeOptional.isPresent()){
+            player.sendMessage(Chat.format(Settings.HOME_DOES_NOT_EXIST.replace("{home}", homeName)));
             return;
         }
-        faction.addHome(new Home(homeName, player.getLocation()), true);
-        player.sendMessage(Chat.format(Settings.CREATED_HOME.replace("{home}", homeName)));
+        // TODO : Add 5s wait timer
+        player.teleport(homeOptional.get().getLocation());
     }
 }

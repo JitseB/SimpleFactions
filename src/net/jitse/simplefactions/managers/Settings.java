@@ -10,6 +10,9 @@ public class Settings {
     public static final int PLAYER_MAX_POWER = 100;
     public static final int MAX_LINE_CLAIM = 5;
 
+    public static final String HOME_DOES_NOT_EXIST = "&fA home with the name &7&o{home}&r &fdoes not exist, but you can set it with &e&o/faction sethome [name]&r&f.";
+    public static final String CREATED_HOME = "&fYou successfully created a new home called &7&o{home}&r&f.";
+    public static final String HOME_ALREADY_EXISTS = "&cA home with the name &f&o{home}&r &calready exists. You can delete it with &e&o/faction delhome <name>&r&c.";
     public static final String FACTION_DISBAND = "&fFaction &c&o{faction}&r &fhas been disbanned by &7&o{by}&r&f.";
     public static final String CLAIMED_LINE_OF_CHUNKS = "&aYou claimed &7&o{amount}&r&a chunks in your current facing direction (&7&o{pole}&r&a).";
     public static final String NOW_IN = "&8Now in &c&o{land}&r&8.";

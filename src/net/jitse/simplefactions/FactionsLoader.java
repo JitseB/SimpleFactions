@@ -50,7 +50,7 @@ public class FactionsLoader {
                 try{
                     while (homeSet.next()){
                         Faction faction = this.plugin.getFactionsManager().getFaction(homeSet.getString("faction"));
-                        faction.initAddHome(new Home(homeSet.getString("name"), LocationSerializer.deserialize(homeSet.getString("location"))));
+                        faction.addHome(new Home(homeSet.getString("name"), LocationSerializer.deserialize(homeSet.getString("location"))), false);
                     }
                 } catch (SQLException exception){
                     Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while fetching all faction homes from the database.");

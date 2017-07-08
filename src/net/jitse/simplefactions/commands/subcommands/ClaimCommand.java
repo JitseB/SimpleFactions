@@ -46,7 +46,7 @@ public class ClaimCommand extends SubCommand {
             Bukkit.getOnlinePlayers().stream()
                     .filter(online -> online.getLocation().getChunk().getX() == chunk.getX() && online.getLocation().getChunk().getZ() == chunk.getZ())
                     .forEach(online -> {
-                        online.sendMessage(Chat.format(Settings.NOW_IN.replace("{land}", faction.getName())));
+                        if(online != player) online.sendMessage(Chat.format(Settings.NOW_IN.replace("{land}", faction.getName())));
                         SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(online).setLocation(faction);
                     });
             faction.claimChunk(true, chunk);
@@ -95,7 +95,7 @@ public class ClaimCommand extends SubCommand {
                         Bukkit.getOnlinePlayers().stream()
                                 .filter(online -> online.getLocation().getChunk().getX() == checkedChunk.getX() && online.getLocation().getChunk().getZ() == checkedChunk.getZ())
                                 .forEach(online -> {
-                                    online.sendMessage(Chat.format(Settings.NOW_IN.replace("{land}", faction.getName())));
+                                    if(online != player) online.sendMessage(Chat.format(Settings.NOW_IN.replace("{land}", faction.getName())));
                                     SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(online).setLocation(faction);
                                 });
                     }
