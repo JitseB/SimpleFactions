@@ -7,6 +7,7 @@ import net.jitse.simplefactions.factions.Home;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import net.jitse.simplefactions.utilities.DelayTeleport;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,13 +34,13 @@ public class HomeCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.NOT_IN_FACTION));
             return;
         }
-        String homeName = args.length == 2 ? args[1] : "Default";
+        String homeName = args.length == 2 ? args[1] : Settings.DEFAULT_FACTION_HOME;
         Optional<Home> homeOptional = faction.getHomes().stream().filter(home -> home.getName().equalsIgnoreCase(homeName)).findAny();
         if(!homeOptional.isPresent()){
             player.sendMessage(Chat.format(Settings.HOME_DOES_NOT_EXIST.replace("{home}", homeName)));
             return;
         }
-        // TODO : Add 5s wait timer
-        player.teleport(homeOptional.get().getLocation());
+        player.sendMessage(Chat.format(Settings.TELEPORTING_TO_HOME.replace("{home}", homeOptional.get().getName()).replace("{time}", String.valueOf(Settings.TP_DELAY))));
+        DelayTeleport.teleport(player, homeOptional.get().getLocation());
     }
 }

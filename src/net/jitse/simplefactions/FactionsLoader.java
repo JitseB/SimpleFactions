@@ -34,7 +34,7 @@ public class FactionsLoader {
                 while (factionSet.next()){
                     factions.add(new Faction(factionSet.getString("name"), UUID.fromString(factionSet.getString("creator")),
                             new HashSet<>(), factionSet.getString("claimed") == null ? new HashSet<>() : ChunkSerializer.deserialize(factionSet.getString("claimed")),
-                            new HashSet<>(), new HashSet<>(), new HashSet<>())
+                            new HashSet<>(), new HashSet<>(), new HashSet<>(), factionSet.getBoolean("open"), factionSet.getTimestamp("created"))
                     );
                 }
             } catch (SQLException exception){

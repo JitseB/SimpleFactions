@@ -17,8 +17,11 @@ public enum Commands {
     CREATE_FACTION(new CreateFactionCommand(Role.MEMBER)),
     DISBAND_FACTION(new DisbandFactionCommand(Role.OWNER)),
     SET_HOME(new SetHomeCommand(Role.MEMBER)),
+    HOME(new HomeCommand(Role.MEMBER)),
+    DELETE_HOME(new DelHomeCommand(Role.MOD)),
     CLAIM_LAND(new ClaimCommand(Role.MOD)),
-    RESET_SYSTEM(new ResetCommand());
+    RESET_SYSTEM(new ResetCommand()),
+    SHOW(new ShowCommand(Role.MEMBER));
 
     private SubCommand subCommand;
 

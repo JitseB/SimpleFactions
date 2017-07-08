@@ -89,7 +89,7 @@ public class FactionsManager {
         Chat.broadcast(Settings.CREATED_FACTION_BROADCAST.replace("{player}", creator.getName()).replace("{faction}", name));
         Set<Member> members = new HashSet<>();
         Member member = new Member(creator.getUniqueId(), new Timestamp(System.currentTimeMillis()), Role.OWNER, this.getFactionsPlayer(creator));
-        Faction createdFaction = new Faction(name, creator.getUniqueId(), members, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Faction createdFaction = new Faction(name, creator.getUniqueId(), members, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), open, new Timestamp(System.currentTimeMillis()));
         createdFaction.addMember(member, true);
         this.factions.add(createdFaction);
         Bukkit.getPluginManager().callEvent(new FactionCreatedEvent(createdFaction));

@@ -9,7 +9,12 @@ public class Settings {
     public static final String SERVER_NAME = "&c&lD&6&lE&e&lC&a&lI&b&lM&9&lA&5&lT&c&lE &f&lPVP&r";
     public static final int PLAYER_MAX_POWER = 100;
     public static final int MAX_LINE_CLAIM = 5;
+    public static final int TP_DELAY = 5;
+    public static final String DEFAULT_FACTION_HOME = "Faction";
 
+    public static final String FACTION_NOT_EXISTS = "&cFaction &7&o{faction}&r &cdoes not exist!";
+    public static final String TELEPORTING_TO_HOME = "&fTeleporting to &7&o{home}&r &fin &7&o{time}&r &fseconds. Don't move.";
+    public static final String MOVED_NO_TELEPORT = "&cOops! &fYou moved location, teleportation has cancelled.";
     public static final String HOME_DOES_NOT_EXIST = "&fA home with the name &7&o{home}&r &fdoes not exist, but you can set it with &e&o/faction sethome [name]&r&f.";
     public static final String CREATED_HOME = "&fYou successfully created a new home called &7&o{home}&r&f.";
     public static final String HOME_ALREADY_EXISTS = "&cA home with the name &f&o{home}&r &calready exists. You can delete it with &e&o/faction delhome <name>&r&c.";

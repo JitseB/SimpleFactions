@@ -16,14 +16,15 @@ public class Faction {
 
     private final String name;
     private final UUID creator;
+    private final Timestamp founded;
 
     private Set<Member> members;
     private Set<Chunk> chunks;
     private Set<Faction> allies, enemies;
     private Set<Home> homes;
-    private int power, maxPower;
+    private boolean open;
 
-    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes){
+    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes, boolean open, Timestamp founded){
         this.name = name;
         this.creator = creator;
         this.members = members;
@@ -31,7 +32,32 @@ public class Faction {
         this.allies = allies;
         this.enemies = enemies;
         this.homes = homes;
-        this.maxPower = members.size() * Settings.PLAYER_MAX_POWER;
+        this.open = open;
+        this.founded = founded;
+    }
+
+    public Timestamp getFounded(){
+        return this.founded;
+    }
+
+    public int getPower() {
+        int power = 0;
+        for(Member member : this.members){
+            power += member.getPower();
+        }
+        return power;
+    }
+
+    public int getMaxPower(){
+        return members.size() * Settings.PLAYER_MAX_POWER;
+    }
+
+    public void setOpen(boolean open){
+        this.open = open;
+    }
+
+    public boolean isOpen(){
+        return this.open;
     }
 
     public UUID getCreator(){
