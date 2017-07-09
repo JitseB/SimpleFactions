@@ -9,6 +9,8 @@ import net.jitse.simplefactions.utilities.Chat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Date;
+
 /**
  * Created by Jitse on 8-7-2017.
  */
@@ -26,6 +28,10 @@ public class ShowCommand extends SubCommand {
                 return;
             }
             Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction((Player) sender);
+            if(faction == null){
+                sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction show [name]")));
+                return;
+            }
             sendInfo(sender, faction);
             return;
         }
@@ -41,7 +47,7 @@ public class ShowCommand extends SubCommand {
         Chat.centeredMessage(sender, Chat.format("&8-----     &5&l" + faction.getName() + "&r&5 Faction Info:     &8-----"));
         sender.sendMessage(Chat.format("&fJoining: &7" + (faction.isOpen() ? "&aNo invitation required" : "&cInvitation required") + "."));
         sender.sendMessage(Chat.format("&fLand / Power / Maxpower: &7" + faction.getClaimedChunks().size() + "/" + faction.getPower() + "/" + faction.getMaxPower()));
-        sender.sendMessage(Chat.format("&fFounded: &7" + faction.getFounded().toString()));
+        sender.sendMessage(Chat.format("&fFounded: &7" + new Date(faction.getFounded().getTime()).toString()));
         sender.sendMessage(Chat.format("&fBalance: &7" + "TODO"));
         StringBuilder alliesBuilder = new StringBuilder();
         if(faction.getAllies().size() == 0) alliesBuilder.append("-");

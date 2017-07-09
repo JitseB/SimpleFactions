@@ -77,7 +77,7 @@ public class FactionsLoader {
                                                     UUID.fromString(playerSet.getString("uuid")), joinedFaction, role,
                                                     playerSet.getInt("kills"), playerSet.getInt("deaths"),
                                                     playerSet.getInt("power"), playerSet.getTimestamp("lastseen")
-                                            ), false
+                                            ), false, false
                                     );
                                 } catch (SQLException exception){
                                     Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while fetching a player profile from the database.");

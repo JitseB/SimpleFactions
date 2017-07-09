@@ -3,6 +3,7 @@ package net.jitse.simplefactions.managers;
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.factions.Member;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -31,27 +32,42 @@ public class FactionsTagManager {
         String name = member.getBukkitPlayer().getName();
         Team team = board.getTeam(name) == null ? board.registerNewTeam(name) : board.getTeam(name);
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        team.setPrefix(member.getFaction().getTag());
+        team.setPrefix(Settings.OWN_FACTION_COLOR.toString() + member.getFaction().getTag() + ChatColor.RESET.toString());
         team.addEntry(name);
         member.getBukkitPlayer().setScoreboard(board);
 
         // Updating the scoreboards of the other online players.
         Bukkit.getOnlinePlayers().stream().filter(online -> !online.getUniqueId().equals(member.getUUID())).forEach(online -> {
+            // Setting the nametag of member for every player online.
             Member onlineMember = SimpleFactions.getInstance().getFactionsManager().getMember(online);
-            if(onlineMember == null) return;
-
-            // Setting the nametag for every player online.
             Scoreboard onlineScoreboard = online.getScoreboard();
-            Team team2 = onlineScoreboard.getTeam(name) == null ? onlineScoreboard.registerNewTeam(name) : onlineScoreboard.getTeam(name);
-            team2.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-            team2.setPrefix(member.getFaction().getTag());
-            team2.addEntry(name);
+            Team memberTeam = onlineScoreboard.getTeam(name) == null ? onlineScoreboard.registerNewTeam(name) : onlineScoreboard.getTeam(name);
+            memberTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+            if(onlineMember == null)
+                memberTeam.setPrefix(Settings.NEUTRAL_FACTION_COLOR.toString() + member.getFaction().getTag() + ChatColor.RESET.toString());
+            else{
+                if(onlineMember.getFaction() == member.getFaction())
+                    memberTeam.setPrefix(Settings.OWN_FACTION_COLOR.toString() + member.getFaction().getTag() + ChatColor.RESET.toString());
+                else if(onlineMember.getFaction().getAllies().contains(member.getFaction()))
+                    memberTeam.setPrefix(Settings.ALLY_FACTION_COLOR.toString() + member.getFaction().getTag() + ChatColor.RESET.toString());
+                else if(onlineMember.getFaction().getEnemies().contains(member.getFaction()))
+                    memberTeam.setPrefix(Settings.ENEMY_FACTION_COLOR.toString() + member.getFaction().getTag() + ChatColor.RESET.toString());
+                else memberTeam.setPrefix(Settings.NEUTRAL_FACTION_COLOR.toString() + member.getFaction().getTag() + ChatColor.RESET.toString());
+            }
+            memberTeam.addEntry(name);
 
             // Setting nametag of online player in the newly joined member's scoreboard.
+            if(onlineMember == null) return;
             String onlineName = online.getName();
             Team onlineTeam = board.getTeam(onlineName) == null ? board.registerNewTeam(onlineName) : board.getTeam(onlineName);
             onlineTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-            onlineTeam.setPrefix(onlineMember.getFaction().getTag());
+            if(member.getFaction() == onlineMember.getFaction())
+                onlineTeam.setPrefix(Settings.OWN_FACTION_COLOR.toString() + onlineMember.getFaction().getTag() + ChatColor.RESET.toString());
+            else if(member.getFaction().getAllies().contains(onlineMember.getFaction()))
+                onlineTeam.setPrefix(Settings.ALLY_FACTION_COLOR.toString() + onlineMember.getFaction().getTag() + ChatColor.RESET.toString());
+            else if(member.getFaction().getEnemies().contains(onlineMember.getFaction()))
+                onlineTeam.setPrefix(Settings.ENEMY_FACTION_COLOR.toString() + onlineMember.getFaction().getTag() + ChatColor.RESET.toString());
+            else onlineTeam.setPrefix(Settings.NEUTRAL_FACTION_COLOR.toString() + onlineMember.getFaction().getTag() + ChatColor.RESET.toString());
             onlineTeam.addEntry(onlineName);
         });
     }

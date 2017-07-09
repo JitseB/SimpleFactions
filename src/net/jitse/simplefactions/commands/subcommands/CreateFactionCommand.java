@@ -25,7 +25,7 @@ public class CreateFactionCommand extends SubCommand {
         }
         Player player = (Player) sender;
         if(args.length != 2 && args.length != 3){
-            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction create <name> [open] (Open: yes/no)")));
+            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction create <name> [open: yes/no] ")));
             return;
         }
         if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null){
@@ -42,7 +42,7 @@ public class CreateFactionCommand extends SubCommand {
                 return;
             }
         }
-        if(args[1].length() > 14){
+        if(args[1].length() > 9){
             player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.FACTION_NAME_TOO_LONG));
             return;
         }

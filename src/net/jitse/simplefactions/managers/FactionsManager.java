@@ -46,7 +46,7 @@ public class FactionsManager {
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionRelations WHERE `faction-one`=? OR `faction-two`=?;", faction.getName(), faction.getName());
-        faction.getMembers().forEach(member -> SimpleFactions.getInstance().getFactionsTagManager().removeTag(member));
+        faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(member -> SimpleFactions.getInstance().getFactionsTagManager().removeTag(member));
         this.factions.remove(faction);
     }
 
@@ -90,10 +90,9 @@ public class FactionsManager {
         Set<Member> members = new HashSet<>();
         Member member = new Member(creator.getUniqueId(), new Timestamp(System.currentTimeMillis()), Role.OWNER, this.getFactionsPlayer(creator));
         Faction createdFaction = new Faction(name, creator.getUniqueId(), members, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), open, new Timestamp(System.currentTimeMillis()));
-        createdFaction.addMember(member, true);
+        createdFaction.addMember(member, true, false);
         this.factions.add(createdFaction);
         Bukkit.getPluginManager().callEvent(new FactionCreatedEvent(createdFaction));
-
         this.plugin.getFactionsTagManager().removeTag(this.getFactionsPlayer(creator));
         this.plugin.getFactionsTagManager().initTag(member);
     }

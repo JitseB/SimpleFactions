@@ -98,8 +98,12 @@ public class Faction {
             SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET claimed=? WHERE name=?;", ChunkSerializer.serialize(this.chunks), this.name);
     }
 
-    public void addMember(Member member, boolean updateSql){
+    public void addMember(Member member, boolean updateSql, boolean updateScoreboards){
         this.members.add(member);
+        if(updateScoreboards){
+            SimpleFactions.getInstance().getFactionsTagManager().removeTag(member);
+            SimpleFactions.getInstance().getFactionsTagManager().initTag(member);
+        }
         if(updateSql)
             SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionMembers VALUES(?,?,?,?);", this.name, member.getUUID().toString(), member.getRole().toString(), new Timestamp(System.currentTimeMillis()));
     }

@@ -1,5 +1,7 @@
 package net.jitse.simplefactions.managers;
 
+import org.bukkit.ChatColor;
+
 /**
  * Created by Jitse on 23-6-2017.
  */
@@ -11,7 +13,14 @@ public class Settings {
     public static final int MAX_LINE_CLAIM = 5;
     public static final int TP_DELAY = 5;
     public static final String DEFAULT_FACTION_HOME = "Faction";
+    public static final ChatColor NEUTRAL_FACTION_COLOR = ChatColor.WHITE;
+    public static final ChatColor OWN_FACTION_COLOR = ChatColor.GREEN;
+    public static final ChatColor ENEMY_FACTION_COLOR = ChatColor.RED;
+    public static final ChatColor ALLY_FACTION_COLOR = ChatColor.LIGHT_PURPLE;
 
+    public static final String PLAYER_JOINED_FACTION = "&7&o{player}&r &fjoined {ownfactioncolor}&o{faction}&r&f.";
+    public static final String FACTION_NOT_OPEN = "&cThat faction is currently not open.";
+    public static final String POWER_MESSAGE = "&fYou currently have &7&o{power}&r&7/&o{maxpower}&r&f power.";
     public static final String FACTION_NOT_EXISTS = "&cFaction &7&o{faction}&r &cdoes not exist!";
     public static final String TELEPORTING_TO_HOME = "&fTeleporting to &7&o{home}&r &fin &7&o{time}&r &fseconds. Don't move.";
     public static final String MOVED_NO_TELEPORT = "&cOops! &fYou moved location, teleportation has cancelled.";
@@ -26,7 +35,7 @@ public class Settings {
     public static final String CHUNK_ALREADY_CLAIMED = "&cThis land has already been claimed by &7&o{faction}&r&c.";
     public static final String CLAIMED_CHUNK = "&aSuccessfully claimed land! &fYou can now start building on it.";
     public static final String FACTION_ALREADY_EXISTS = "&cFaction &f&o{name} &r&calready exists, please choose a different name for your faction.";
-    public static final String FACTION_NAME_TOO_LONG = "&cThe given faction name is too long, please choose one with a maximum of 14 characters.";
+    public static final String FACTION_NAME_TOO_LONG = "&cThe given faction name is too long, please choose one with a maximum of 9 characters.";
     public static final String SUCCESS_FULLY_RESET_SYSTEM = "&aSystem has been reset successfully.";
     public static final String SYSTEM_RESET_KICK = "&cResetting all factions...&r\n&cPlease check back later for our new season!";
     public static final String FATAL_LOAD_KICK = "&cSomething went wrong while loading your profile.";

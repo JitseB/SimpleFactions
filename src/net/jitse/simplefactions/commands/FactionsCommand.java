@@ -22,8 +22,10 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("delhome")) Commands.DELETE_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("home")) Commands.HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("reset")) Commands.RESET_SYSTEM.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("join")) Commands.JOIN.execute(sender, args);
             else if(args[0].equalsIgnoreCase("claim")) Commands.CLAIM_LAND.execute(sender, args);
             else if(args[0].equalsIgnoreCase("show")) Commands.SHOW.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("power") || args[0].equalsIgnoreCase("pow")) Commands.POWER.execute(sender, args);
             else{
                 sender.sendMessage("TODO Help stuff");
             }

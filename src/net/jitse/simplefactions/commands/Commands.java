@@ -14,19 +14,23 @@ import org.bukkit.entity.Player;
  */
 public enum Commands {
 
-    CREATE_FACTION(new CreateFactionCommand(Role.MEMBER)),
-    DISBAND_FACTION(new DisbandFactionCommand(Role.OWNER)),
-    SET_HOME(new SetHomeCommand(Role.MEMBER)),
-    HOME(new HomeCommand(Role.MEMBER)),
-    DELETE_HOME(new DelHomeCommand(Role.MOD)),
-    CLAIM_LAND(new ClaimCommand(Role.MOD)),
-    RESET_SYSTEM(new ResetCommand()),
-    SHOW(new ShowCommand(Role.MEMBER));
+    CREATE_FACTION(new CreateFactionCommand(Role.MEMBER), false),
+    DISBAND_FACTION(new DisbandFactionCommand(Role.OWNER), true),
+    SET_HOME(new SetHomeCommand(Role.MEMBER), true),
+    HOME(new HomeCommand(Role.MEMBER), true),
+    DELETE_HOME(new DelHomeCommand(Role.MOD), true),
+    CLAIM_LAND(new ClaimCommand(Role.MOD), true),
+    JOIN(new JoinFactionCommand(Role.MEMBER), false),
+    RESET_SYSTEM(new ResetCommand(), false),
+    SHOW(new ShowCommand(Role.MEMBER), false),
+    POWER(new PowerCommand(Role.MEMBER), false);
 
     private SubCommand subCommand;
+    private boolean factionNeeded;
 
-    Commands(SubCommand subCommand){
+    Commands(SubCommand subCommand, boolean factionNeeded){
         this.subCommand = subCommand;
+        this.factionNeeded = factionNeeded;
     }
 
     public void execute(CommandSender sender, String[] args){
@@ -37,12 +41,8 @@ public enum Commands {
                 player.sendMessage(Chat.format(Settings.NO_PERMISSION_COMMAND.replace("{permission}", this.subCommand.getPermission())));
                 return;
             }
-            if(player.hasPermission("simplefactions.override")){
-                this.subCommand.onExecute(sender, args);
-                return;
-            }
             Member member = SimpleFactions.getInstance().getFactionsManager().getMember(player);
-            if((member == null || member.getRole().ordinal() < this.subCommand.getRole().ordinal()) && !args[0].equalsIgnoreCase("create")){
+            if((member == null || member.getRole().ordinal() < this.subCommand.getRole().ordinal()) && factionNeeded){
                 player.sendMessage(Chat.format(Settings.NO_ROLE_PERMISSION_COMMAND.replace("{role}", this.subCommand.getRole().toString().toLowerCase())));
                 return;
             } else this.subCommand.onExecute(sender, args);
