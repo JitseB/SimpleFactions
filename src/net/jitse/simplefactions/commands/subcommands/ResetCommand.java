@@ -21,11 +21,11 @@ public class ResetCommand extends SubCommand {
     public void onExecute(CommandSender sender, String[] args) {
         SimpleFactions.getInstance().setJoinable(false);
         Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.SYSTEM_RESET_KICK)));
-        SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE Factions;");
-        SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionHomes;");
-        SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionMembers;");
-        SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionPlayers;");
-        SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE FactionRelations;");
+        SimpleFactions.getInstance().getMySql().execute("DROP TABLE Factions;");
+        SimpleFactions.getInstance().getMySql().execute("DROP TABLE FactionHomes;");
+        SimpleFactions.getInstance().getMySql().execute("DROP TABLE FactionMembers;");
+        SimpleFactions.getInstance().getMySql().execute("DROP TABLE FactionPlayers;");
+        SimpleFactions.getInstance().getMySql().execute("DROP TABLE FactionRelations;");
         Bukkit.getScheduler().runTaskLater(SimpleFactions.getInstance(), () -> {
             Chat.broadcast(Chat.format(Settings.COMMAND_PREFIX + Settings.SUCCESS_FULLY_RESET_SYSTEM));
             Bukkit.reload();

@@ -36,7 +36,7 @@ public class SetHomeCommand extends SubCommand {
         String homeName = args.length == 2 ? args[1] : Settings.DEFAULT_FACTION_HOME;
         Optional<Home> homeOptional = faction.getHomes().stream().filter(home -> home.getName().equalsIgnoreCase(homeName)).findAny();
         if(homeOptional.isPresent()){
-            // TODO : Check if default -> Auto override old home
+            // TODO : Check if default home -> Auto override old home
             player.sendMessage(Chat.format(Settings.HOME_ALREADY_EXISTS.replace("{home}", homeOptional.get().getName())));
             return;
         }

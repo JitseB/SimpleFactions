@@ -54,6 +54,7 @@ public class Faction {
 
     public void setOpen(boolean open){
         this.open = open;
+        SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET open=? WHERE name=?;", open, this.name);
     }
 
     public boolean isOpen(){
@@ -106,6 +107,12 @@ public class Faction {
         }
         if(updateSql)
             SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionMembers VALUES(?,?,?,?);", this.name, member.getUUID().toString(), member.getRole().toString(), new Timestamp(System.currentTimeMillis()));
+    }
+
+    public void removeMember(Member member){
+        SimpleFactions.getInstance().getFactionsTagManager().removeTag(member);
+        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE uuid=?;", member.getUUID());
+        this.members.remove(member);
     }
 
     public void addHome(Home home, boolean updateSql){

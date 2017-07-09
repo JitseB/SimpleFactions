@@ -19,6 +19,22 @@ import java.util.Set;
  */
 public class SimpleFactions extends JavaPlugin {
 
+    /*
+     * Todo lists:
+     * - Fix relations loader (dupe glitch)
+     * - Add /faction autoclaim
+     * - Fix the home system
+     * - Add the relation commands
+     * - Add /faction role <player> <role: Member/Mod/Owner>
+     * - Add PlayerListeners for handling all permissions
+     * - Add the sidebar scoreboard
+     * - Add chat channels (Public/Allies/Faction)
+     * - Add the power system
+     * - Move Settings.class -> config.yml (incl. MySQL login info)
+     * - Add max members in a faction cap
+     * - Add administrator commands?
+     * */
+
     private static SimpleFactions plugin;
 
     private MySql mysql;
@@ -36,7 +52,7 @@ public class SimpleFactions extends JavaPlugin {
 
         getCommand("factions").setExecutor(new FactionsCommand());
 
-        this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, `max-power` INT, balance INT, open TINYINT(1), claimed TEXT");
+        this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, `max-power` INT, balance INT, open TINYINT(1), claimed MEDIUMTEXT");
         this.mysql.createTable("FactionHomes", "faction VARCHAR(16), name VARCHAR(16), location TEXT");
         this.mysql.createTable("FactionMembers", "faction VARCHAR(16), uuid VARCHAR(36), role VARCHAR(6), joinedfaction TIMESTAMP");
         this.mysql.createTable("FactionPlayers", "uuid VARCHAR(36), lastseen TIMESTAMP, power INT, kills INT, deaths INT");

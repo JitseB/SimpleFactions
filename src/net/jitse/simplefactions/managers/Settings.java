@@ -18,6 +18,12 @@ public class Settings {
     public static final ChatColor ENEMY_FACTION_COLOR = ChatColor.RED;
     public static final ChatColor ALLY_FACTION_COLOR = ChatColor.LIGHT_PURPLE;
 
+    public static final String UPDATED_FACTION_OPEN = "&fYour faction is now &e&o{newstate}&r&f.";
+    public static final String FACTION_NOW_OPEN = "&7&o{faction}&r &fno longer requires an invitation to join!";
+    public static final String LEFT_FACTION_MESSAGE = "&fYou left the faction.";
+    public static final String LEFT_FACTION = "&7&o{player}&r &fleft {ownfactioncolor}&o{faction}&r&f.";
+    public static final String LEAVE_EQUALS_DISBAND = "&cYou are the creator of this faction, leaving it will result in disbanding the faction.";
+    public static final String LEAVE_EQUALS_DISBAND_CLICK_HERE = "Click here to continue and disband the faction.";
     public static final String PLAYER_JOINED_FACTION = "&7&o{player}&r &fjoined {ownfactioncolor}&o{faction}&r&f.";
     public static final String FACTION_NOT_OPEN = "&cThat faction is currently not open.";
     public static final String POWER_MESSAGE = "&fYou currently have &7&o{power}&r&7/&o{maxpower}&r&f power.";
@@ -27,7 +33,7 @@ public class Settings {
     public static final String HOME_DOES_NOT_EXIST = "&fA home with the name &7&o{home}&r &fdoes not exist, but you can set it with &e&o/faction sethome [name]&r&f.";
     public static final String CREATED_HOME = "&fYou successfully created a new home called &7&o{home}&r&f.";
     public static final String HOME_ALREADY_EXISTS = "&cA home with the name &f&o{home}&r &calready exists. You can delete it with &e&o/faction delhome <name>&r&c.";
-    public static final String FACTION_DISBAND = "&fFaction &c&o{faction}&r &fhas been disbanned by &7&o{by}&r&f.";
+    public static final String FACTION_DISBAND = "&fFaction &c&o{faction}&r &fhas been disbanded by &7&o{by}&r&f.";
     public static final String CLAIMED_LINE_OF_CHUNKS = "&aYou claimed &7&o{amount}&r&a chunks in your current facing direction (&7&o{pole}&r&a).";
     public static final String NOW_IN = "&8Now in &c&o{land}&r&8.";
     public static final String ENTERING_LAND = "&8Now entering &c&o{land}&r&8.";

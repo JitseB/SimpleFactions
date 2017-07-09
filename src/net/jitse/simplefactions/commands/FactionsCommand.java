@@ -1,5 +1,7 @@
 package net.jitse.simplefactions.commands;
 
+import net.jitse.simplefactions.managers.Settings;
+import net.jitse.simplefactions.utilities.Chat;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,13 +13,17 @@ public class FactionsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length == 0){
-            sender.sendMessage("TODO Help stuff");
-            return false;
-        }
         if(command.getName().equalsIgnoreCase("factions")){
-            if(args[0].equalsIgnoreCase("create")) Commands.CREATE_FACTION.execute(sender, args);
+            if(args.length == 0){
+                sendHelpMessage(sender);
+                return false;
+            }
+            if(args[0].equalsIgnoreCase("help")) sendHelpMessage(sender);
+            else if(args[0].equalsIgnoreCase("create")) Commands.CREATE_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("disband")) Commands.DISBAND_FACTION.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("open")) Commands.OPEN.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("leave")) Commands.LEAVE_FACTION.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("role") || args[0].equalsIgnoreCase("setrole")) Commands.ROLE.execute(sender, args);
             else if(args[0].equalsIgnoreCase("sethome")) Commands.SET_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("delhome")) Commands.DELETE_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("home")) Commands.HOME.execute(sender, args);
@@ -27,9 +33,13 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("show")) Commands.SHOW.execute(sender, args);
             else if(args[0].equalsIgnoreCase("power") || args[0].equalsIgnoreCase("pow")) Commands.POWER.execute(sender, args);
             else{
-                sender.sendMessage("TODO Help stuff");
+                sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction help")));
             }
         }
         return true;
+    }
+
+    private void sendHelpMessage(CommandSender sender){
+        sender.sendMessage("TODO Help stuff");
     }
 }

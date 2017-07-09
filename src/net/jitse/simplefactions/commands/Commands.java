@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 public enum Commands {
 
     CREATE_FACTION(new CreateFactionCommand(Role.MEMBER), false),
+    LEAVE_FACTION(new LeaveFactionCommand(Role.MEMBER), true),
     DISBAND_FACTION(new DisbandFactionCommand(Role.OWNER), true),
     SET_HOME(new SetHomeCommand(Role.MEMBER), true),
     HOME(new HomeCommand(Role.MEMBER), true),
@@ -23,6 +24,8 @@ public enum Commands {
     JOIN(new JoinFactionCommand(Role.MEMBER), false),
     RESET_SYSTEM(new ResetCommand(), false),
     SHOW(new ShowCommand(Role.MEMBER), false),
+    OPEN(new OpenCommand(Role.MOD), true),
+    ROLE(new RoleCommand(Role.OWNER), true),
     POWER(new PowerCommand(Role.MEMBER), false);
 
     private SubCommand subCommand;
@@ -42,6 +45,10 @@ public enum Commands {
                 return;
             }
             Member member = SimpleFactions.getInstance().getFactionsManager().getMember(player);
+            if(member == null && factionNeeded){
+                player.sendMessage(Chat.format(Settings.NOT_IN_FACTION));
+                return;
+            }
             if((member == null || member.getRole().ordinal() < this.subCommand.getRole().ordinal()) && factionNeeded){
                 player.sendMessage(Chat.format(Settings.NO_ROLE_PERMISSION_COMMAND.replace("{role}", this.subCommand.getRole().toString().toLowerCase())));
                 return;
