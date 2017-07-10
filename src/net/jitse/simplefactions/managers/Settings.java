@@ -9,7 +9,7 @@ public class Settings {
 
     public static final String COMMAND_PREFIX = "&7[&cDecimate&fPVP&7]&f ";
     public static final String SERVER_NAME = "&c&lD&6&lE&e&lC&a&lI&b&lM&9&lA&5&lT&c&lE &f&lPVP&r";
-    public static final String SCOREBOARD_NAME = "&cD&6E&eC&aI&bM&9A&5T&cE&fPVP&r"; // Max 32 chars.
+    public static final String SCOREBOARD_NAME = "&cDecimate &fPVP"; // Max 32 chars.
     public static final int PLAYER_MAX_POWER = 100;
     public static final int MAX_LINE_CLAIM = 5;
     public static final int TP_DELAY = 5;
@@ -21,12 +21,16 @@ public class Settings {
     public static final int MAX_MEMBERS = 50;
     public static final int INVITE_EXPIRE_TIME = 60;
 
+    public static final String CANNOT_JOIN_FULL = "That faction is already at its limit of {maxplayers} players, so you can't join it.";
+    public static final String CREATOR_RANK_CANNOT_KICK = "You can't kick the creator from the faction!";
+    public static final String REMOVED_FROM_FACTION = "&cYou have been removed from &f&o{faction}&r&c.";
+    public static final String MEMBER_REMOVED = "&fYou removed &7&o{target}&r &ffrom &7&o{faction}&r&f.";
     public static final String PLAYER_ALREADY_GOT_INVITE = "&7&o{player}&r &calready got a pending invitation to a faction!";
-    public static final String INVITE_EXPIRED_TO_SENDER = "&fYour invite to &7&o{player}&r &fhas expired.";
-    public static final String INVITE_EXPIRED_TO_RECIEVER = "&cYour invite to &f&o{faction}&r &chas expired!";
-    public static final String INCOMING_INVITE = "&aIncoming invitation from &7&o{from}&r &afor the faction &e&o{faction}&r&a. The invite will automatically expire in &7&o{expiretime}&r&a seconds.";
+    public static final String INVITE_EXPIRED_TO_SENDER = "&fYour invitation to &7&o{player}&r &fhas expired.";
+    public static final String INVITE_EXPIRED_TO_RECIEVER = "&cYour invitation to &f&o{faction}&r &chas expired!";
+    public static final String INCOMING_INVITE = "&aIncoming invitation from &7&o{from}&r &afor the faction &e&o{faction}&r&a. The invitation will automatically expire in &7&o{expiretime}&r&a seconds.";
     public static final String CONFIRM_INVITE = "Click here to accept the invite!";
-    public static final String INVITE_SEND = "&fAn invitation has been sent to &7&o{target}&r&f. The invite will automatically expire after &7&o{expiretime}&r&f seconds.";
+    public static final String INVITE_SEND = "&fAn invitation has been sent to &7&o{target}&r&f. The invitation will automatically expire after &7&o{expiretime}&r&f seconds.";
     public static final String CANNOT_CHANGE_OWN_RANK = "&cOops! &fYou can't change your own rank!";
     public static final String CREATOR_RANK_CANNOT_CHANGE = "&cYou can't change the rank of the creator of the faction!";
     public static final String ROLE_SET = "&7&o{player}&r &fupdated &7&o{target}&r&f's rank.";

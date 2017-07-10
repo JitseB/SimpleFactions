@@ -39,8 +39,12 @@ public class JoinFactionCommand extends SubCommand {
             return;
         }
         Faction toJoin = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
-        if(!toJoin.isOpen() && (!InviteCommand.getPending().containsKey(fplayer) || !InviteCommand.getPending().get(fplayer).equals(toJoin))){
+        if(toJoin == null || (!toJoin.isOpen() && (!InviteCommand.getPending().containsKey(fplayer) || !InviteCommand.getPending().get(fplayer).equals(toJoin)))){
             player.sendMessage(Chat.format(Settings.FACTION_NOT_OPEN));
+            return;
+        }
+        if(toJoin.getMembers().size() >= Settings.MAX_MEMBERS){
+            player.sendMessage(Chat.format(Settings.CANNOT_JOIN_FULL.replace("{maxplayers}", String.valueOf(Settings.MAX_MEMBERS))));
             return;
         }
         if(InviteCommand.getPending().containsKey(fplayer)) InviteCommand.getPending().remove(fplayer);

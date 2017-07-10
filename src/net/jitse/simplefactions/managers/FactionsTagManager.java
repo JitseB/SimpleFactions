@@ -73,6 +73,14 @@ public class FactionsTagManager {
         });
     }
 
+    public void resetTags(Player player){
+        Scoreboard board = player.getBukkitPlayer().getScoreboard();
+        Bukkit.getOnlinePlayers().forEach(online -> {
+            if(board.getObjective(online.getName()) != null)
+                board.getObjective(online.getName()).unregister();
+        });
+    }
+
     public void initTags(Player player) {
         Scoreboard board = player.getBukkitPlayer().getScoreboard();
         Bukkit.getOnlinePlayers().stream().filter(online -> !online.getUniqueId().equals(player.getUUID())).forEach(online -> {

@@ -24,8 +24,7 @@ public class FactionsLoader {
         this.plugin = plugin;
     }
 
-    // Messy function, but won't have to create a delayed timer for the finished runnable... Any other ideas?
-    // It actually needs a async operations chain, but I'm lazy af.
+    // This actually needs an async operations chain
     public void load(Runnable finished){
         Set<Faction> factions = new HashSet<>();
         // Fetch faction profiles

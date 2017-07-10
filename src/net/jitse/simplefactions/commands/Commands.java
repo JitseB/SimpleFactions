@@ -25,6 +25,7 @@ public enum Commands {
     JOIN(new JoinFactionCommand(Role.MEMBER), false),
     RESET_SYSTEM(new ResetCommand(), false),
     KICK_MEMBER(new KickMemberCommand(Role.MOD), true),
+    ENEMY(new EnemyCommand(Role.OWNER), true),
     SHOW(new ShowCommand(Role.MEMBER), false),
     RE_HOME(new ReHomeCommand(Role.MOD), true),
     OPEN(new OpenCommand(Role.MOD), true),

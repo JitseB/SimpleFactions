@@ -21,16 +21,14 @@ public class SimpleFactions extends JavaPlugin {
 
     /*
      * Todo lists:
-     * - Fix relations loader (dupe glitch)
+     * - Fix relations loader (dupe bug)
      * - Add /faction autoclaim
      * - Add the relation commands
      * - Add PlayerListeners for handling all permissions
      * - Add the sidebar scoreboard
      * - Add chat channels (Public/Allies/Faction)
      * - Add the power system
-     * - Move Settings.class -> config.yml (incl. MySQL login info)
      * - Add max members in a faction cap
-     * - Add administrator commands?
      * */
 
     private static SimpleFactions plugin;
@@ -69,7 +67,7 @@ public class SimpleFactions extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Database connection might flip when reloading too often.");
+        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Database connection might flip out when reloading too often. Restart the server instead.");
         this.mysql.close();
     }
 
