@@ -32,7 +32,7 @@ public class RoleCommand extends SubCommand {
         Player player = (Player) sender;
         Member member = SimpleFactions.getInstance().getFactionsManager().getMember(player);
         if(args.length != 3){
-            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction role <user> <role: member/mod/owner>")));
+            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction role <player> <role: member/mod/owner> (Player must be online)")));
             return;
         }
         Role role = Stream.of(Role.values()).filter(all -> all.toString().equals(args[2].toUpperCase())).findFirst().orElse(null);

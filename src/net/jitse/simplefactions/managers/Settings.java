@@ -19,7 +19,14 @@ public class Settings {
     public static final ChatColor ENEMY_FACTION_COLOR = ChatColor.RED;
     public static final ChatColor ALLY_FACTION_COLOR = ChatColor.LIGHT_PURPLE;
     public static final int MAX_MEMBERS = 50;
+    public static final int INVITE_EXPIRE_TIME = 60;
 
+    public static final String PLAYER_ALREADY_GOT_INVITE = "&7&o{player}&r &calready got a pending invitation to a faction!";
+    public static final String INVITE_EXPIRED_TO_SENDER = "&fYour invite to &7&o{player}&r &fhas expired.";
+    public static final String INVITE_EXPIRED_TO_RECIEVER = "&cYour invite to &f&o{faction}&r &chas expired!";
+    public static final String INCOMING_INVITE = "&aIncoming invitation from &7&o{from}&r &afor the faction &e&o{faction}&r&a. The invite will automatically expire in &7&o{expiretime}&r&a seconds.";
+    public static final String CONFIRM_INVITE = "Click here to accept the invite!";
+    public static final String INVITE_SEND = "&fAn invitation has been sent to &7&o{target}&r&f. The invite will automatically expire after &7&o{expiretime}&r&f seconds.";
     public static final String CANNOT_CHANGE_OWN_RANK = "&cOops! &fYou can't change your own rank!";
     public static final String CREATOR_RANK_CANNOT_CHANGE = "&cYou can't change the rank of the creator of the faction!";
     public static final String ROLE_SET = "&7&o{player}&r &fupdated &7&o{target}&r&f's rank.";
