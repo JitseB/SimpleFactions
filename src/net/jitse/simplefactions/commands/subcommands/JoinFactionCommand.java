@@ -39,7 +39,7 @@ public class JoinFactionCommand extends SubCommand {
             return;
         }
         Faction toJoin = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
-        if(!toJoin.isOpen() && !(InviteCommand.getPending().containsKey(fplayer) || InviteCommand.getPending().get(fplayer) != toJoin)){
+        if(!toJoin.isOpen() && (!InviteCommand.getPending().containsKey(fplayer) || !InviteCommand.getPending().get(fplayer).equals(toJoin))){
             player.sendMessage(Chat.format(Settings.FACTION_NOT_OPEN));
             return;
         }
