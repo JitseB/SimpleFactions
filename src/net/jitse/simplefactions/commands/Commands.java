@@ -30,6 +30,7 @@ public enum Commands {
     RE_HOME(new ReHomeCommand(Role.MOD), true),
     OPEN(new OpenCommand(Role.MOD), true),
     ROLE(new RoleCommand(Role.OWNER), true),
+    AUTO_CLAIM(new AutoClaimCommand(Role.MOD), true),
     POWER(new PowerCommand(Role.MEMBER), false);
 
     private SubCommand subCommand;
@@ -38,6 +39,10 @@ public enum Commands {
     Commands(SubCommand subCommand, boolean factionNeeded){
         this.subCommand = subCommand;
         this.factionNeeded = factionNeeded;
+    }
+
+    public SubCommand getSubCommand(){
+        return this.subCommand;
     }
 
     public void execute(CommandSender sender, String[] args){

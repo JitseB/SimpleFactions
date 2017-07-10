@@ -1,6 +1,7 @@
 package net.jitse.simplefactions.listeners;
 
 import net.jitse.simplefactions.SimpleFactions;
+import net.jitse.simplefactions.commands.subcommands.AutoClaimCommand;
 import net.jitse.simplefactions.events.PlayerChangeChunkEvent;
 import net.jitse.simplefactions.events.PlayerLeaveServerEvent;
 import net.jitse.simplefactions.factions.Faction;
@@ -113,8 +114,10 @@ public class PlayerListener implements Listener {
         net.jitse.simplefactions.factions.Player fplayer = this.plugin.getFactionsManager().getFactionsPlayer(player);
         Faction newLocation = this.plugin.getFactionsManager().getFaction(event.getTo());
         if(fplayer.getLocation() != newLocation){
-            if(newLocation == null) player.sendMessage(Chat.format(Settings.ENTERING_LAND.replace("{land}", Settings.WILDERNESS_NAME)));
-            else player.sendMessage(Chat.format(Settings.ENTERING_LAND.replace("{land}", newLocation.getName())));
+            if(!AutoClaimCommand.getClaiming().contains(player.getUniqueId())){ // Disable sending the message when autoclaiming (spam reduce).
+                if(newLocation == null) player.sendMessage(Chat.format(Settings.ENTERING_LAND.replace("{land}", Settings.WILDERNESS_NAME)));
+                else player.sendMessage(Chat.format(Settings.ENTERING_LAND.replace("{land}", newLocation.getName())));
+            }
             fplayer.setLocation(newLocation);
         }
         //Logger.log(Logger.LogLevel.INFO, "Old: x:" + event.getFrom().getX() + " z:" + event.getFrom().getZ() + " New: x:" + event.getTo().getX() + " z:" + event.getTo().getZ());

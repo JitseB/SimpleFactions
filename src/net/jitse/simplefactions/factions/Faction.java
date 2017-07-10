@@ -113,7 +113,7 @@ public class Faction {
     public void removeMember(Member member){
         SimpleFactions.getInstance().getFactionsTagManager().removeTag(member);
         this.members.remove(member);
-        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE uuid=?;", member.getUUID());
+        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE uuid=?;", member.getUUID().toString());
     }
 
     public void addHome(Home home, boolean updateSql){

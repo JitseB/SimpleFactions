@@ -31,16 +31,12 @@ public class ClaimCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
-        if(faction == null){
-            player.sendMessage(Chat.format(Settings.COMMAND_PREFIX + Settings.NOT_IN_FACTION));
-            return;
-        }
-
         if(args.length == 1){
             Chunk chunk = player.getLocation().getChunk();
             Faction chunkFaction = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
             if(chunkFaction != null){
-                player.sendMessage(Chat.format(Settings.CHUNK_ALREADY_CLAIMED.replace("{faction}", chunkFaction.getName())));
+                if(chunkFaction.equals(faction)) player.sendMessage(Chat.format(Settings.FACTION_ALREADY_OWNS_LAND));
+                else player.sendMessage(Chat.format(Settings.CHUNK_ALREADY_CLAIMED.replace("{faction}", chunkFaction.getName())));
                 return;
             }
             Bukkit.getOnlinePlayers().stream()

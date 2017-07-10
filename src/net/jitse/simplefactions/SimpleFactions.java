@@ -1,5 +1,6 @@
 package net.jitse.simplefactions;
 
+import net.jitse.simplefactions.commands.Commands;
 import net.jitse.simplefactions.commands.FactionsCommand;
 import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.listeners.PlayerListener;
@@ -11,6 +12,7 @@ import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +24,6 @@ public class SimpleFactions extends JavaPlugin {
     /*
      * Todo lists:
      * - Fix relations loader (dupe bug)
-     * - Add /faction autoclaim
      * - Add the relation commands
      * - Add PlayerListeners for handling all permissions
      * - Add the sidebar scoreboard
@@ -57,6 +58,7 @@ public class SimpleFactions extends JavaPlugin {
         PlayerListener playerListener = new PlayerListener(this);
         Bukkit.getPluginManager().registerEvents(playerListener, this);
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
+        Arrays.stream(Commands.values()).forEach(command -> Bukkit.getPluginManager().registerEvents(command.getSubCommand(), this));
 
         new FactionsLoader(this).load(() -> {
             Bukkit.getScheduler().runTask(this, () -> Bukkit.getOnlinePlayers().forEach(playerListener::handlePlayerJoin));

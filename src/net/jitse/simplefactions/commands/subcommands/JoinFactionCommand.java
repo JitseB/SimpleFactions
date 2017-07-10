@@ -28,9 +28,8 @@ public class JoinFactionCommand extends SubCommand {
             return;
         }
         Player player = (Player) sender;
-        Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
         net.jitse.simplefactions.factions.Player fplayer = SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player);
-        if(faction != null){
+        if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null){
             player.sendMessage(Chat.format(Settings.ALREADY_IN_FACTION));
             return;
         }

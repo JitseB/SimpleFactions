@@ -21,6 +21,9 @@ public class Settings {
     public static final int MAX_MEMBERS = 50;
     public static final int INVITE_EXPIRE_TIME = 60;
 
+    public static final String FACTION_ALREADY_OWNS_LAND = "&cYour faction already owns this land.";
+    public static final String AUTO_CLAIMING_ENABLED = "&aAuto-Claiming is now enabled, you can start walking around now.";
+    public static final String AUTO_CLAIMING_DISABLED = "&cAuto-Claiming is now disabled.";
     public static final String CANNOT_JOIN_FULL = "That faction is already at its limit of {maxplayers} players, so you can't join it.";
     public static final String CREATOR_RANK_CANNOT_KICK = "You can't kick the creator from the faction!";
     public static final String REMOVED_FROM_FACTION = "&cYou have been removed from &f&o{faction}&r&c.";
