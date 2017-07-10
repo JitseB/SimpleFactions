@@ -7,18 +7,19 @@ import net.jitse.simplefactions.factions.Home;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import net.jitse.simplefactions.utilities.LocationSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
 /**
- * Created by Jitse on 8-7-2017.
+ * Created by Jitse on 10-7-2017.
  */
-public class DelHomeCommand extends SubCommand {
+public class ReHomeCommand extends SubCommand {
 
-    public DelHomeCommand(Role role){
-        super(role, "simplefactions.commands.delhome");
+    public ReHomeCommand(Role role){
+        super(role, "simplefactions.commands.rehome");
     }
 
     @Override
@@ -36,8 +37,8 @@ public class DelHomeCommand extends SubCommand {
             return;
         }
         Home home = homeOptional.get();
-        faction.getHomes().remove(home);
-        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=? AND name=?;", faction.getName(), home.getName());
-        player.sendMessage(Chat.format(Settings.REMOVED_HOME.replace("{home}", home.getName())));
+        home.setLocation(player.getLocation());
+        SimpleFactions.getInstance().getMySql().execute("UPDATE FactionHomes SET location=? WHERE faction=? AND name=?;", LocationSerializer.serialize(home.getLocation()), faction.getName(), home.getName());
+        player.sendMessage(Chat.format(Settings.RELOCATED_HOME.replace("{home}", home.getName())));
     }
 }

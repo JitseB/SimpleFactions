@@ -17,7 +17,9 @@ public class DelayTeleport {
             int i = Settings.TP_DELAY;
             @Override
             public void run() {
-                if(player.getLocation().getX() != check.getX() || player.getLocation().getY() != check.getY() || player.getLocation().getZ() != check.getZ()){
+                if(Math.floor(player.getLocation().getX()) != Math.floor(check.getX())
+                        || Math.floor(player.getLocation().getY()) != Math.floor(check.getY())
+                        || Math.floor(player.getLocation().getZ()) != Math.floor(check.getZ())){
                     player.sendMessage(Chat.format(Settings.MOVED_NO_TELEPORT));
                     this.cancel();
                     return;

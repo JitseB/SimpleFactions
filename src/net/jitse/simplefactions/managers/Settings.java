@@ -9,6 +9,7 @@ public class Settings {
 
     public static final String COMMAND_PREFIX = "&7[&cDecimate&fPVP&7]&f ";
     public static final String SERVER_NAME = "&c&lD&6&lE&e&lC&a&lI&b&lM&9&lA&5&lT&c&lE &f&lPVP&r";
+    public static final String SCOREBOARD_NAME = "&cD&6E&eC&aI&bM&9A&5T&cE&fPVP&r"; // Max 32 chars.
     public static final int PLAYER_MAX_POWER = 100;
     public static final int MAX_LINE_CLAIM = 5;
     public static final int TP_DELAY = 5;
@@ -18,6 +19,9 @@ public class Settings {
     public static final ChatColor ENEMY_FACTION_COLOR = ChatColor.RED;
     public static final ChatColor ALLY_FACTION_COLOR = ChatColor.LIGHT_PURPLE;
 
+    public static final String REMOVED_HOME = "&fHome &7&o{home}&r &fhas been removed.";
+    public static final String RELOCATED_HOME = "&fHome &7&o{home}&r &fhas been relocated to your current location.";
+    public static final String RE_HOME_MESSAGE = "Click here to relocate this home to your current location!";
     public static final String UPDATED_FACTION_OPEN = "&fYour faction is now &e&o{newstate}&r&f.";
     public static final String FACTION_NOW_OPEN = "&7&o{faction}&r &fno longer requires an invitation to join!";
     public static final String LEFT_FACTION_MESSAGE = "&fYou left the faction.";

@@ -8,11 +8,16 @@ import org.bukkit.Location;
 public class Home {
 
     private final String name;
-    private final Location location;
+
+    private Location location;
 
     public Home(String name, Location location){
         this.location = location;
         this.name = name;
+    }
+
+    public void setLocation(Location location){
+        this.location = location;
     }
 
     public String getName(){

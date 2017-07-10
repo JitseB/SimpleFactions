@@ -26,6 +26,7 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("role") || args[0].equalsIgnoreCase("setrole")) Commands.ROLE.execute(sender, args);
             else if(args[0].equalsIgnoreCase("sethome")) Commands.SET_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("delhome")) Commands.DELETE_HOME.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("rehome")) Commands.RE_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("home")) Commands.HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("reset")) Commands.RESET_SYSTEM.execute(sender, args);
             else if(args[0].equalsIgnoreCase("join")) Commands.JOIN.execute(sender, args);

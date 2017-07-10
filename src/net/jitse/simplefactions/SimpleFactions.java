@@ -23,7 +23,6 @@ public class SimpleFactions extends JavaPlugin {
      * Todo lists:
      * - Fix relations loader (dupe glitch)
      * - Add /faction autoclaim
-     * - Fix the home system
      * - Add the relation commands
      * - Add /faction role <player> <role: Member/Mod/Owner>
      * - Add PlayerListeners for handling all permissions
