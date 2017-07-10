@@ -30,7 +30,7 @@ public class SidebarManager {
         Team dateTeam = scoreboard.registerNewTeam("#sf-date");
         OfflinePlayer datePlayer = Bukkit.getOfflinePlayer(Chat.format("&7"));
         dateTeam.addEntry(datePlayer.getName());
-        dateTeam.setSuffix(DateTimeFormatter.ofPattern("MM/dd/yy").format(LocalDate.now()));
+        dateTeam.setSuffix(DateTimeFormatter.ofPattern(Settings.DATE_NOTATION).format(LocalDate.now()));
         sidebar.getScore(datePlayer).setScore(10);
 
         sidebar.getScore(Chat.format("&r")).setScore(9);
@@ -89,7 +89,7 @@ public class SidebarManager {
         Team dateTeam = scoreboard.registerNewTeam("#sf-date");
         OfflinePlayer datePlayer = Bukkit.getOfflinePlayer(Chat.format("&7"));
         dateTeam.addEntry(datePlayer.getName());
-        dateTeam.setSuffix(DateTimeFormatter.ofPattern("MM/dd/yy").format(LocalDate.now()));
+        dateTeam.setSuffix(DateTimeFormatter.ofPattern(Settings.DATE_NOTATION).format(LocalDate.now()));
         sidebar.getScore(datePlayer).setScore(8);
 
         sidebar.getScore(Chat.format("&r")).setScore(7);
