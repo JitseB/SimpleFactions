@@ -2,6 +2,7 @@ package net.jitse.simplefactions.managers;
 
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.factions.Member;
+import net.jitse.simplefactions.factions.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Scoreboard;
@@ -70,5 +71,19 @@ public class FactionsTagManager {
             else onlineTeam.setPrefix(Settings.NEUTRAL_FACTION_COLOR.toString() + onlineMember.getFaction().getTag() + ChatColor.RESET.toString());
             onlineTeam.addEntry(onlineName);
         });
+    }
+
+    public void initTags(Player player) {
+        Scoreboard board = player.getBukkitPlayer().getScoreboard();
+        Bukkit.getOnlinePlayers().stream().filter(online -> !online.getUniqueId().equals(player.getUUID())).forEach(online -> {
+            Member onlineMember = SimpleFactions.getInstance().getFactionsManager().getMember(online);
+            if(onlineMember == null) return;
+            String onlineName = online.getName();
+            Team onlineTeam = board.getTeam(onlineName) == null ? board.registerNewTeam(onlineName) : board.getTeam(onlineName);
+            onlineTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+            onlineTeam.setPrefix(Settings.NEUTRAL_FACTION_COLOR.toString() + onlineMember.getFaction().getTag() + ChatColor.RESET.toString());
+            onlineTeam.addEntry(onlineName);
+        });
+        player.getBukkitPlayer().setScoreboard(board);
     }
 }

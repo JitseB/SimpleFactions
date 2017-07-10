@@ -29,6 +29,7 @@ public class JoinFactionCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
+        net.jitse.simplefactions.factions.Player fplayer = SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player);
         if(faction != null){
             player.sendMessage(Chat.format(Settings.ALREADY_IN_FACTION));
             return;
@@ -38,10 +39,11 @@ public class JoinFactionCommand extends SubCommand {
             return;
         }
         Faction toJoin = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
-        if(!toJoin.isOpen()){
+        if(!toJoin.isOpen() && !(InviteCommand.getPending().containsKey(fplayer) || InviteCommand.getPending().get(fplayer) != toJoin)){
             player.sendMessage(Chat.format(Settings.FACTION_NOT_OPEN));
             return;
         }
+        if(InviteCommand.getPending().containsKey(fplayer)) InviteCommand.getPending().remove(fplayer);
         toJoin.addMember(new Member(player.getUniqueId(), new Timestamp(System.currentTimeMillis()), Role.MEMBER, SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player)), true, true);
         toJoin.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.PLAYER_JOINED_FACTION.replace("{ownfactioncolor}", Settings.OWN_FACTION_COLOR.toString()).replace("{player}", player.getName()).replace("{faction}", toJoin.getName()))));
     }

@@ -4,6 +4,7 @@ import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.ChunkSerializer;
 import net.jitse.simplefactions.utilities.LocationSerializer;
+import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Chunk;
 
 import java.sql.Timestamp;

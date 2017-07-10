@@ -24,7 +24,6 @@ public class SimpleFactions extends JavaPlugin {
      * - Fix relations loader (dupe glitch)
      * - Add /faction autoclaim
      * - Add the relation commands
-     * - Add /faction role <player> <role: Member/Mod/Owner>
      * - Add PlayerListeners for handling all permissions
      * - Add the sidebar scoreboard
      * - Add chat channels (Public/Allies/Faction)

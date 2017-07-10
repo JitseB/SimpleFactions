@@ -35,6 +35,11 @@ public class Member extends Player {
         return SimpleFactions.getInstance().getFactionsManager().getFaction(this.getBukkitPlayer());
     }
 
+    public void setRole(Role role){
+        this.role = role;
+        SimpleFactions.getInstance().getMySql().execute("UPDATE FactionMembers SET role=? WHERE uuid=?;", role.toString(), this.uuid.toString());
+    }
+
     public Timestamp getJoinedFaction(){
         return this.joinedFaction;
     }

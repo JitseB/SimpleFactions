@@ -18,7 +18,11 @@ public class Settings {
     public static final ChatColor OWN_FACTION_COLOR = ChatColor.GREEN;
     public static final ChatColor ENEMY_FACTION_COLOR = ChatColor.RED;
     public static final ChatColor ALLY_FACTION_COLOR = ChatColor.LIGHT_PURPLE;
+    public static final int MAX_MEMBERS = 50;
 
+    public static final String CANNOT_CHANGE_OWN_RANK = "&cOops! &fYou can't change your own rank!";
+    public static final String CREATOR_RANK_CANNOT_CHANGE = "&cYou can't change the rank of the creator of the faction!";
+    public static final String ROLE_SET = "&7&o{player}&r &fupdated &7&o{target}&r&f's rank.";
     public static final String REMOVED_HOME = "&fHome &7&o{home}&r &fhas been removed.";
     public static final String RELOCATED_HOME = "&fHome &7&o{home}&r &fhas been relocated to your current location.";
     public static final String RE_HOME_MESSAGE = "Click here to relocate this home to your current location!";
@@ -29,7 +33,7 @@ public class Settings {
     public static final String LEAVE_EQUALS_DISBAND = "&cYou are the creator of this faction, leaving it will result in disbanding the faction.";
     public static final String LEAVE_EQUALS_DISBAND_CLICK_HERE = "Click here to continue and disband the faction.";
     public static final String PLAYER_JOINED_FACTION = "&7&o{player}&r &fjoined {ownfactioncolor}&o{faction}&r&f.";
-    public static final String FACTION_NOT_OPEN = "&cThat faction is currently not open.";
+    public static final String FACTION_NOT_OPEN = "&cThat faction is currently not open nor do you have a pending invitation.";
     public static final String POWER_MESSAGE = "&fYou currently have &7&o{power}&r&7/&o{maxpower}&r&f power.";
     public static final String FACTION_NOT_EXISTS = "&cFaction &7&o{faction}&r &cdoes not exist!";
     public static final String TELEPORTING_TO_HOME = "&fTeleporting to &7&o{home}&r &fin &7&o{time}&r &fseconds. Don't move.";

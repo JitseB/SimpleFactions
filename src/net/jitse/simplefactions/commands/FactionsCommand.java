@@ -22,6 +22,8 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("create")) Commands.CREATE_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("disband")) Commands.DISBAND_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("open")) Commands.OPEN.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("invite")) Commands.INVITE.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("kick")) Commands.KICK_MEMBER.execute(sender, args);
             else if(args[0].equalsIgnoreCase("leave")) Commands.LEAVE_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("role") || args[0].equalsIgnoreCase("setrole")) Commands.ROLE.execute(sender, args);
             else if(args[0].equalsIgnoreCase("sethome")) Commands.SET_HOME.execute(sender, args);

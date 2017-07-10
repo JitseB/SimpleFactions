@@ -64,8 +64,8 @@ public class PlayerListener implements Listener {
                     this.plugin.addPlayer(joinedPlayer);
 
                     Member member = this.plugin.getFactionsManager().getMember(player);
-                    if(member == null) return;
-                    this.plugin.getFactionsTagManager().initTag(member);
+                    if(member == null) this.plugin.getFactionsTagManager().initTags(joinedPlayer);
+                    else this.plugin.getFactionsTagManager().initTag(member);
                 }
                 else{
                     this.plugin.getMySql().execute("INSERT INTO FactionPlayers VALUES(?,?,?,?,?);",
@@ -74,6 +74,7 @@ public class PlayerListener implements Listener {
                     net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(player.getUniqueId(), 0, 0, 100, new Timestamp(System.currentTimeMillis()));
                     joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk()));
                     this.plugin.addPlayer(joinedPlayer);
+                    this.plugin.getFactionsTagManager().initTags(joinedPlayer);
                 }
             } catch (SQLException exception) {
                 player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.FATAL_LOAD_KICK));
