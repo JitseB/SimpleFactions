@@ -9,7 +9,7 @@ public class Settings {
 
     public static final String COMMAND_PREFIX = "&7[&cDecimate&fPVP&7]&f ";
     public static final String SERVER_NAME = "&c&lD&6&lE&e&lC&a&lI&b&lM&9&lA&5&lT&c&lE &f&lPVP&r";
-    public static final String SCOREBOARD_NAME = "&cDecimate &fPVP"; // Max 32 chars.
+    public static final String SCOREBOARD_NAME = "&cDecimate&fPVP"; // Max 32 chars.
     public static final int PLAYER_MAX_POWER = 100;
     public static final int MAX_LINE_CLAIM = 5;
     public static final int TP_DELAY = 5;
@@ -20,6 +20,7 @@ public class Settings {
     public static final ChatColor ALLY_FACTION_COLOR = ChatColor.LIGHT_PURPLE;
     public static final int MAX_MEMBERS = 50;
     public static final int INVITE_EXPIRE_TIME = 60;
+    public static final int MAX_PROXY_PLAYERS = 500;
 
     public static final String FACTION_ALREADY_OWNS_LAND = "&cYour faction already owns this land.";
     public static final String AUTO_CLAIMING_ENABLED = "&aAuto-Claiming is now enabled, you can start walking around now.";

@@ -1,11 +1,13 @@
 package net.jitse.simplefactions.commands.subcommands;
 
+import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
 import net.jitse.simplefactions.events.PlayerChangeChunkEvent;
 import net.jitse.simplefactions.events.PlayerLeaveServerEvent;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -54,7 +56,9 @@ public class AutoClaimCommand extends SubCommand implements Listener {
 
     @EventHandler
     public void onChunkMove(PlayerChangeChunkEvent event){
-        if(claiming.contains(event.getPlayer().getUniqueId()))
-            event.getPlayer().performCommand("faction claim");
+        if(claiming.contains(event.getPlayer().getUniqueId())) {
+            // Need to use a 1 tick delayed task for this -> Would otherwise claim the "old" chunk the player was in.
+            Bukkit.getScheduler().runTask(SimpleFactions.getInstance(), () -> event.getPlayer().performCommand("faction claim"));
+        }
     }
 }

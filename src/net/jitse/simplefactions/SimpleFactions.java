@@ -7,8 +7,10 @@ import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.listeners.WorldListener;
 import net.jitse.simplefactions.managers.FactionsTagManager;
 import net.jitse.simplefactions.managers.FactionsManager;
+import net.jitse.simplefactions.managers.SidebarManager;
 import net.jitse.simplefactions.mysql.MySql;
 import net.jitse.simplefactions.utilities.Logger;
+import net.jitse.simplefactions.utilities.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,17 +28,19 @@ public class SimpleFactions extends JavaPlugin {
      * - Fix relations loader (dupe bug)
      * - Add the relation commands
      * - Add PlayerListeners for handling all permissions
-     * - Add the sidebar scoreboard
      * - Add chat channels (Public/Allies/Faction)
-     * - Add the power system
-     * - Add max members in a faction cap
+     * - Add the power system handling
      * */
 
     private static SimpleFactions plugin;
 
+    private final FactionsManager factionsManager = new FactionsManager(this);
+    private final FactionsTagManager factionsTagManager = new FactionsTagManager();
+    private final SidebarManager sidebarManager = new SidebarManager();
+
     private MySql mysql;
-    private FactionsManager factionsManager = new FactionsManager(this);
-    private FactionsTagManager factionsTagManager = new FactionsTagManager();
+    private ServerData serverDataManager;
+
     private Set<Player> players = new HashSet<>();
 
     private boolean joinable = false;
@@ -44,6 +48,7 @@ public class SimpleFactions extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        serverDataManager = new ServerData(this);
 
         this.mysql = new MySql("localhost", 3306, "root", "password", "projects");
 
@@ -99,6 +104,14 @@ public class SimpleFactions extends JavaPlugin {
 
     public MySql getMySql(){
         return this.mysql;
+    }
+
+    public SidebarManager getSidebarManager(){
+        return this.sidebarManager;
+    }
+
+    public ServerData getServerDataManager(){
+        return this.serverDataManager;
     }
 
     public FactionsManager getFactionsManager(){

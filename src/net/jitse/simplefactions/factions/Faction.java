@@ -49,6 +49,10 @@ public class Faction {
         return power;
     }
 
+    public long getOnlineMembers(){
+        return this.members.stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).count();
+    }
+
     public int getMaxPower(){
         return members.size() * Settings.PLAYER_MAX_POWER;
     }

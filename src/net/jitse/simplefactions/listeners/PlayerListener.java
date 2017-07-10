@@ -81,7 +81,11 @@ public class PlayerListener implements Listener {
                 player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.FATAL_LOAD_KICK));
                 Logger.log(Logger.LogLevel.ERROR, "An SQL error occured while trying to load " + player.getName() + "'s profile.");
                 exception.printStackTrace();
+                return;
             }
+            if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null)
+                this.plugin.getSidebarManager().set(SimpleFactions.getInstance().getFactionsManager().getMember(player));
+            else this.plugin.getSidebarManager().set(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player));
         }, player.getUniqueId().toString());
     }
 

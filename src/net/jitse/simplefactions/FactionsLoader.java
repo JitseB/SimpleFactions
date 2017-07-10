@@ -24,16 +24,16 @@ public class FactionsLoader {
         this.plugin = plugin;
     }
 
-    // This actually needs an async operations chain
+    // This actually needs an async operations chain.
     public void load(Runnable finished){
         Set<Faction> factions = new HashSet<>();
-        // Fetch faction profiles
+        // Fetch faction profiles.
         this.plugin.getMySql().select("SELECT * FROM Factions;", factionSet -> {
             try{
                 while (factionSet.next()){
                     factions.add(new Faction(factionSet.getString("name"), UUID.fromString(factionSet.getString("creator")),
-                            new HashSet<>(), factionSet.getString("claimed") == null ? new HashSet<>() : ChunkSerializer.deserialize(factionSet.getString("claimed")),
-                            new HashSet<>(), new HashSet<>(), new HashSet<>(), factionSet.getBoolean("open"), factionSet.getTimestamp("created"))
+                            new HashSet<>(), ChunkSerializer.deserialize(factionSet.getString("claimed")), new HashSet<>(),
+                            new HashSet<>(), new HashSet<>(), factionSet.getBoolean("open"), factionSet.getTimestamp("created"))
                     );
                 }
             } catch (SQLException exception){
@@ -41,7 +41,7 @@ public class FactionsLoader {
                 exception.printStackTrace();
             }
 
-            // For the next few functions, updating it once again later (with more data)
+            // For the next few functions, updating it once again later (with more data).
             this.plugin.getFactionsManager().init(factions);
 
             // Fetch faction homes
@@ -56,7 +56,7 @@ public class FactionsLoader {
                     exception.printStackTrace();
                 }
 
-                // Fetch faction members
+                // Fetch faction members.
                 this.plugin.getMySql().select("SELECT * FROM FactionMembers;", memberSet -> {
                     try{
                         while (memberSet.next()){
@@ -89,7 +89,7 @@ public class FactionsLoader {
                         exception.printStackTrace();
                     }
 
-                    // Fetch faction relations
+                    // Fetch faction relations.
                     this.plugin.getMySql().select("SELECT * FROM FactionRelations;", relationSet -> {
                         try{
                             while (relationSet.next()){
