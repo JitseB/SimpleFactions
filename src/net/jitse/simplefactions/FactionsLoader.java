@@ -4,6 +4,7 @@ import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.utilities.ChunkSerializer;
 import net.jitse.simplefactions.utilities.LocationSerializer;
 import net.jitse.simplefactions.utilities.Logger;
+import net.jitse.simplefactions.utilities.RelationState;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -93,17 +94,15 @@ public class FactionsLoader {
                     this.plugin.getMySql().select("SELECT * FROM FactionRelations;", relationSet -> {
                         try{
                             while (relationSet.next()){
-                                Faction factionOne = this.plugin.getFactionsManager().getFaction(relationSet.getString("faction-one"));
-                                Faction factionTwo = this.plugin.getFactionsManager().getFaction(relationSet.getString("faction-two"));
-                                Relation relation = Relation.valueOf(relationSet.getString("relation"));
+                                Faction faction = this.plugin.getFactionsManager().getFaction(relationSet.getString("faction-one"));
+                                Faction target = this.plugin.getFactionsManager().getFaction(relationSet.getString("faction-two"));
+                                RelationState relation = RelationState.valueOf(relationSet.getString("relation"));
                                 switch (relation){
                                     case ALLIES:
-                                        factionOne.initSetAllies(factionTwo);
-                                        factionTwo.initSetAllies(factionOne);
+                                        faction.initSetAllies(target);
                                         break;
                                     case ENEMIES:
-                                        factionOne.initSetEnemies(factionTwo);
-                                        factionTwo.initSetEnemies(factionOne);
+                                        faction.setEnemy(target, false);
                                         break;
                                 }
                             }

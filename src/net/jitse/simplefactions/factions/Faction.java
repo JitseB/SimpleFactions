@@ -5,6 +5,7 @@ import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.ChunkSerializer;
 import net.jitse.simplefactions.utilities.LocationSerializer;
 import net.jitse.simplefactions.utilities.Logger;
+import net.jitse.simplefactions.utilities.RelationState;
 import org.bukkit.Chunk;
 
 import java.sql.Timestamp;
@@ -126,15 +127,13 @@ public class Faction {
             SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionHomes VALUES(?,?,?);", this.name, home.getName(), LocationSerializer.serialize(home.getLocation()));
     }
 
-    public void setEnemy(Faction faction){
-        //Todo
+    public void setEnemy(Faction faction, boolean updateSql){
+        this.enemies.add(faction);
+        if(updateSql)
+            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionRelations VALUES(?,?,?);", this.getName(), faction.getName(), RelationState.ENEMIES);
     }
 
     // Messy functions... Not sure how to do them in another way
-    public void initSetEnemies(Faction faction){
-        this.enemies.add(faction);
-    }
-
     public void initSetAllies(Faction faction){
         this.allies.add(faction);
     }

@@ -35,8 +35,9 @@ public class EnemyCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
-        faction.setEnemy(target);
-        player.sendMessage(Chat.format(Settings.NOW_ENEMIES));
-        // todo : send both faction msges
+        faction.setEnemy(target, true);
+        target.setEnemy(faction, true);
+        faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_ENEMIES.replace("{enemy}", target.getName()))));
+        target.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_ENEMIES.replace("{enemy}", faction.getName()))));
     }
 }
