@@ -35,5 +35,8 @@ public class EnemyCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
+        faction.setEnemy(target);
+        player.sendMessage(Chat.format(Settings.NOW_ENEMIES));
+        // todo : send both faction msges
     }
 }

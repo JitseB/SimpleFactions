@@ -71,7 +71,7 @@ public class Faction {
     }
 
     public String getTag(){
-        return "[" + this.getName() + "] ";
+        return Settings.FACTION_TAG.replace("{faction}", this.getName()) + " ";
     }
 
     public String getName(){
@@ -124,6 +124,10 @@ public class Faction {
         this.homes.add(home);
         if(updateSql)
             SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionHomes VALUES(?,?,?);", this.name, home.getName(), LocationSerializer.serialize(home.getLocation()));
+    }
+
+    public void setEnemy(Faction faction){
+        //Todo
     }
 
     // Messy functions... Not sure how to do them in another way

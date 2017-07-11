@@ -22,6 +22,7 @@ public class Settings {
     public static final int INVITE_EXPIRE_TIME = 60;
     public static final int MAX_PROXY_PLAYERS = 450;
     public static final String DATE_NOTATION = "MM/dd/yy";
+    public static final String FACTION_TAG = "[{faction}]"; // brackets can only be removed or replaced with a single character!
 
     public static final String FACTION_ALREADY_OWNS_LAND = "&cYour faction already owns this land.";
     public static final String AUTO_CLAIMING_ENABLED = "&aAuto-Claiming is now enabled, you can start walking around now.";
