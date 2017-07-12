@@ -22,8 +22,8 @@ public class SidebarManager {
     @SuppressWarnings("deprecation")
     public void set(Member member){
         Scoreboard scoreboard = member.getBukkitPlayer().getScoreboard();
-        if(scoreboard.getObjective("sidebar") != null) scoreboard.getObjective("sidebar").unregister();
-        Objective sidebar = scoreboard.registerNewObjective("sidebar", "dummy");
+        if(scoreboard.getObjective("memberside") != null) scoreboard.getObjective("memberside").unregister();
+        Objective sidebar = scoreboard.registerNewObjective("memberside", "dummy");
         sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
         sidebar.setDisplayName(Chat.format(Settings.SCOREBOARD_NAME));
 
@@ -71,7 +71,7 @@ public class SidebarManager {
         sidebar.getScore(networkPlayer).setScore(1);
 
         Team ipTeam = scoreboard.registerNewTeam("#sf-ip");
-        OfflinePlayer ipPlayer = Bukkit.getOfflinePlayer(Chat.format("&7decimate"));
+        OfflinePlayer ipPlayer = Bukkit.getOfflinePlayer(Chat.format("&7decimatepvp"));
         ipTeam.addEntry(ipPlayer.getName());
         ipTeam.setPrefix(Chat.format("&7play."));
         ipTeam.setSuffix(Chat.format("&7.com"));
@@ -81,12 +81,12 @@ public class SidebarManager {
     @SuppressWarnings("deprecation")
     public void set(Player player){
         Scoreboard scoreboard = player.getBukkitPlayer().getScoreboard();
-        if(scoreboard.getObjective("sidebar") != null) scoreboard.getObjective("sidebar").unregister();
-        Objective sidebar = scoreboard.registerNewObjective("sidebar", "dummy");
+        if(scoreboard.getObjective("playerside") != null) scoreboard.getObjective("playerside").unregister();
+        Objective sidebar = scoreboard.registerNewObjective("playerside", "dummy");
         sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
         sidebar.setDisplayName(Chat.format(Settings.SCOREBOARD_NAME));
 
-        Team dateTeam = scoreboard.registerNewTeam("#sf-date");
+        Team dateTeam = scoreboard.registerNewTeam("#sfp-date");
         OfflinePlayer datePlayer = Bukkit.getOfflinePlayer(Chat.format("&7"));
         dateTeam.addEntry(datePlayer.getName());
         dateTeam.setSuffix(DateTimeFormatter.ofPattern(Settings.DATE_NOTATION).format(LocalDate.now()));
@@ -101,18 +101,62 @@ public class SidebarManager {
 
         sidebar.getScore(Chat.format("&r&r")).setScore(2);
 
-        Team networkTeam = scoreboard.registerNewTeam("#sf-network");
+        Team networkTeam = scoreboard.registerNewTeam("#sfp-network");
         OfflinePlayer networkPlayer = Bukkit.getOfflinePlayer(Chat.format("&f/&c"));
         networkTeam.addEntry(networkPlayer.getName());
         networkTeam.setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("ALL"))));
         networkTeam.setSuffix(Chat.format(String.valueOf(Settings.MAX_PROXY_PLAYERS)));
         sidebar.getScore(networkPlayer).setScore(1);
 
-        Team ipTeam = scoreboard.registerNewTeam("#sf-ip");
-        OfflinePlayer ipPlayer = Bukkit.getOfflinePlayer(Chat.format("&7decimate"));
+        Team ipTeam = scoreboard.registerNewTeam("#sfp-ip");
+        OfflinePlayer ipPlayer = Bukkit.getOfflinePlayer(Chat.format("&7decimatepvp"));
         ipTeam.addEntry(ipPlayer.getName());
         ipTeam.setPrefix(Chat.format("&7play."));
         ipTeam.setSuffix(Chat.format("&7.com"));
         sidebar.getScore(ipPlayer).setScore(0);
+    }
+
+    public void startRunnables(SimpleFactions plugin){
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> plugin.getServerDataManager().requestPlayerCount("ALL"), 0, 10);
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            for(org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()){
+                if(plugin.getFactionsManager().getFactionsPlayer(player) == null) continue;
+                Scoreboard scoreboard = player.getScoreboard();
+                if(plugin.getFactionsManager().getMember(player) == null){
+                    // Update player scoreboard.
+                    Player fplayer = plugin.getFactionsManager().getFactionsPlayer(player);
+                    if(scoreboard.getObjective("memberside") != null){
+                        scoreboard.getObjective("memberside").unregister();
+                    }
+                    if(scoreboard.getObjective("playerside") == null) {
+                        this.set(fplayer);
+                    } else{
+                        // Update the teams.
+                        scoreboard.getTeam("#sfp-date").setSuffix(DateTimeFormatter.ofPattern(Settings.DATE_NOTATION).format(LocalDate.now()));
+                        scoreboard.getTeam("#sfp-network").setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("ALL"))));
+                        scoreboard.getTeam("#sfp-network").setSuffix(Chat.format(String.valueOf(Settings.MAX_PROXY_PLAYERS)));
+                    }
+                } else{
+                    // Update member scoreboard.
+                    Member member = plugin.getFactionsManager().getMember(player);
+                    if(scoreboard.getObjective("playerside") != null) {
+                        scoreboard.getObjective("playerside").unregister();
+                    }
+                    if(scoreboard.getObjective("memberside") == null){
+                        this.set(member);
+                    } else{
+                        // Update the teams.
+                        scoreboard.getTeam("#sf-date").setSuffix(DateTimeFormatter.ofPattern(Settings.DATE_NOTATION).format(LocalDate.now()));
+                        scoreboard.getTeam("#sf-faction").setSuffix(member.getFaction().getName());
+                        scoreboard.getTeam("#sf-power").setPrefix(Chat.format("&c" + member.getFaction().getClaimedChunks().size() + "&f/&c" + member.getFaction().getPower()));
+                        scoreboard.getTeam("#sf-power").setSuffix(String.valueOf(member.getFaction().getMaxPower()));
+                        scoreboard.getTeam("#sf-online").setPrefix(Chat.format("&c" + member.getFaction().getOnlineMembers()));
+                        scoreboard.getTeam("#sf-online").setSuffix(Chat.format(String.valueOf(member.getFaction().getMembers().size())));
+                        scoreboard.getTeam("#sf-network").setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("ALL"))));
+                        scoreboard.getTeam("#sf-network").setSuffix(Chat.format(String.valueOf(Settings.MAX_PROXY_PLAYERS)));
+                    }
+                }
+            }
+        }, 0, 10);
     }
 }

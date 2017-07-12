@@ -65,6 +65,7 @@ public class SimpleFactions extends JavaPlugin {
 
         new FactionsLoader(this).load(() -> {
             Bukkit.getScheduler().runTask(this, () -> Bukkit.getOnlinePlayers().forEach(playerListener::handlePlayerJoin));
+            this.sidebarManager.startRunnables(this);
             Logger.log(Logger.LogLevel.INFO, "Plugin loaded, ready for duty!");
             this.joinable = true;
         });
