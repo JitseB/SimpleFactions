@@ -10,6 +10,7 @@ import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -46,8 +47,22 @@ public class FactionsManager {
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionRelations WHERE `faction-one`=? OR `faction-two`=?;", faction.getName(), faction.getName());
-        // todo removed allies & enemies tag
-        faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(member -> SimpleFactions.getInstance().getFactionsTagManager().removeTag(member));
+        faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(member -> {
+            Scoreboard scoreboard = member.getBukkitPlayer().getScoreboard();
+            faction.getEnemies().forEach(enemyFaction -> {
+                enemyFaction.getMembers().stream().filter(enemyMember -> enemyMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineEnemyMember -> {
+                    if(scoreboard.getTeam(onlineEnemyMember.getBukkitPlayer().getName()) != null)
+                        scoreboard.getTeam(onlineEnemyMember.getBukkitPlayer().getName()).setPrefix(Settings.NEUTRAL_FACTION_COLOR + enemyFaction.getTag());
+                });
+            });
+            faction.getAllies().forEach(allyFaction -> {
+                allyFaction.getMembers().stream().filter(allyMember -> allyMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineAllyMember -> {
+                    if(scoreboard.getTeam(onlineAllyMember.getBukkitPlayer().getName()) != null)
+                        scoreboard.getTeam(onlineAllyMember.getBukkitPlayer().getName()).setPrefix(Settings.NEUTRAL_FACTION_COLOR + allyFaction.getTag());
+                });
+            });
+            SimpleFactions.getInstance().getFactionsTagManager().removeTag(member);
+        });
         this.factions.remove(faction);
     }
 

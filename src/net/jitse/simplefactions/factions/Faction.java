@@ -6,7 +6,9 @@ import net.jitse.simplefactions.utilities.ChunkSerializer;
 import net.jitse.simplefactions.utilities.LocationSerializer;
 import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.RelationState;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -131,7 +133,22 @@ public class Faction {
         this.enemies.add(faction);
         if(updateSql)
             SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionRelations VALUES(?,?,?);", this.getName(), faction.getName(), RelationState.ENEMIES.toString());
-        // todo update teams
+        for(Member member : this.members){
+            if(!member.getBukkitOfflinePlayer().isOnline()) continue;
+            faction.getMembers().stream().filter(factionMember -> factionMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineFactionMember -> {
+                Scoreboard scoreboard = onlineFactionMember.getBukkitPlayer().getScoreboard();
+                if(scoreboard.getTeam(member.getBukkitPlayer().getName()) != null)
+                    scoreboard.getTeam(member.getBukkitPlayer().getName()).setPrefix(Settings.ENEMY_FACTION_COLOR + this.getTag() + ChatColor.RESET);
+            });
+        }
+        for(Member member : faction.getMembers()){
+            if(!member.getBukkitOfflinePlayer().isOnline()) continue;
+            this.getMembers().stream().filter(factionMember -> factionMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineFactionMember -> {
+                Scoreboard scoreboard = onlineFactionMember.getBukkitPlayer().getScoreboard();
+                if(scoreboard.getTeam(member.getBukkitPlayer().getName()) != null)
+                    scoreboard.getTeam(member.getBukkitPlayer().getName()).setPrefix(Settings.ENEMY_FACTION_COLOR + faction.getTag() + ChatColor.RESET);
+            });
+        }
     }
 
     public void setNeutral(Faction faction, boolean updateSql, boolean updateTeams){
@@ -140,7 +157,22 @@ public class Faction {
         if(updateSql)
             SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionRelations WHERE `faction-one`=? AND `faction-two`=?;", this.getName(), faction.getName());
         if(updateTeams){
-            // todo
+            for(Member member : this.members){
+                if(!member.getBukkitOfflinePlayer().isOnline()) continue;
+                faction.getMembers().stream().filter(factionMember -> factionMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineFactionMember -> {
+                    Scoreboard scoreboard = onlineFactionMember.getBukkitPlayer().getScoreboard();
+                    if(scoreboard.getTeam(member.getBukkitPlayer().getName()) != null)
+                        scoreboard.getTeam(member.getBukkitPlayer().getName()).setPrefix(Settings.NEUTRAL_FACTION_COLOR + this.getTag() + ChatColor.RESET);
+                });
+            }
+            for(Member member : faction.getMembers()){
+                if(!member.getBukkitOfflinePlayer().isOnline()) continue;
+                this.getMembers().stream().filter(factionMember -> factionMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineFactionMember -> {
+                    Scoreboard scoreboard = onlineFactionMember.getBukkitPlayer().getScoreboard();
+                    if(scoreboard.getTeam(member.getBukkitPlayer().getName()) != null)
+                        scoreboard.getTeam(member.getBukkitPlayer().getName()).setPrefix(Settings.NEUTRAL_FACTION_COLOR + faction.getTag() + ChatColor.RESET);
+                });
+            }
         }
     }
 
@@ -148,6 +180,21 @@ public class Faction {
         this.allies.add(faction);
         if(updateSql)
             SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionRelations VALUES(?,?,?);", this.getName(), faction.getName(), RelationState.ALLIES.toString());
-        // todo update teams
+        for(Member member : this.members){
+            if(!member.getBukkitOfflinePlayer().isOnline()) continue;
+            faction.getMembers().stream().filter(factionMember -> factionMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineFactionMember -> {
+                Scoreboard scoreboard = onlineFactionMember.getBukkitPlayer().getScoreboard();
+                if(scoreboard.getTeam(member.getBukkitPlayer().getName()) != null)
+                    scoreboard.getTeam(member.getBukkitPlayer().getName()).setPrefix(Settings.ALLY_FACTION_COLOR + this.getTag() + ChatColor.RESET);
+            });
+        }
+        for(Member member : faction.getMembers()){
+            if(!member.getBukkitOfflinePlayer().isOnline()) continue;
+            this.getMembers().stream().filter(factionMember -> factionMember.getBukkitOfflinePlayer().isOnline()).forEach(onlineFactionMember -> {
+                Scoreboard scoreboard = onlineFactionMember.getBukkitPlayer().getScoreboard();
+                if(scoreboard.getTeam(member.getBukkitPlayer().getName()) != null)
+                    scoreboard.getTeam(member.getBukkitPlayer().getName()).setPrefix(Settings.ALLY_FACTION_COLOR + faction.getTag() + ChatColor.RESET);
+            });
+        }
     }
 }
