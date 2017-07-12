@@ -46,6 +46,7 @@ public class FactionsManager {
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionRelations WHERE `faction-one`=? OR `faction-two`=?;", faction.getName(), faction.getName());
+        // todo removed allies & enemies tag
         faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(member -> SimpleFactions.getInstance().getFactionsTagManager().removeTag(member));
         this.factions.remove(faction);
     }

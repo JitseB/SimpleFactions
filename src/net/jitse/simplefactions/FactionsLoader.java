@@ -99,7 +99,7 @@ public class FactionsLoader {
                                 RelationState relation = RelationState.valueOf(relationSet.getString("relation"));
                                 switch (relation){
                                     case ALLIES:
-                                        faction.initSetAllies(target);
+                                        faction.setAllies(target, false);
                                         break;
                                     case ENEMIES:
                                         faction.setEnemy(target, false);

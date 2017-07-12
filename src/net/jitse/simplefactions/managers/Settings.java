@@ -23,8 +23,19 @@ public class Settings {
     public static final int MAX_PROXY_PLAYERS = 450;
     public static final String DATE_NOTATION = "MM/dd/yy";
     public static final String FACTION_TAG = "[{faction}]"; // brackets can only be removed or replaced with a single character!
+    public static final int RELATION_EXPIRE_MINUTES = 5;
 
-    public static final String NOW_ENEMIES = "&fYour faction is now enemies with &c&o{enemy}&f.";
+    public static final String ALREADY_NEUTRAL = "&cYour faction and &f&o{faction}&r &care already neutral.";
+    public static final String ALREADY_SENT_REQUEST_TO_FACTION = "&cYou already sent a request to become {type} with &f&o{target}&r&c.";
+    public static final String RELATION_REQUEST_EXPIRED_TO = "&cThe request from &f&o{from}&r &cto become {type} has expired.";
+    public static final String RELATION_REQUEST_EXPIRED = "&cYour request to become {type} with &f&o{target}&r &chas expired.";
+    public static final String INCOMING_ALLY_REQUEST = "&aIncoming request from &f&o{ally}&r &ato become allies. This request will expire after {minutes}m.";
+    public static final String INCOMING_ALLY_REQUEST_CLICK = "Click here to accept the request and become allies!";
+    public static final String ALLY_REQUEST_SENT = "&fAn ally request has been send to &a&o{ally}&r&f. Members with the role {role} have been notified and have {minutes}m to accept it.";
+    public static final String ALREADY_ALLIES = "&cYour faction is already allies with &f&o{ally}&r&c.";
+    public static final String NOW_ALLIES = "&fYour faction is now allies with &a&o{ally}&r&f.";
+    public static final String ALREADY_ENEMIES = "&cYour faction is already enemies with &f&o{enemy}&r&c.";
+    public static final String NOW_ENEMIES = "&fYour faction is now enemies with &c&o{enemy}&r&f.";
     public static final String FACTION_ALREADY_OWNS_LAND = "&cYour faction already owns this land.";
     public static final String AUTO_CLAIMING_ENABLED = "&aAuto-Claiming is now enabled, you can start walking around now.";
     public static final String AUTO_CLAIMING_DISABLED = "&cAuto-Claiming is now disabled.";

@@ -23,10 +23,14 @@ public enum Commands {
     INVITE(new InviteCommand(Role.MOD), true),
     CLAIM_LAND(new ClaimCommand(Role.MOD), true),
     JOIN(new JoinFactionCommand(Role.MEMBER), false),
+    FACTION_TOP(new FactionTopCommand(Role.MEMBER), false), // todo
     RESET_SYSTEM(new ResetCommand(), false),
     KICK_MEMBER(new KickMemberCommand(Role.MOD), true),
     ENEMY(new EnemyCommand(Role.OWNER), true),
+    NEUTRAL(new NeutralCommand(Role.OWNER), true), // todo
+    ALLY(new AllyCommand(Role.OWNER), true), // todo
     SHOW(new ShowCommand(Role.MEMBER), false),
+    FLY(new FlyCommand(Role.MEMBER), true), // todo
     RE_HOME(new ReHomeCommand(Role.MOD), true),
     OPEN(new OpenCommand(Role.MOD), true),
     ROLE(new RoleCommand(Role.OWNER), true),

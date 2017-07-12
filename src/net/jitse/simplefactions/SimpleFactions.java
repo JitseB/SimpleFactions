@@ -25,8 +25,6 @@ public class SimpleFactions extends JavaPlugin {
 
     /*
      * Todo lists:
-     * - Fix relations loader (dupe bug)
-     * - Add the relation commands
      * - Add PlayerListeners for handling all permissions
      * - Add chat channels (Public/Allies/Faction)
      * - Add the power system handling

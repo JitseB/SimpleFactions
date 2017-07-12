@@ -21,7 +21,11 @@ public class FactionsCommand implements CommandExecutor {
             if(args[0].equalsIgnoreCase("help")) sendHelpMessage(sender);
             else if(args[0].equalsIgnoreCase("create")) Commands.CREATE_FACTION.execute(sender, args);
             else if(args[0].equalsIgnoreCase("disband")) Commands.DISBAND_FACTION.execute(sender, args);
-            else if(args[0].equalsIgnoreCase("enemy")) Commands.ENEMY.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("enemy") || args[0].equalsIgnoreCase("setenemy")) Commands.ENEMY.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("ally") || args[0].equalsIgnoreCase("setally")) Commands.ALLY.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("neutral") || args[0].equalsIgnoreCase("setneutral")) Commands.NEUTRAL.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("top")) Commands.FACTION_TOP.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("fly")) Commands.FLY.execute(sender, args);
             else if(args[0].equalsIgnoreCase("open")) Commands.OPEN.execute(sender, args);
             else if(args[0].equalsIgnoreCase("invite")) Commands.INVITE.execute(sender, args);
             else if(args[0].equalsIgnoreCase("kick") || args[0].equalsIgnoreCase("remove")) Commands.KICK_MEMBER.execute(sender, args);
@@ -37,9 +41,7 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("autoclaim")) Commands.AUTO_CLAIM.execute(sender, args);
             else if(args[0].equalsIgnoreCase("show")) Commands.SHOW.execute(sender, args);
             else if(args[0].equalsIgnoreCase("power") || args[0].equalsIgnoreCase("pow")) Commands.POWER.execute(sender, args);
-            else{
-                sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction help")));
-            }
+            else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction help")));
         }
         return true;
     }

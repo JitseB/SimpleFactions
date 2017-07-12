@@ -31,10 +31,16 @@ public class EnemyCommand extends SubCommand {
             return;
         }
         Faction target = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
-        if(target == null){
+        if(target == null || target.equals(faction)){
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
+        if(faction.getEnemies().contains(target)){
+            player.sendMessage(Chat.format(Settings.ALREADY_ENEMIES.replace("{enemy}", target.getName())));
+            return;
+        }
+        faction.setNeutral(target, true);
+        target.setNeutral(faction, true);
         faction.setEnemy(target, true);
         target.setEnemy(faction, true);
         faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_ENEMIES.replace("{enemy}", target.getName()))));

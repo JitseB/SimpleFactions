@@ -130,11 +130,24 @@ public class Faction {
     public void setEnemy(Faction faction, boolean updateSql){
         this.enemies.add(faction);
         if(updateSql)
-            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionRelations VALUES(?,?,?);", this.getName(), faction.getName(), RelationState.ENEMIES);
+            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionRelations VALUES(?,?,?);", this.getName(), faction.getName(), RelationState.ENEMIES.toString());
+        // todo update teams
     }
 
-    // Messy functions... Not sure how to do them in another way
-    public void initSetAllies(Faction faction){
+    public void setNeutral(Faction faction, boolean updateSql, boolean updateTeams){
+        if(this.enemies.contains(faction)) this.enemies.remove(faction);
+        if(this.allies.contains(faction)) this.allies.remove(faction);
+        if(updateSql)
+            SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionRelations WHERE `faction-one`=? AND `faction-two`=?;", this.getName(), faction.getName());
+        if(updateTeams){
+            // todo
+        }
+    }
+
+    public void setAllies(Faction faction, boolean updateSql){
         this.allies.add(faction);
+        if(updateSql)
+            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionRelations VALUES(?,?,?);", this.getName(), faction.getName(), RelationState.ALLIES.toString());
+        // todo update teams
     }
 }

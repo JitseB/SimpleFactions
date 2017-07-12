@@ -48,7 +48,7 @@ public class ShowCommand extends SubCommand {
         sender.sendMessage(Chat.format("&fJoining: &7" + (faction.isOpen() ? "&aNo invitation required" : "&cInvitation required") + "."));
         sender.sendMessage(Chat.format("&fLand / Power / Maxpower: &7" + faction.getClaimedChunks().size() + "/" + faction.getPower() + "/" + faction.getMaxPower()));
         sender.sendMessage(Chat.format("&fFounded: &7" + new Date(faction.getFounded().getTime()).toString()));
-        sender.sendMessage(Chat.format("&fBalance: &7" + "TODO"));
+        sender.sendMessage(Chat.format("&fBalance: &7" + "TODO")); // todo with vault
         StringBuilder alliesBuilder = new StringBuilder();
         if(faction.getAllies().size() == 0) alliesBuilder.append("-");
         else faction.getAllies().forEach(ally -> alliesBuilder.append(ally.getName()));
