@@ -127,6 +127,12 @@ public class SidebarManager {
                     Player fplayer = plugin.getFactionsManager().getFactionsPlayer(player);
                     if(scoreboard.getObjective("memberside") != null){
                         scoreboard.getObjective("memberside").unregister();
+                        scoreboard.getTeam("#sf-date").unregister();
+                        scoreboard.getTeam("#sf-faction").unregister();
+                        scoreboard.getTeam("#sf-power").unregister();
+                        scoreboard.getTeam("#sf-online").unregister();
+                        scoreboard.getTeam("#sf-network").unregister();
+                        scoreboard.getTeam("#sf-ip").unregister();
                     }
                     if(scoreboard.getObjective("playerside") == null) {
                         this.set(fplayer);
@@ -141,6 +147,9 @@ public class SidebarManager {
                     Member member = plugin.getFactionsManager().getMember(player);
                     if(scoreboard.getObjective("playerside") != null) {
                         scoreboard.getObjective("playerside").unregister();
+                        scoreboard.getTeam("#sfp-date").unregister();
+                        scoreboard.getTeam("#sfp-network").unregister();
+                        scoreboard.getTeam("#sfp-ip").unregister();
                     }
                     if(scoreboard.getObjective("memberside") == null){
                         this.set(member);
