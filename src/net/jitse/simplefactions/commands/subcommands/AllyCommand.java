@@ -45,6 +45,7 @@ public class AllyCommand extends SubCommand {
         Faction target = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
         if(target == null){
             player.sendMessage(Chat.format(Settings.FACTION_NOT_EXISTS.replace("{faction}", args[1])));
+            return;
         }
         if(target.equals(faction)){
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
