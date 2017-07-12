@@ -57,6 +57,7 @@ public class SimpleFactions extends JavaPlugin {
         this.mysql.createTable("FactionMembers", "faction VARCHAR(16), uuid VARCHAR(36), role VARCHAR(6), joinedfaction TIMESTAMP");
         this.mysql.createTable("FactionPlayers", "uuid VARCHAR(36), lastseen TIMESTAMP, power INT, kills INT, deaths INT");
         this.mysql.createTable("FactionRelations", "`faction-one` VARCHAR(16), `faction-two` VARCHAR(16), relation VARCHAR(7)");
+        this.mysql.createTable("FactionTrusted", "faction VARCHAR(16), uuid VARCHAR(36), chunk TEXT");
 
         PlayerListener playerListener = new PlayerListener(this);
         Bukkit.getPluginManager().registerEvents(playerListener, this);

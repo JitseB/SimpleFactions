@@ -94,5 +94,5 @@ public class Settings {
     public static final String LOADING_KICK_MESSAGE = "&cServer is still loading all factions...";
     public static final String CREATED_FACTION_BROADCAST = "&7&o{player} &r&fcreated faction &c&o{faction}&r&f.";
     public static final String NO_PERMISSION_COMMAND = "&fSeems like you don't have permission to execute this command, you need to have access to &7&o{permission}&f.";
-    public static final String NO_ROLE_PERMISSION_COMMAND = "&fSeems like you don't have the correct role for this command, you need to be at least &7&o{role}&f.";
+    public static final String NO_ROLE_PERMISSION_COMMAND = "&fSeems like you don't have the correct role for this command, you need to be at least of the role &7&o{role}&f.";
 }

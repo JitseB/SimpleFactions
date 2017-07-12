@@ -83,9 +83,11 @@ public class PlayerListener implements Listener {
                 exception.printStackTrace();
                 return;
             }
-            if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null)
-                this.plugin.getSidebarManager().set(SimpleFactions.getInstance().getFactionsManager().getMember(player));
-            else this.plugin.getSidebarManager().set(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player));
+            SimpleFactions.getInstance().getSidebarManager().createTeams(player, () -> {
+                if(SimpleFactions.getInstance().getFactionsManager().getFaction(player) != null)
+                    this.plugin.getSidebarManager().set(SimpleFactions.getInstance().getFactionsManager().getMember(player));
+                else this.plugin.getSidebarManager().set(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player));
+            });
         }, player.getUniqueId().toString());
     }
 
