@@ -25,6 +25,10 @@ public class Settings {
     public static final String FACTION_TAG = "[{faction}]"; // brackets can only be removed or replaced with a single character!
     public static final int RELATION_EXPIRE_MINUTES = 5;
 
+    public static final String INCOMING_NEUTRAL_REQUEST_CLICK = "Click here to confirm this neutral relation.";
+    public static final String NOW_NEUTRAL = "&fYour faction and &7&o{faction}&r &fnow have a neutral relation.";
+    public static final String INCOMING_NEUTRAL_REQUEST = "&aIncoming request from &f&o{ally}&r &ato become neutral. This request will expire after {minutes}m.";
+    public static final String NEUTRAL_REQUEST_SENT = "&fA request has been send to &a&o{ally}&r&f to become neutral. Members with the role {role} have been notified and have {minutes}m to accept it.";
     public static final String ALREADY_NEUTRAL = "&cYour faction and &f&o{faction}&r &care already neutral.";
     public static final String ALREADY_SENT_REQUEST_TO_FACTION = "&cYou already sent a request to become {type} with &f&o{target}&r&c.";
     public static final String RELATION_REQUEST_EXPIRED_TO = "&cThe request from &f&o{from}&r &cto become {type} has expired.";

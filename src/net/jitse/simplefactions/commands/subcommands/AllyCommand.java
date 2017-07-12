@@ -63,8 +63,8 @@ public class AllyCommand extends SubCommand {
         }
         if(pending.containsKey(faction) && pending.get(faction).equals(target)){
             // Accept the request
-            if(faction.getEnemies().contains(target)) faction.setNeutral(target, true);
-            if(target.getEnemies().contains(faction)) target.setNeutral(faction, true);
+            if(faction.getEnemies().contains(target)) faction.setNeutral(target, true, false);
+            if(target.getEnemies().contains(faction)) target.setNeutral(faction, true, false);
             faction.setAllies(target, true);
             target.setAllies(faction, true);
             faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_ALLIES.replace("{ally}", target.getName()))));

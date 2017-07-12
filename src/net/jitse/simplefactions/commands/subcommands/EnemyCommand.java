@@ -39,8 +39,8 @@ public class EnemyCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.ALREADY_ENEMIES.replace("{enemy}", target.getName())));
             return;
         }
-        faction.setNeutral(target, true);
-        target.setNeutral(faction, true);
+        faction.setNeutral(target, true, false);
+        target.setNeutral(faction, true, false);
         faction.setEnemy(target, true);
         target.setEnemy(faction, true);
         faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_ENEMIES.replace("{enemy}", target.getName()))));

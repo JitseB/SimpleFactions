@@ -63,23 +63,23 @@ public class NeutralCommand extends SubCommand {
         }
         if(pending.containsKey(faction) && pending.get(faction).equals(target)){
             // Accept the request
-            faction.setNeutral(target, true);
-            target.setNeutral(faction, true);
-            faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_ALLIES.replace("{ally}", target.getName()))));
-            target.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_ALLIES.replace("{ally}", faction.getName()))));
+            faction.setNeutral(target, true, true);
+            target.setNeutral(faction, true, true);
+            faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_NEUTRAL.replace("{faction}", target.getName()))));
+            target.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(online -> online.getBukkitPlayer().sendMessage(Chat.format(Settings.NOW_NEUTRAL.replace("{faction}", faction.getName()))));
             pending.remove(faction);
         }
         else{
             // Send out new request
             pending.put(target, faction);
-            player.sendMessage(Chat.format(Settings.ALLY_REQUEST_SENT.replace("{ally}", target.getName()).replace("{role}", getRole().toString()).replace("{minutes}", String.valueOf(Settings.RELATION_EXPIRE_MINUTES))));
+            player.sendMessage(Chat.format(Settings.NEUTRAL_REQUEST_SENT.replace("{ally}", target.getName()).replace("{role}", getRole().toString()).replace("{minutes}", String.valueOf(Settings.RELATION_EXPIRE_MINUTES))));
             target.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline() && member.getRole().ordinal() >= getRole().ordinal()).forEach(member -> {
-                member.getBukkitPlayer().sendMessage(Chat.format(Settings.INCOMING_ALLY_REQUEST.replace("{ally}", faction.getName()).replace("{minutes}", String.valueOf(Settings.RELATION_EXPIRE_MINUTES))));
-                TextComponent message = new TextComponent(Settings.INCOMING_ALLY_REQUEST_CLICK);
+                member.getBukkitPlayer().sendMessage(Chat.format(Settings.INCOMING_NEUTRAL_REQUEST.replace("{ally}", faction.getName()).replace("{minutes}", String.valueOf(Settings.RELATION_EXPIRE_MINUTES))));
+                TextComponent message = new TextComponent(Settings.INCOMING_NEUTRAL_REQUEST_CLICK);
                 message.setBold(true);
-                message.setColor(ChatColor.GREEN);
-                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{ new TextComponent("Click to become allies with " + faction.getName()) }));
-                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction ally " + faction.getName()));
+                message.setColor(ChatColor.WHITE);
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{ new TextComponent("Click to get a neutral relation with " + faction.getName()) }));
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction neutral " + faction.getName()));
                 member.getBukkitPlayer().spigot().sendMessage(message);
             });
             new BukkitRunnable(){
@@ -87,8 +87,8 @@ public class NeutralCommand extends SubCommand {
                 public void run() {
                     if(pending.containsKey(target)){
                         pending.remove(target);
-                        player.sendMessage(Chat.format(Settings.RELATION_REQUEST_EXPIRED.replace("{target}", target.getName()).replace("{type}", "allies")));
-                        target.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline() && member.getRole().ordinal() >= getRole().ordinal()).forEach(member -> member.getBukkitPlayer().sendMessage(Chat.format(Settings.RELATION_REQUEST_EXPIRED_TO.replace("{type}", "allies").replace("{from}", faction.getName()))));
+                        player.sendMessage(Chat.format(Settings.RELATION_REQUEST_EXPIRED.replace("{target}", target.getName()).replace("{type}", "neutral")));
+                        target.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline() && member.getRole().ordinal() >= getRole().ordinal()).forEach(member -> member.getBukkitPlayer().sendMessage(Chat.format(Settings.RELATION_REQUEST_EXPIRED_TO.replace("{type}", "neutral").replace("{from}", faction.getName()))));
                     }
                 }
             }.runTaskLater(SimpleFactions.getInstance(), 20 * 60 * Settings.RELATION_EXPIRE_MINUTES);
