@@ -33,7 +33,7 @@ public class LeaveFactionCommand extends SubCommand {
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
         Member member = SimpleFactions.getInstance().getFactionsManager().getMember(player);
-        if(faction.getCreator() == player.getUniqueId()){
+        if(faction.getCreator().equals(player.getUniqueId())){
             player.sendMessage(Chat.format(Settings.LEAVE_EQUALS_DISBAND));
             TextComponent message = new TextComponent(Settings.LEAVE_EQUALS_DISBAND_CLICK_HERE);
             message.setBold(true);
