@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class SimpleFactions extends JavaPlugin {
 
-    /*0
+    /*
      * Todo lists:
      * - Add PlayerListeners for handling all permissions
      * - Add chat channels (Public/Allies/Faction)
