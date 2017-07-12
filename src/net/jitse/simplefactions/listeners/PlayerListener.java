@@ -104,9 +104,7 @@ public class PlayerListener implements Listener {
             this.plugin.getFactionsTagManager().removeTag(this.plugin.getFactionsManager().getFactionsPlayer(player));
             this.plugin.getMySql().execute("UPDATE FactionPlayers SET lastseen=? WHERE uuid=?;", new Timestamp(System.currentTimeMillis()), player.getUniqueId().toString());
             this.plugin.removePlayer(this.plugin.getFactionsManager().getFactionsPlayer(player));
-        } catch(Exception exception){
-            return; // Player had already left server -> State only occurs when /faction reset is fired.
-        }
+        } catch(Exception ignored){} // Player had already left server -> State only occurs when /faction reset is fired.
     }
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
