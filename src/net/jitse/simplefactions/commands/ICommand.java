@@ -7,5 +7,5 @@ import org.bukkit.command.CommandSender;
  */
 public interface ICommand {
 
-    void onExecute(CommandSender sender, String[] args);
+    void perform(CommandSender sender, String[] args);
 }

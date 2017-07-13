@@ -31,7 +31,7 @@ public class InviteCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void perform(CommandSender sender, String[] args) {
         if(!(sender instanceof org.bukkit.entity.Player)){
             sender.sendMessage(Chat.format(Settings.PLAYER_ONLY_COMMAND));
             return;

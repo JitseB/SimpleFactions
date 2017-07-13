@@ -29,7 +29,7 @@ public class FactionsLoader {
     public void load(Runnable finished){
         Set<Faction> factions = new HashSet<>();
         // Fetch faction profiles.
-        this.plugin.getMySql().select("SELECT * FROM Factions;", factionSet -> {
+        this.plugin.getMySql().selectSync("SELECT * FROM Factions;", factionSet -> {
             try{
                 while (factionSet.next()){
                     factions.add(new Faction(factionSet.getString("name"), UUID.fromString(factionSet.getString("creator")),

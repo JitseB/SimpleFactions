@@ -72,6 +72,14 @@ public class Faction {
             SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionTrusted VALUES(?,?,?);", this.name, partner.getData().toString(), ChunkSerializer.toString(chunk));
     }
 
+    public void removePartner(Partner partner, boolean updateSql){
+        for(Map.Entry<Chunk, List<Partner>> entry : this.partnerMap.entrySet()){
+            if(entry.getValue().contains(partner)) this.partnerMap.remove(entry.getKey());
+        }
+        if(updateSql)
+            SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionTrusted WHERE partner=?;", partner.getData().toString());
+    }
+
     public Timestamp getFounded(){
         return this.founded;
     }

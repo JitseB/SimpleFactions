@@ -25,13 +25,15 @@ public enum Commands {
     JOIN(new JoinFactionCommand(Role.MEMBER), false),
     FACTION_TOP(new FactionTopCommand(Role.MEMBER), false),
     ACCESS(new AccessCommand(Role.MOD), true),
+    FACTION_MAP(new FactionMapCommand(Role.MEMBER), false),
     KICK_MEMBER(new KickMemberCommand(Role.MOD), true),
     ENEMY(new EnemyCommand(Role.OWNER), true),
+    REVOKE(new RevokeCommand(Role.MOD), true),
     SIDEBAR_TOGGLE(new SidebarToggleCommand(Role.MEMBER), false),
     NEUTRAL(new NeutralCommand(Role.OWNER), true),
     ALLY(new AllyCommand(Role.OWNER), true),
     SHOW(new ShowCommand(Role.MEMBER), false),
-    FLY(new FlyCommand(Role.MEMBER), true), // todo
+    FLY(new FlyCommand(Role.MEMBER), true),
     RE_HOME(new ReHomeCommand(Role.MOD), true),
     OPEN(new OpenCommand(Role.MOD), true),
     ROLE(new RoleCommand(Role.OWNER), true),
@@ -52,7 +54,7 @@ public enum Commands {
     }
 
     public void execute(CommandSender sender, String[] args){
-        if(!(sender instanceof Player)) this.subCommand.onExecute(sender, args);
+        if(!(sender instanceof Player)) this.subCommand.perform(sender, args);
         else{
             Player player = (Player) sender;
             if(!player.hasPermission(this.subCommand.getPermission())){
@@ -67,7 +69,7 @@ public enum Commands {
             if((member == null || member.getRole().ordinal() < this.subCommand.getRole().ordinal()) && factionNeeded){
                 player.sendMessage(Chat.format(Settings.NO_ROLE_PERMISSION_COMMAND.replace("{role}", this.subCommand.getRole().toString().toLowerCase())));
                 return;
-            } else this.subCommand.onExecute(sender, args);
+            } else this.subCommand.perform(sender, args);
         }
     }
 }

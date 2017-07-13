@@ -25,14 +25,14 @@ public class SidebarToggleCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void perform(CommandSender sender, String[] args) {
         if(!(sender instanceof Player)){
             sender.sendMessage(Chat.format(Settings.PLAYER_ONLY_COMMAND));
             return;
         }
         Player player = (Player) sender;
         if(cooldown.contains(player.getUniqueId())){
-            player.sendMessage(Chat.format(Settings.COOLDOWN));
+            player.sendMessage(Chat.format(Settings.COOLDOWN_MESSAGE));
             return;
         }
         net.jitse.simplefactions.factions.Player fplayer = SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player);

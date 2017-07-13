@@ -19,7 +19,7 @@ public class FactionTopCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void perform(CommandSender sender, String[] args) {
         Chat.centeredMessage(sender, Chat.format("&8-----     &5&lServer&r&5 Top Factions:     &8-----"));
         HashMap<String, Double> map  = new HashMap<>();
         for(Faction faction : SimpleFactions.getInstance().getFactionsManager().getFactions()){

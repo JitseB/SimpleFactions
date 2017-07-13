@@ -21,7 +21,7 @@ public class ShowCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void perform(CommandSender sender, String[] args) {
         if(args.length == 1){
             if(!(sender instanceof Player)){
                 sender.sendMessage(Chat.format(Settings.PLAYER_ONLY_COMMAND));

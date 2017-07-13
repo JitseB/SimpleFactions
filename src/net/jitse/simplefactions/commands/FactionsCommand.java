@@ -27,6 +27,7 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("top")) Commands.FACTION_TOP.execute(sender, args);
             else if(args[0].equalsIgnoreCase("sidebar")) Commands.SIDEBAR_TOGGLE.execute(sender, args);
             else if(args[0].equalsIgnoreCase("fly")) Commands.FLY.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("map")) Commands.FACTION_MAP.execute(sender, args);
             else if(args[0].equalsIgnoreCase("open")) Commands.OPEN.execute(sender, args);
             else if(args[0].equalsIgnoreCase("access")) Commands.ACCESS.execute(sender, args);
             else if(args[0].equalsIgnoreCase("invite")) Commands.INVITE.execute(sender, args);
@@ -36,6 +37,7 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("sethome")) Commands.SET_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("delhome")) Commands.DELETE_HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("rehome")) Commands.RE_HOME.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("revoke")) Commands.REVOKE.execute(sender, args);
             else if(args[0].equalsIgnoreCase("home")) Commands.HOME.execute(sender, args);
             else if(args[0].equalsIgnoreCase("reset")) Commands.RESET_SYSTEM.execute(sender, args);
             else if(args[0].equalsIgnoreCase("join")) Commands.JOIN.execute(sender, args);
@@ -60,6 +62,7 @@ public class FactionsCommand implements CommandExecutor {
             sender.sendMessage(getInfo("/faction role <player> <role>", "Set a member's faction role."));
             sender.sendMessage(getInfo("/faction enemy <faction>", "Become enemies with a faction."));
             sender.sendMessage(getInfo("/faction allies <faction>", "Become allies with a faction."));
+            sender.sendMessage(getInfo("/faction sidebar", "Toggle your sidebar scoreboard (on/off)."));
             return;
         }
         else if(args.length == 2 && args[0].equalsIgnoreCase("help") && args[1].equalsIgnoreCase("3")){
@@ -69,9 +72,9 @@ public class FactionsCommand implements CommandExecutor {
             sender.sendMessage(getInfo("/faction show [faction]", "Show a (or your) faction's info."));
             sender.sendMessage(getInfo("/faction power", "Show how much power you have."));
             sender.sendMessage(getInfo("/faction fly", "Toggle fly-mode on your faction's land."));
-            sender.sendMessage(getInfo("/faction top", "List the top 10 best factions of the server."));
+            sender.sendMessage(getInfo("/faction map", "See all faction claims nearby."));
             sender.sendMessage(getInfo("/faction access <player | faction> <name>", "Allow players to build on this specific piece of land."));
-            sender.sendMessage(getInfo("/faction sidebar", "Toggle your sidebar scoreboard (on/off)."));
+            sender.sendMessage(getInfo("/faction revoke <player | faction> <name>", "Revoke access to the land given with the &e/faction access command&f."));
             return;
         }
         Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (1/3):     &8-----"));
@@ -83,6 +86,7 @@ public class FactionsCommand implements CommandExecutor {
         sender.sendMessage(getInfo("/faction claim [line, max: " + Settings.MAX_LINE_CLAIM + "]", "Claim land for your faction."));
         sender.sendMessage(getInfo("/faction autoclaim", "Toggle autoclaim-mode."));
         sender.sendMessage(getInfo("/faction invite <player>", "Invite a player to your faction."));
+        sender.sendMessage(getInfo("/faction top", "List the top 10 best factions of the server."));
     }
 
     private String getInfo(String syntax, String description){
