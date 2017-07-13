@@ -26,7 +26,7 @@ public class PowerManager {
                     member.setPower(oldPower + 1);
                 }
             }
-        }, 0, 20);
+        }, 0, 3 * 60 * 20);
     }
 
 }

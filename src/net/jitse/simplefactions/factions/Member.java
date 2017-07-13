@@ -18,7 +18,6 @@ public class Member extends Player {
 
     public Member(UUID uuid, Timestamp joinedFaction, Role role, int kills, int deaths, boolean sidebar, int power, Timestamp lastseen){
         super(uuid, kills, deaths, power, lastseen, sidebar);
-
         this.uuid = uuid;
         this.joinedFaction = joinedFaction;
         this.role = role;
@@ -27,10 +26,10 @@ public class Member extends Player {
 
     public Member(UUID uuid, Timestamp joinedFaction, Role role, Player fplayer){
         super(fplayer.getUUID(), fplayer.getKills(), fplayer.getDeaths(), fplayer.getPower(), fplayer.getLastseen(), fplayer.wantsSidebar());
-
         this.uuid = uuid;
         this.joinedFaction = joinedFaction;
         this.role = role;
+        this.power = fplayer.getPower();
     }
 
     @Override
