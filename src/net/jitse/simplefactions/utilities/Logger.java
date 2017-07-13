@@ -10,13 +10,13 @@ public class Logger {
     public static void log(LogLevel logType, String message) {
         switch (logType) {
             case ERROR:
-                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimple-Factions &7: &cError &7: &f" + message));
+                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimpleFactions &7: &cError &7: &f" + message));
                 break;
             case WARNING:
-                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimple-Factions &7: &eWarning &7: &f" + message));
+                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimpleFactions &7: &eWarning &7: &f" + message));
                 break;
             case INFO:
-                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimple-Factions &7: &aInfo &7: &f" + message));
+                Bukkit.getConsoleSender().sendMessage(Chat.format("&fSimpleFactions &7: &aInfo &7: &f" + message));
                 break;
         }
     }

@@ -48,9 +48,9 @@ public class FactionMapCommand extends SubCommand {
             for (int j = -15; j <= 15; j++) {
                 if(i == 0 && j == 0){
                     TextComponent component = new TextComponent("+");
-                    component.setColor(net.md_5.bungee.api.ChatColor.LIGHT_PURPLE);
+                    component.setColor(net.md_5.bungee.api.ChatColor.DARK_PURPLE);
                     TextComponent you = new TextComponent("Your location");
-                    you.setColor(net.md_5.bungee.api.ChatColor.LIGHT_PURPLE);
+                    you.setColor(net.md_5.bungee.api.ChatColor.DARK_PURPLE);
                     component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { you }));
                     line.addExtra(component);
                     continue;
@@ -89,7 +89,7 @@ public class FactionMapCommand extends SubCommand {
                 }
                 else {
                     TextComponent nothing = new TextComponent("+");
-                    nothing.setColor(net.md_5.bungee.api.ChatColor.WHITE);
+                    nothing.setColor(net.md_5.bungee.api.ChatColor.GRAY);
                     line.addExtra(nothing);
                 }
             }
