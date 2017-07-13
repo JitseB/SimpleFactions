@@ -31,7 +31,7 @@ public class ClaimCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
-        if(faction.getTotalPower() < faction.getClaimedChunks().size()){
+        if(faction.getClaimedChunks().size() >= faction.getTotalPower()){
             player.sendMessage(Chat.format(Settings.NOT_ENOUGH_POWER));
             return;
         }
