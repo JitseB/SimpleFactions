@@ -25,6 +25,9 @@ public class Settings {
     public static final String FACTION_TAG = "[{faction}]"; // brackets can only be removed or replaced with a single character!
     public static final int RELATION_EXPIRE_MINUTES = 5;
 
+    public static final String LAND_CLAIMED = "&cThis piece of land has been claimed by &f&o{faction}&r&f.";
+    public static final String ADDED_PARTNER = "&fSuccessfully added the specified partner to this piece of land.";
+    public static final String CAN_ALREADY_BUILD = "&cThe specified partner can already build on this piece of land.";
     public static final String COOLDOWN = "&cYou must wait before you can use this action again.";
     public static final String TOGGLED_SIDEBAR = "&fYou toggled your sidebar scoreboard. Please wait 5 seconds and use &e&o/faction sidebar&r &fto revert this action.";
     public static final String INCOMING_NEUTRAL_REQUEST_CLICK = "Click here to confirm this neutral relation.";

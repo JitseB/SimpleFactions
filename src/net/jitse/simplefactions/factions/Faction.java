@@ -6,6 +6,8 @@ import net.jitse.simplefactions.utilities.ChunkSerializer;
 import net.jitse.simplefactions.utilities.LocationSerializer;
 import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.RelationState;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.VaultEco;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.scoreboard.Scoreboard;
@@ -25,6 +27,7 @@ public class Faction {
     private Set<Member> members;
     private Set<Chunk> chunks;
     private Set<Faction> allies, enemies;
+    private Map<Chunk, List<Partner>> partnerMap = new HashMap<>();
     private Set<Home> homes;
     private boolean open;
 
@@ -38,6 +41,35 @@ public class Faction {
         this.homes = homes;
         this.open = open;
         this.founded = founded;
+        this.partnerMap = new HashMap<>();
+    }
+
+    public double getBalance(){
+        double total = 0;
+        for(Member member : this.members){
+            total += SimpleFactions.getInstance().getEconomy().getBalance(member.getBukkitOfflinePlayer());
+        }
+        return total;
+    }
+
+    public Map<Chunk, List<Partner>> getPartners(){
+        return this.partnerMap;
+    }
+
+    public List<Partner> getPartners(Chunk chunk){
+        return this.partnerMap.get(chunk);
+    }
+
+    public void addPartner(Chunk chunk, Partner partner, boolean updateSql){
+        List<Partner> temp;
+        if(this.partnerMap.containsKey(chunk)){
+            temp = this.partnerMap.get(chunk);
+            this.partnerMap.remove(chunk);
+        } else temp = new ArrayList<>();
+        temp.add(partner);
+        this.partnerMap.put(chunk, temp);
+        if(updateSql)
+            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionTrusted VALUES(?,?,?);", this.name, partner.getData().toString(), ChunkSerializer.toString(chunk));
     }
 
     public Timestamp getFounded(){

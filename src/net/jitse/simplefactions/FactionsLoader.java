@@ -111,6 +111,7 @@ public class FactionsLoader {
                             exception.printStackTrace();
                         }
 
+                        for(Faction faction : factions) plugin.getTrustedManager().load(faction);
                         this.plugin.getFactionsManager().init(factions);
 
                         // And finally, execute the runnable.

@@ -35,4 +35,14 @@ public class ChunkSerializer {
         }
         return chunks;
     }
+
+
+    public static String toString(Chunk chunk){
+        return chunk.getWorld().getName() + ":" + String.valueOf(chunk.getX()) + ":" + String.valueOf(chunk.getZ());
+    }
+
+    public static Chunk fromString(String input){
+        String[] chunkInfo = input.split(":");
+        return Bukkit.getWorld(chunkInfo[0]).getChunkAt(Integer.valueOf(chunkInfo[1]), Integer.valueOf(chunkInfo[2]));
+    }
 }

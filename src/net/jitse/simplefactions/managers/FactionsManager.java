@@ -42,6 +42,10 @@ public class FactionsManager {
         return result;
     }
 
+    public Set<Faction> getFactions(){
+        return this.factions;
+    }
+
     public void disbandFaction(Faction faction){
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM Factions WHERE creator=?;", faction.getCreator().toString());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE faction=?;", faction.getName());

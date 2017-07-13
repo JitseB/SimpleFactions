@@ -8,10 +8,13 @@ import net.jitse.simplefactions.listeners.WorldListener;
 import net.jitse.simplefactions.managers.FactionsTagManager;
 import net.jitse.simplefactions.managers.FactionsManager;
 import net.jitse.simplefactions.managers.SidebarManager;
+import net.jitse.simplefactions.managers.TrustedManager;
 import net.jitse.simplefactions.mysql.MySql;
 import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.ServerData;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -23,19 +26,14 @@ import java.util.Set;
  */
 public class SimpleFactions extends JavaPlugin {
 
-    /*
-     * Todo lists:
-     * - Add PlayerListeners for handling all permissions
-     * - Add chat channels (Public/Allies/Faction)
-     * - Add the power system handling
-     * */
-
     private static SimpleFactions plugin;
 
     private final FactionsManager factionsManager = new FactionsManager(this);
     private final FactionsTagManager factionsTagManager = new FactionsTagManager();
     private final SidebarManager sidebarManager = new SidebarManager();
+    private final TrustedManager trustedManager = new TrustedManager(this);
 
+    private Economy economy = null;
     private MySql mysql;
     private ServerData serverDataManager;
 
@@ -46,7 +44,13 @@ public class SimpleFactions extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        serverDataManager = new ServerData(this);
+        this.serverDataManager = new ServerData(this);
+
+        if(!setupEconomy()){
+            Logger.log(Logger.LogLevel.ERROR, "Disabled due to no Vault dependency found.");
+            //getServer().getPluginManager().disablePlugin(this);
+            //return;
+        }
 
         this.mysql = new MySql("localhost", 3306, "root", "password", "projects");
 
@@ -57,7 +61,7 @@ public class SimpleFactions extends JavaPlugin {
         this.mysql.createTable("FactionMembers", "faction VARCHAR(16), uuid VARCHAR(36), role VARCHAR(6), joinedfaction TIMESTAMP");
         this.mysql.createTable("FactionPlayers", "uuid VARCHAR(36), lastseen TIMESTAMP, power INT, kills INT, deaths INT, sidebar TINYINT(1)");
         this.mysql.createTable("FactionRelations", "`faction-one` VARCHAR(16), `faction-two` VARCHAR(16), relation VARCHAR(7)");
-        this.mysql.createTable("FactionTrusted", "faction VARCHAR(16), uuid VARCHAR(36), chunk TEXT");
+        this.mysql.createTable("FactionTrusted", "faction VARCHAR(16), partner VARCHAR(36), chunk TEXT");
 
         PlayerListener playerListener = new PlayerListener(this);
         Bukkit.getPluginManager().registerEvents(playerListener, this);
@@ -75,7 +79,15 @@ public class SimpleFactions extends JavaPlugin {
     @Override
     public void onDisable() {
         Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Database connection might flip out when reloading too often. Restart the server instead.");
-        this.mysql.close();
+        if(this.mysql != null) this.mysql.close();
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) return false;
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) return false;
+        economy = rsp.getProvider();
+        return economy != null;
     }
 
     public static SimpleFactions getInstance(){
@@ -108,6 +120,14 @@ public class SimpleFactions extends JavaPlugin {
 
     public SidebarManager getSidebarManager(){
         return this.sidebarManager;
+    }
+
+    public TrustedManager getTrustedManager(){
+        return this.trustedManager;
+    }
+
+    public Economy getEconomy(){
+        return this.economy;
     }
 
     public ServerData getServerDataManager(){

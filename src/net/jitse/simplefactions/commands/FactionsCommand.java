@@ -70,7 +70,7 @@ public class FactionsCommand implements CommandExecutor {
             sender.sendMessage(getInfo("/faction power", "Show how much power you have."));
             sender.sendMessage(getInfo("/faction fly", "Toggle fly-mode on your faction's land."));
             sender.sendMessage(getInfo("/faction top", "List the top 10 best factions of the server."));
-            sender.sendMessage(getInfo("/faction access <player | faction>", "Allow players to build on this specific piece of land."));
+            sender.sendMessage(getInfo("/faction access <player | faction> <name>", "Allow players to build on this specific piece of land."));
             sender.sendMessage(getInfo("/faction sidebar", "Toggle your sidebar scoreboard (on/off)."));
             return;
         }
