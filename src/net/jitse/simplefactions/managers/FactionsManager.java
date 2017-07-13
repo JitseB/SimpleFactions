@@ -9,6 +9,7 @@ import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -50,6 +51,7 @@ public class FactionsManager {
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM Factions WHERE creator=?;", faction.getCreator().toString());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionMembers WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=?;", faction.getName());
+        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionTrusted WHERE faction=?;", faction.getName());
         SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionRelations WHERE `faction-one`=? OR `faction-two`=?;", faction.getName(), faction.getName());
         faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(member -> {
             Scoreboard scoreboard = member.getBukkitPlayer().getScoreboard();
@@ -65,6 +67,7 @@ public class FactionsManager {
                         scoreboard.getTeam(onlineAllyMember.getBukkitPlayer().getName()).setPrefix(Settings.NEUTRAL_FACTION_COLOR + allyFaction.getTag());
                 });
             });
+            SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(member.getBukkitPlayer()).setPower(member.getPower());
             SimpleFactions.getInstance().getFactionsTagManager().removeTag(member);
         });
         this.factions.remove(faction);
@@ -99,6 +102,10 @@ public class FactionsManager {
     }
 
     public net.jitse.simplefactions.factions.Player getFactionsPlayer(Player player){
+        return this.plugin.getPlayers().stream().filter(fplayer -> fplayer.getUUID().equals(player.getUniqueId())).findFirst().get();
+    }
+
+    public net.jitse.simplefactions.factions.Player getFactionsOfflinePlayer(OfflinePlayer player){
         return this.plugin.getPlayers().stream().filter(fplayer -> fplayer.getUUID().equals(player.getUniqueId())).findFirst().get();
     }
 

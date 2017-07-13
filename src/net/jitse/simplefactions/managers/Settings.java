@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 public class Settings {
 
     public static final String COMMAND_PREFIX = "&7[&cDecimate&fPVP&7]&f ";
-    public static final String SERVER_NAME = "&c&lD&6&lE&e&lC&a&lI&b&lM&9&lA&5&lT&c&lE &f&lPVP&r";
+    public static final String SERVER_NAME = "&c&lDECIMATE &f&lPVP&r";
     public static final String SCOREBOARD_NAME = "&cDecimate&fPVP"; // Max 32 chars.
     public static final int PLAYER_MAX_POWER = 100;
     public static final int MAX_LINE_CLAIM = 5;
@@ -24,7 +24,10 @@ public class Settings {
     public static final String DATE_NOTATION = "MM/dd/yy";
     public static final String FACTION_TAG = "[{faction}]"; // brackets can only be removed or replaced with a single character!
     public static final int RELATION_EXPIRE_MINUTES = 5;
+    public static final int POWER_LOST_ON_DEATH = 20;
 
+    public static final String CHUNK_NOT_CLAIMED = "&cThis piece of land isn't claimed by your faction.";
+    public static final String NOT_ENOUGH_POWER = "&cYour faction doesn't have enough power for that action!";
     public static final String REVOKED_ACCESS_TO_PARTNER = "&fRevoked access to build from &7&o{partner}&r&f.";
     public static final String NOT_VALID_PARTNER = "&cThat is not a valid partner of your faction.";
     public static final String LAND_CLAIMED = "&cThis piece of land has been claimed by &f&o{faction}&r&f.";

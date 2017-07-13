@@ -63,6 +63,11 @@ public class Player {
         return this.deaths;
     }
 
+    public void setPower(int power){
+        this.power = power;
+        SimpleFactions.getInstance().getMySql().execute("UPDATE FactionPlayers SET power=? WHERE uuid=?;", this.power, this.uuid.toString());
+    }
+
     public int getPower(){
         return this.power;
     }

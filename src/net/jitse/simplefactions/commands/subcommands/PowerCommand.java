@@ -2,6 +2,7 @@ package net.jitse.simplefactions.commands.subcommands;
 
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
+import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
@@ -24,8 +25,10 @@ public class PowerCommand extends SubCommand {
             return;
         }
         Player player = (Player) sender;
+        net.jitse.simplefactions.factions.Player fplayer = SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player);
+        Member member = SimpleFactions.getInstance().getFactionsManager().getMember(player);
         player.sendMessage(Chat.format(Settings.POWER_MESSAGE
-                .replace("{power}", String.valueOf(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player).getPower()))
+                .replace("{power}", String.valueOf((member == null ? fplayer.getPower() : member.getPower())))
                 .replace("{maxpower}", String.valueOf(Settings.PLAYER_MAX_POWER))
         ));
     }

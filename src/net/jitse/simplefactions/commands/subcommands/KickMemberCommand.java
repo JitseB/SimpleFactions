@@ -49,6 +49,7 @@ public class KickMemberCommand extends SubCommand {
             SimpleFactions.getInstance().getFactionsTagManager().resetTags(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(memberOptional.get().getBukkitPlayer()));
             SimpleFactions.getInstance().getFactionsTagManager().initTags(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(memberOptional.get().getBukkitPlayer()));
         }
+        SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(memberOptional.get().getBukkitPlayer()).setPower(memberOptional.get().getPower());
         faction.getMembers().remove(memberOptional.get());
     }
 }

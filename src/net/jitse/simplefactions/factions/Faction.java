@@ -4,10 +4,7 @@ import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.ChunkSerializer;
 import net.jitse.simplefactions.utilities.LocationSerializer;
-import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.RelationState;
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.VaultEco;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.scoreboard.Scoreboard;
@@ -69,7 +66,7 @@ public class Faction {
         temp.add(partner);
         this.partnerMap.put(chunk, temp);
         if(updateSql)
-            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionTrusted VALUES(?,?,?);", this.name, partner.getData().toString(), ChunkSerializer.toString(chunk));
+            SimpleFactions.getInstance().getMySql().execute("INSERT INTO FactionTrusted VALUES(?,?,?);", this.name, partner.getInfo(), ChunkSerializer.toString(chunk));
     }
 
     public void removePartner(Partner partner, boolean updateSql){
@@ -77,19 +74,18 @@ public class Faction {
             if(entry.getValue().contains(partner)) this.partnerMap.remove(entry.getKey());
         }
         if(updateSql)
-            SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionTrusted WHERE partner=?;", partner.getData().toString());
+            SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionTrusted WHERE partner=?;", partner.getInfo());
     }
 
     public Timestamp getFounded(){
         return this.founded;
     }
 
-    public int getPower() {
-        int power = 0;
-        for(Member member : this.members){
-            power += member.getPower();
-        }
-        return power;
+    public int getTotalPower() {
+        int total = 0;
+        for(Member member : this.members)
+            total += member.getPower();
+        return total;
     }
 
     public long getOnlineMembers(){

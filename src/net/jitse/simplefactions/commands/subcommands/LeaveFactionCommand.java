@@ -43,6 +43,7 @@ public class LeaveFactionCommand extends SubCommand {
             player.spigot().sendMessage(message);
         } else{
             faction.removeMember(member);
+            SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(player).setPower(member.getPower());
             player.sendMessage(Chat.format(Settings.LEFT_FACTION_MESSAGE));
             faction.getMembers().stream()
                     .filter(fmember -> fmember.getBukkitOfflinePlayer().isOnline())

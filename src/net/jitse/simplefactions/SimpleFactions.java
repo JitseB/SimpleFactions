@@ -5,10 +5,7 @@ import net.jitse.simplefactions.commands.FactionsCommand;
 import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.listeners.WorldListener;
-import net.jitse.simplefactions.managers.FactionsTagManager;
-import net.jitse.simplefactions.managers.FactionsManager;
-import net.jitse.simplefactions.managers.SidebarManager;
-import net.jitse.simplefactions.managers.TrustedManager;
+import net.jitse.simplefactions.managers.*;
 import net.jitse.simplefactions.mysql.MySql;
 import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.ServerData;
@@ -71,6 +68,7 @@ public class SimpleFactions extends JavaPlugin {
         new FactionsLoader(this).load(() -> {
             Bukkit.getScheduler().runTask(this, () -> Bukkit.getOnlinePlayers().forEach(playerListener::handlePlayerJoin));
             this.sidebarManager.startRunnables(this);
+            new PowerManager().startRunnables(this);
             Logger.log(Logger.LogLevel.INFO, "Plugin loaded, ready for duty!");
             this.joinable = true;
         });

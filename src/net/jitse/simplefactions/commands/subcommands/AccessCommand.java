@@ -38,6 +38,10 @@ public class AccessCommand extends SubCommand {
             return;
         }
         Chunk chunk = player.getLocation().getChunk();
+        if(!faction.getClaimedChunks().contains(chunk)){
+            player.sendMessage(Chat.format(Settings.CHUNK_NOT_CLAIMED));
+            return;
+        }
         if(args[1].equalsIgnoreCase("player")){
             Player target = Bukkit.getPlayer(args[2]);
             if(target == null || !target.isOnline()){

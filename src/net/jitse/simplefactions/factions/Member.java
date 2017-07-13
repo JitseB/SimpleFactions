@@ -14,6 +14,7 @@ public class Member extends Player {
     private final Timestamp joinedFaction;
 
     private Role role;
+    private int power;
 
     public Member(UUID uuid, Timestamp joinedFaction, Role role, int kills, int deaths, boolean sidebar, int power, Timestamp lastseen){
         super(uuid, kills, deaths, power, lastseen, sidebar);
@@ -21,6 +22,7 @@ public class Member extends Player {
         this.uuid = uuid;
         this.joinedFaction = joinedFaction;
         this.role = role;
+        this.power = power;
     }
 
     public Member(UUID uuid, Timestamp joinedFaction, Role role, Player fplayer){
@@ -29,6 +31,17 @@ public class Member extends Player {
         this.uuid = uuid;
         this.joinedFaction = joinedFaction;
         this.role = role;
+    }
+
+    @Override
+    public int getPower(){
+        return this.power;
+    }
+
+    @Override
+    public void setPower(int power){
+        this.power = power;
+        SimpleFactions.getInstance().getMySql().execute("UPDATE FactionPlayers SET power=? WHERE uuid=?;", this.power, this.uuid.toString());
     }
 
     public Faction getFaction(){

@@ -37,6 +37,10 @@ public class RevokeCommand extends SubCommand {
             return;
         }
         Chunk chunk = player.getLocation().getChunk();
+        if(faction.getPartners(chunk) == null){
+            player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
+            return;
+        }
         if(args[1].equalsIgnoreCase("player")){
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[2]);
             if(target == null){

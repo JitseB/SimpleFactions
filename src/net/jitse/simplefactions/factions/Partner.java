@@ -20,4 +20,8 @@ public class Partner {
     public Object getData(){
         return uuid == null ? faction : uuid;
     }
+
+    public String getInfo(){
+        return uuid == null ? faction.getName() : uuid.toString();
+    }
 }

@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 
 import java.sql.SQLException;
@@ -39,6 +40,26 @@ public class PlayerListener implements Listener {
         Location to = event.getTo();
         if(from.getChunk().getX() != to.getChunk().getX() || from.getChunk().getZ() != to.getChunk().getZ())
             Bukkit.getPluginManager().callEvent(new PlayerChangeChunkEvent(player, from.getChunk(), to.getChunk()));
+    }
+
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPlayerDeath(PlayerDeathEvent event){
+        net.jitse.simplefactions.factions.Player fplayer = this.plugin.getFactionsManager().getFactionsPlayer(event.getEntity());
+        net.jitse.simplefactions.factions.Player member = this.plugin.getFactionsManager().getMember(event.getEntity());
+        if(fplayer == null) return;
+        if(member == null){
+            if(fplayer.getPower() <= Settings.POWER_LOST_ON_DEATH) fplayer.setPower(0);
+            else {
+                int oldPower = fplayer.getPower();
+                fplayer.setPower(oldPower - Settings.POWER_LOST_ON_DEATH);
+            }
+        } else{
+            if(member.getPower() <= Settings.POWER_LOST_ON_DEATH) member.setPower(0);
+            else {
+                int oldPower = member.getPower();
+                member.setPower(oldPower - Settings.POWER_LOST_ON_DEATH);
+            }
+        }
     }
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)

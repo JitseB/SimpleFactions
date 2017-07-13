@@ -4,7 +4,6 @@ import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.utilities.Chat;
-import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -74,7 +73,7 @@ public class SidebarManager {
                 Team powerTeam = scoreboard.getTeam("#sf-power");
                 OfflinePlayer powerPlayer = Bukkit.getOfflinePlayer(Chat.format("&r&r&f/&c"));
                 powerTeam.addEntry(powerPlayer.getName());
-                powerTeam.setPrefix(Chat.format("&c" + member.getFaction().getClaimedChunks().size() + "&f/&c" + member.getFaction().getPower()));
+                powerTeam.setPrefix(Chat.format("&c" + member.getFaction().getClaimedChunks().size() + "&f/&c" + member.getFaction().getTotalPower()));
                 powerTeam.setSuffix(String.valueOf(member.getFaction().getMaxPower()));
                 sidebar.getScore(powerPlayer).setScore(5);
 
@@ -181,7 +180,7 @@ public class SidebarManager {
                         scoreboard.getTeam("#sf-player").unregister();
                     } else{
                         scoreboard.getTeam("#sf-faction").setSuffix(member.getFaction().getName());
-                        scoreboard.getTeam("#sf-power").setPrefix(Chat.format("&c" + member.getFaction().getClaimedChunks().size() + "&f/&c" + member.getFaction().getPower()));
+                        scoreboard.getTeam("#sf-power").setPrefix(Chat.format("&c" + member.getFaction().getClaimedChunks().size() + "&f/&c" + member.getFaction().getTotalPower()));
                         scoreboard.getTeam("#sf-power").setSuffix(String.valueOf(member.getFaction().getMaxPower()));
                         scoreboard.getTeam("#sf-online").setPrefix(Chat.format("&c" + member.getFaction().getOnlineMembers()));
                         scoreboard.getTeam("#sf-online").setSuffix(Chat.format(String.valueOf(member.getFaction().getMembers().size())));

@@ -46,7 +46,7 @@ public class ShowCommand extends SubCommand {
     private void sendInfo(CommandSender sender, Faction faction){
         Chat.centeredMessage(sender, Chat.format("&8-----     &5&l" + faction.getName() + "&r&5 Faction Info:     &8-----"));
         sender.sendMessage(Chat.format("&fJoining: &7" + (faction.isOpen() ? "&aNo invitation required" : "&cInvitation required") + "."));
-        sender.sendMessage(Chat.format("&fLand / Power / Maxpower: &7" + faction.getClaimedChunks().size() + "/" + faction.getPower() + "/" + faction.getMaxPower()));
+        sender.sendMessage(Chat.format("&fLand / Power / Maxpower: &7" + faction.getClaimedChunks().size() + "/" + faction.getTotalPower() + "/" + faction.getMaxPower()));
         sender.sendMessage(Chat.format("&fFounded: &7" + new Date(faction.getFounded().getTime()).toString()));
         sender.sendMessage(Chat.format("&fBalance: &7" + faction.getBalance()));
         StringBuilder alliesBuilder = new StringBuilder();

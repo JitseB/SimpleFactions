@@ -32,6 +32,7 @@ public class FactionMapCommand extends SubCommand {
             return;
         }
         Player player = (Player) sender;
+        Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
 
         Chat.centeredMessage(sender, Chat.format("&8-----     &5&lMap&r&5 (Hover to view faction names):     &8-----"));
 
@@ -58,20 +59,26 @@ public class FactionMapCommand extends SubCommand {
                 Chunk current = player.getLocation().getChunk();
                 Chunk check = player.getWorld().getChunkAt(current.getX() + i, current.getZ() + j);
                 Faction fcheck = SimpleFactions.getInstance().getFactionsManager().getFaction(check);
+                net.md_5.bungee.api.ChatColor color = Settings.NEUTRAL_FACTION_COLOR.asBungee();
+                if(faction != null){
+                    if(faction == fcheck) color = Settings.OWN_FACTION_COLOR.asBungee();
+                    else if(faction.getEnemies().contains(fcheck)) color = Settings.ENEMY_FACTION_COLOR.asBungee();
+                    else if(faction.getAllies().contains(fcheck)) color = Settings.ALLY_FACTION_COLOR.asBungee();
+                }
                 if(fcheck != null){
                     if(symbols.containsKey(fcheck)){
                         TextComponent component = new TextComponent(symbols.get(fcheck));
-                        component.setColor(net.md_5.bungee.api.ChatColor.RED);
+                        component.setColor(color);
                         TextComponent fname = new TextComponent(fcheck.getName());
-                        fname.setColor(net.md_5.bungee.api.ChatColor.RED);
+                        fname.setColor(color);
                         component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { fname }));
                         line.addExtra(component);
                     } else{
                         if(availableSymbols.peek() == null) {
                             TextComponent component = new TextComponent("+");
-                            component.setColor(net.md_5.bungee.api.ChatColor.RED);
+                            component.setColor(color);
                             TextComponent fname = new TextComponent(fcheck.getName());
-                            fname.setColor(net.md_5.bungee.api.ChatColor.RED);
+                            fname.setColor(color);
                             component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { fname }));
                             line.addExtra(component);
                         }
@@ -79,9 +86,9 @@ public class FactionMapCommand extends SubCommand {
                             String symbol = availableSymbols.poll();
                             symbols.put(fcheck, symbol);
                             TextComponent component = new TextComponent(symbol);
-                            component.setColor(net.md_5.bungee.api.ChatColor.RED);
+                            component.setColor(color);
                             TextComponent fname = new TextComponent(fcheck.getName());
-                            fname.setColor(net.md_5.bungee.api.ChatColor.RED);
+                            fname.setColor(color);
                             component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { fname }));
                             line.addExtra(component);
                         }
