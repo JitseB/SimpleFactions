@@ -60,7 +60,7 @@ public class PlayerListener implements Listener {
         this.plugin.getMySql().selectSync("SELECT * FROM FactionPlayers WHERE uuid=?;", resultSet -> {
             try {
                 if (resultSet.next()){
-                    net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(UUID.fromString(resultSet.getString("uuid")), resultSet.getInt("kills"), resultSet.getInt("deaths"), resultSet.getInt("power"), resultSet.getTimestamp("lastseen"));
+                    net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(UUID.fromString(resultSet.getString("uuid")), resultSet.getInt("kills"), resultSet.getInt("deaths"), resultSet.getInt("power"), resultSet.getTimestamp("lastseen"), resultSet.getBoolean("sidebar"));
                     joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk()));
                     this.plugin.addPlayer(joinedPlayer);
 
@@ -69,10 +69,10 @@ public class PlayerListener implements Listener {
                     else this.plugin.getFactionsTagManager().initTag(member);
                 }
                 else{
-                    this.plugin.getMySql().execute("INSERT INTO FactionPlayers VALUES(?,?,?,?,?);",
-                            player.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), 100, 0, 0
+                    this.plugin.getMySql().execute("INSERT INTO FactionPlayers VALUES(?,?,?,?,?,?);",
+                            player.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), 100, 0, 0, true
                     );
-                    net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(player.getUniqueId(), 0, 0, 100, new Timestamp(System.currentTimeMillis()));
+                    net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(player.getUniqueId(), 0, 0, 100, new Timestamp(System.currentTimeMillis()), true);
                     joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk()));
                     this.plugin.addPlayer(joinedPlayer);
                     this.plugin.getFactionsTagManager().initTags(joinedPlayer);

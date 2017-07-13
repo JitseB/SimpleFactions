@@ -24,9 +24,10 @@ public enum Commands {
     CLAIM_LAND(new ClaimCommand(Role.MOD), true),
     JOIN(new JoinFactionCommand(Role.MEMBER), false),
     FACTION_TOP(new FactionTopCommand(Role.MEMBER), false), // todo
-    RESET_SYSTEM(new ResetCommand(), false),
+    ACCESS(new AccessCommand(Role.MOD), true), // todo
     KICK_MEMBER(new KickMemberCommand(Role.MOD), true),
     ENEMY(new EnemyCommand(Role.OWNER), true),
+    SIDEBAR_TOGGLE(new SidebarToggleCommand(Role.MEMBER), false),
     NEUTRAL(new NeutralCommand(Role.OWNER), true), // todo
     ALLY(new AllyCommand(Role.OWNER), true), // todo
     SHOW(new ShowCommand(Role.MEMBER), false),
@@ -35,7 +36,8 @@ public enum Commands {
     OPEN(new OpenCommand(Role.MOD), true),
     ROLE(new RoleCommand(Role.OWNER), true),
     AUTO_CLAIM(new AutoClaimCommand(Role.MOD), true),
-    POWER(new PowerCommand(Role.MEMBER), false);
+    POWER(new PowerCommand(Role.MEMBER), false),
+    RESET_SYSTEM(new ResetCommand(), false);
 
     private SubCommand subCommand;
     private boolean factionNeeded;

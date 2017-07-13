@@ -75,7 +75,7 @@ public class FactionsLoader {
                                     faction.addMember(
                                             new Member(
                                                     UUID.fromString(playerSet.getString("uuid")), joinedFaction, role,
-                                                    playerSet.getInt("kills"), playerSet.getInt("deaths"),
+                                                    playerSet.getInt("kills"), playerSet.getInt("deaths"), playerSet.getBoolean("sidebar"),
                                                     playerSet.getInt("power"), playerSet.getTimestamp("lastseen")
                                             ), false, false
                                     );
