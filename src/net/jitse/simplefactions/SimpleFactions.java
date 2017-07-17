@@ -40,6 +40,9 @@ public class SimpleFactions extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+
+        saveDefaultConfig();
+
         this.serverDataManager = new ServerData(this);
 
         if(!setupEconomy()){
@@ -48,7 +51,13 @@ public class SimpleFactions extends JavaPlugin {
             //return;
         }
 
-        this.mysql = new MySql("localhost", 3306, "root", "password", "projects");
+        this.mysql = new MySql(
+                getConfig().getString("MySQL.host"),
+                getConfig().getInt("MySQL.port"),
+                getConfig().getString("MySQL.username"),
+                getConfig().getString("MySQL.password"),
+                getConfig().getString("MySQL.database")
+        );
 
         getCommand("factions").setExecutor(new FactionsCommand());
 

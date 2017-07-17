@@ -1,0 +1,122 @@
+# Main settings:
+CommandPrefix: "&7[&cDecimate&fPVP&7]&f "
+ServerName: "&c&lDECIMATE &f&lPVP&r"
+# ScoreboardName Max 32 characters.
+ScoreboardName: "&cDecimate&fPVP"
+PlayerMaxPower: 100
+MaxLineClaim: 5
+# TpDelay is in seconds.
+TpDelay: 5
+# Used when /faction sethome without any args.
+DefaultFactionHome: "Faction"
+NeutralFactionColor: "WHITE"
+OwnFactionColor: "GREEN"
+EnemyFactionColor: "RED"
+AllyFactionColor: "LIGHT_PURPLE"
+OwnFactionColorChatAccent: "DARK_GREEN"
+AllyFactionColorChatAccent: "DARK_GREEN"
+FactionMaxMembers: 50
+# FactionInviteExpireTime is in seconds.
+FactionInviteExpireTime: 60
+# MaxProxyPlayers for BungeeCord support (Scoreboard item).
+MaxProxyPlayer: 450
+DateNotation: "MM/dd/yy"
+# FactionTag: Brackets can only be removed or replaced with a single character!
+FactionTag: "[{faction}]"
+# RelationExpireTime is in minutes.
+RelationExpireTime: 5
+PowerLostOnDeath: 20
+# PainBuildDamage: 1.0 = half a heart.
+PainBuildDamage: 3.0
+WildernessName: "&r&a&oWilderness"
+
+# MySQL database information:
+MySQL:
+  host: "localhost"
+  port: 3306
+  username: "root"
+  password: "password"
+  database: "projects"
+
+# (Almost) all messages used in the plugin.
+Messages:
+  ChangedSetting: "&fYou've changed &7&o{category}: &7&o{setting}&r &fto &e&o{value}&r&f."
+  NowInChannel: "&fYou're now in chat channel &a&o{channel}&r&f."
+  AlreadyInChannel: "&cYou're already in chat channel &7&f{channel}&r&c."
+  ChunkNotClaimed: "&cThis piece of land isn't claimed by your faction."
+  NotEnoughPower: "&cYour faction doesn't have enough power for that action!"
+  RevokedAccessToPartner: "&fRevoked access to build from &7&o{partner}&r&f."
+  NotValidPartner: "&cThat is not a valid partner of your faction."
+  LandClaimed: "&cYou are not allowed to do that with &f&o{faction}&r&c's land."
+  AddedPartner: "&fSuccessfully added the specified partner to this piece of land."
+  CanAlreadyBuild: "&cThe specified partner can already build on this piece of land."
+  CooldownMessage: "&cYou must wait before you can use this action again."
+  ToggledSidebar: "&fYou toggled your sidebar scoreboard. Please wait 5 seconds and use &e&o/faction sidebar&r &fto revert this action."
+  IncomingNeutralRequestClick: "Click here to confirm this neutral relation."
+  NowNeutral: "&fYour faction and &7&o{faction}&r &fnow have a neutral relation."
+  IncomingNeutralRequest: "&aIncoming request from &f&o{ally}&r &ato become neutral. This request will expire after {minutes} minutes."
+  NeutralRequestSent: "&fA request has been send to &a&o{ally}&r&f to become neutral. Members with the role {role} have been notified and have {minutes} minutes to accept it."
+  AlreadyNeutral: "&cYour faction and &f&o{faction}&r &care already neutral."
+  AlreadySentRequestToFaction: "&cYou already sent a request to become {type} with &f&o{target}&r&c."
+  RelationRequestExpiredToReciever: "&cThe request from &f&o{from}&r &cto become {type} has expired."
+  RelationRequestExpiredToSender: "&cYour request to become {type} with &f&o{target}&r &chas expired."
+  IncomingAllyRequest: "&aIncoming request from &f&o{ally}&r &ato become allies. This request will expire after {minutes} minutes."
+  IncomingAllyRequestClick: "Click here to accept the request and become allies!"
+  AllyRequestSent: "&fAn ally request has been send to &a&o{ally}&r&f. Members with the role {role} have been notified and have {minutes}m to accept it."
+  AlreadyAllies: "&cYour faction is already allies with &f&o{ally}&r&c."
+  NowAllies: "&fYour faction is now allies with &a&o{ally}&r&f."
+  AlreadyEnemies: "&cYour faction is already enemies with &f&o{enemy}&r&c."
+  NowEnemies: "&fYour faction is now enemies with &c&o{enemy}&r&f."
+  FactionAlreadyOwnsThisLand: "&cYour faction already owns this land."
+  AutoClaimEnabled: "&aAuto-Claiming is now enabled, you can start walking around now."
+  AutoClaimDisabled: "&cAuto-Claiming is now disabled."
+  CannotJoinFullFaction: "That faction is already at its limit of {maxplayers} players, so you can't join it."
+  CreatorCannotKick: "You can't kick the creator from the faction!"
+  RemovedFromFaction: "&cYou have been removed from &f&o{faction}&r&c."
+  MemberRemoved: "&fYou removed &7&o{target}&r &ffrom &7&o{faction}&r&f."
+  PlayerAlreadyGotInvited: "&7&o{player}&r &calready got a pending invitation to a faction!"
+  InviteExpiredToSender: "&fYour invitation to &7&o{player}&r &fhas expired."
+  InviteExpiredToReciever: "&cYour invitation to &f&o{faction}&r &chas expired!"
+  IncomingInvite: "&aIncoming invitation from &7&o{from}&r &afor the faction &e&o{faction}&r&a. The invitation will automatically expire in &7&o{expiretime}&r&a seconds."
+  ConfirmInviteClick: "Click here to accept the invite!"
+  InviteSent: "&fAn invitation has been sent to &7&o{target}&r&f. The invitation will automatically expire after &7&o{expiretime}&r&f seconds."
+  CannotChangeOwnRank: "&cOops! &fYou can't change your own rank!"
+  CreatorRankCannotChange: "&cYou can't change the rank of the creator of the faction!"
+  RoleSet: "&7&o{player}&r &fupdated &7&o{target}&r&f's rank."
+  RemovedHome: "&fHome &7&o{home}&r &fhas been removed."
+  RelocatedHome: "&fHome &7&o{home}&r &fhas been relocated to your current location."
+  RelocateHomeClick: "Click here to relocate this home to your current location!"
+  UpdatedFactionOpen: "&fYour faction is now &e&o{newstate}&r&f."
+  FactionNowOpen: "&7&o{faction}&r &fno longer requires an invitation to join!"
+  LeftFactionMessage: "&fYou left the faction."
+  LeftFaction: "&7&o{player}&r &fleft {ownfactioncolor}&o{faction}&r&f."
+  LeaveEqualsDisband: "&cYou are the creator of this faction, leaving it will result in disbanding the faction."
+  LeaveEqualsDisbandClick: "Click here to continue and disband the faction."
+  PlayerJoinedFaction: "&7&o{player}&r &fjoined {ownfactioncolor}&o{faction}&r&f."
+  FactionNotOpen: "&cThat faction is currently not open nor do you have a pending invitation."
+  PowerMessage: "&fYou currently have &7&o{power}&r&7/&o{maxpower}&r&f power."
+  FactionDoesNotExist: "&cFaction &7&o{faction}&r &cdoes not exist!"
+  TeleportingToHome: "&fTeleporting to &7&o{home}&r &fin &7&o{time}&r &fseconds. Don't move."
+  MovedNoTp: "&cOops! &fYou moved location, teleportation has cancelled."
+  HomeDoesNotExist: "&fA home with the name &7&o{home}&r &fdoes not exist, but you can set it with &e&o/faction sethome [name]&r&f."
+  CreatedHome: "&fYou successfully created a new home called &7&o{home}&r&f."
+  HomeAlreadyExists: "&cA home with the name &f&o{home}&r &calready exists. You can delete it with &e&o/faction delhome <name>&r&c."
+  FactionDisbanded: "&fFaction &c&o{faction}&r &fhas been disbanded by &7&o{by}&r&f."
+  ClaimedLineOfChunks: "&aYou claimed &7&o{amount}&r&a chunks in your current facing direction (&7&o{pole}&r&a)."
+  NowInMessage: "&8Now in &c&o{land}&r&8."
+  EnteringLand: "&8Now entering &c&o{land}&r&8."
+  ChunkAlreadyClaimed: "&cThis land has already been claimed by &7&o{faction}&r&c."
+  ClaimedChunk: "&aSuccessfully claimed land! &fYou can now start building on it."
+  FactionNameAlreadyInUse: "&cFaction &f&o{name} &r&calready exists, please choose a different name for your faction."
+  FactionNameTooLong: "&cThe given faction name is too long, please choose one with a maximum of 9 characters."
+  FactionResetKickMessage: "&cResetting all factions...&r\n&cPlease check back later for our new season!"
+  FatalLoadKick: "&cSomething went wrong while loading your profile."
+  CommandUsage: "&cUsage: &f{syntax}"
+  InvalidCommandUsage: "&cInvalid command usage."
+  PlayerOnlyCommand: "&cSorry, but this command can only be used by players."
+  AlreadyInFaction: "&cYou can only use this command when you're not already in one. Use &e&o/faction leave &r&cto remove yourself."
+  NotInFaction: "&cYou can only use this command when you're in a faction."
+  StillLoadingKickMessage: "&cServer is still loading all factions..."
+  CreatedFactionBroadcast: "&7&o{player} &r&fcreated faction &c&o{faction}&r&f."
+  NoPermissionForCommand: "&fSeems like you don't have permission to execute this command, you need to have access to &7&o{permission}&f."
+  NoRolePermissionForCommand: "&fSeems like you don't have the correct role for this command, you need to be at least of the role &7&o{role}&f."

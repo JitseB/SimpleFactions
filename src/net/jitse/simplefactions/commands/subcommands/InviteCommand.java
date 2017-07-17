@@ -53,7 +53,7 @@ public class InviteCommand extends SubCommand {
             return;
         }
         pending.put(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(target), faction);
-        player.sendMessage(Chat.format(Settings.INVITE_SEND.replace("{target}", target.getName()).replace("{expiretime}", String.valueOf(Settings.INVITE_EXPIRE_TIME))));
+        player.sendMessage(Chat.format(Settings.INVITE_SENT.replace("{target}", target.getName()).replace("{expiretime}", String.valueOf(Settings.INVITE_EXPIRE_TIME))));
         target.sendMessage(Chat.format(Settings.INCOMING_INVITE.replace("{from}", player.getName()).replace("{faction}", faction.getName()).replace("{expiretime}", String.valueOf(Settings.INVITE_EXPIRE_TIME))));
         TextComponent message = new TextComponent(Settings.CONFIRM_INVITE);
         message.setBold(true);
