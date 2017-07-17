@@ -149,7 +149,7 @@ public class PlayerListener implements Listener {
 
     public void handlePlayerJoin(Player player){
         player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        this.plugin.getMySql().selectSync("SELECT * FROM FactionPlayers WHERE uuid=?;", resultSet -> {
+        this.plugin.getMySql().select("SELECT * FROM FactionPlayers WHERE uuid=?;", resultSet -> {
             try {
                 if (resultSet.next()){
                     net.jitse.simplefactions.factions.Player joinedPlayer = new net.jitse.simplefactions.factions.Player(
@@ -158,7 +158,7 @@ public class PlayerListener implements Listener {
                             resultSet.getTimestamp("lastseen"),
                             resultSet.getBoolean("sidebar")
                     );
-                    joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk()));
+                    Bukkit.getScheduler().runTask(this.plugin, () -> joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk())));
                     this.plugin.addPlayer(joinedPlayer);
 
                     Member member = this.plugin.getFactionsManager().getMember(player);
@@ -173,7 +173,7 @@ public class PlayerListener implements Listener {
                             new Timestamp(System.currentTimeMillis()),
                             true
                     );
-                    joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk()));
+                    Bukkit.getScheduler().runTask(this.plugin, () -> joinedPlayer.setLocation(this.plugin.getFactionsManager().getFaction(player.getLocation().getChunk())));
                     this.plugin.addPlayer(joinedPlayer);
                     this.plugin.getFactionsTagManager().initTags(joinedPlayer);
                 }

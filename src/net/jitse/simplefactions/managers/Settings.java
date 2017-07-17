@@ -42,7 +42,7 @@ public class Settings {
     public static final String REVOKED_ACCESS_TO_PARTNER = CONFIG.getString("Messages.RevokedAccessToPartner");
     public static final String NOT_VALID_PARTNER = CONFIG.getString("Messages.NotValidPartner");
     public static final String LAND_CLAIMED = CONFIG.getString("Messages.LandClaimed");
-    public static final String ADDED_PARTNER = CONFIG.getString("Messages.AddPartner");
+    public static final String ADDED_PARTNER = CONFIG.getString("Messages.AddedPartner");
     public static final String CAN_ALREADY_BUILD = CONFIG.getString("Messages.CanAlreadyBuild");
     public static final String COOLDOWN_MESSAGE = CONFIG.getString("Messages.CooldownMessage");
     public static final String TOGGLED_SIDEBAR = CONFIG.getString("Messages.ToggledSidebar");

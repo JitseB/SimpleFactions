@@ -27,7 +27,6 @@ public class WorldListener implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerBlockBreak(BlockBreakEvent event){
-        Logger.log(Logger.LogLevel.WARNING, "Block break event");
         Player player = event.getPlayer();
         Chunk chunk = event.getBlock().getChunk();
         Faction fplayer = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
@@ -216,30 +215,32 @@ public class WorldListener implements Listener {
             Faction fchunk = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
 
             // Guarantee function. heh.
-            if(fchunk.equals(fplayer)){
-                Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
-                switch (role){
-                    case MEMBER:
-                        if(fplayer.getSetting(PermCategory.MEM, PermSetting.BUILD)) return;
-                        else {
-                            event.setCancelled(true);
-                            sendLandAlreadyClaimedMessage(player, fchunk);
-                            return;
-                        }
-                    case MOD:
-                        if(fplayer.getSetting(PermCategory.MOD, PermSetting.BUILD)) return;
-                        else {
-                            event.setCancelled(true);
-                            sendLandAlreadyClaimedMessage(player, fchunk);
-                            return;
-                        }
-                    default:
-                        return; // Owner role.
+            if(fchunk != null && fplayer != null){
+                if(fchunk.equals(fplayer)){
+                    Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
+                    switch (role){
+                        case MEMBER:
+                            if(fplayer.getSetting(PermCategory.MEM, PermSetting.BUILD)) return;
+                            else {
+                                event.setCancelled(true);
+                                sendLandAlreadyClaimedMessage(player, fchunk);
+                                return;
+                            }
+                        case MOD:
+                            if(fplayer.getSetting(PermCategory.MOD, PermSetting.BUILD)) return;
+                            else {
+                                event.setCancelled(true);
+                                sendLandAlreadyClaimedMessage(player, fchunk);
+                                return;
+                            }
+                        default:
+                            return; // Owner role.
+                    }
                 }
+                else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.BUILD)) return;
+                else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.BUILD)) return;
+                else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD)) return;
             }
-            else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.BUILD)) return;
-            else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.BUILD)) return;
-            else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD)) return;
 
             if(fchunk != null){
                 Block block = event.getClickedBlock();
