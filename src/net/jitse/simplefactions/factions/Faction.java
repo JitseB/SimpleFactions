@@ -2,9 +2,7 @@ package net.jitse.simplefactions.factions;
 
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.managers.Settings;
-import net.jitse.simplefactions.utilities.ChunkSerializer;
-import net.jitse.simplefactions.utilities.LocationSerializer;
-import net.jitse.simplefactions.utilities.RelationState;
+import net.jitse.simplefactions.utilities.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.scoreboard.Scoreboard;
@@ -44,8 +42,33 @@ public class Faction {
     }
 
     public boolean getSetting(PermCategory category, PermSetting setting){
-        if(!permissions.containsKey(category)) return false;
-        return permissions.get(category).contains(setting);
+        if(!this.permissions.containsKey(category)) return false;
+        return this.permissions.get(category).contains(setting);
+    }
+
+    public void setSetting(PermCategory category, PermSetting setting, boolean yes){
+        if(this.permissions.containsKey(category)){
+            if(!this.permissions.get(category).contains(setting) && yes){
+                List<PermSetting> temp = this.permissions.get(category);
+                temp.add(setting);
+                this.permissions.remove(category);
+                this.permissions.put(category, temp);
+                SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET permissions=? WHERE name=?;", PermSerializer.serialize(this.permissions), this.name);
+            }
+            else if(this.permissions.get(category).contains(setting) && !yes){
+                List<PermSetting> temp = this.permissions.get(category);
+                temp.remove(setting);
+                this.permissions.remove(category);
+                if(temp.size() > 0) this.permissions.put(category, temp);
+                SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET permissions=? WHERE name=?;", PermSerializer.serialize(this.permissions), this.name);
+            } // Else: Already inside of the list, nothing changed.
+        } else{
+            if(!yes) return; // List only contains the 'yes' items.
+            List<PermSetting> newList = new ArrayList<>();
+            newList.add(setting);
+            this.permissions.put(category, newList);
+            SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET permissions=? WHERE name=?;", PermSerializer.serialize(this.permissions), this.name);
+        }
     }
 
     public double getTotalBalance(){

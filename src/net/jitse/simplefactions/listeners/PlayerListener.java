@@ -45,7 +45,7 @@ public class PlayerListener implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        if(playerChatChannelMap.containsKey(player.getUniqueId())) return;
+        if(!playerChatChannelMap.containsKey(player.getUniqueId())) return;
         Faction faction = plugin.getFactionsManager().getFaction(player);
         ChatChannel chatChannel = playerChatChannelMap.get(player.getUniqueId());
         switch (chatChannel){

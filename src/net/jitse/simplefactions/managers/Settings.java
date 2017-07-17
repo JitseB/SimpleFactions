@@ -28,6 +28,7 @@ public class Settings {
     public static final int RELATION_EXPIRE_MINUTES = 5;
     public static final int POWER_LOST_ON_DEATH = 20;
 
+    public static final String CHANGED_SETTING = "&fYou've changed &7&o{category}: &7&o{setting}&r &fto &e&o{value}&r&f.";
     public static final String NOW_IN_CHANNEL = "&fYou're now in chat channel &a&o{channel}&r&f.";
     public static final String ALREADY_IN_CHANNEL = "&cYou're already in chat channel &7&f{channel}&r&c.";
     public static final String CHUNK_NOT_CLAIMED = "&cThis piece of land isn't claimed by your faction.";

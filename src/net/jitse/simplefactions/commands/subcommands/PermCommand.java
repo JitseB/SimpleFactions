@@ -33,10 +33,11 @@ public class PermCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
-        if(args.length == 0){
+        if(args.length == 1){
             // Get map with permission settings.
             Chat.centeredMessage(sender, Chat.format("&8-----     &5&lFaction&r&5 Permission Settings:     &8-----"));
             Chat.centeredMessage(sender, Chat.format("&7Faction owners have all permission by default."));
+            player.sendMessage(Chat.format("&e" + StringUtils.join(PermCategory.values(), " ")));
             for(PermSetting setting : PermSetting.values()){
                 TextComponent builder = new TextComponent();
                 for(PermCategory category : PermCategory.values()){
@@ -44,34 +45,55 @@ public class PermCommand extends SubCommand {
                     if(faction.getSetting(category, setting)){
                         // Enabled for this category and setting.
                         component = new TextComponent("YES");
-                        component.setBold(true);
                         component.setColor(ChatColor.GREEN);
-                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle setting") }));
+                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.toString() + ": " + setting.toString() + " to no") }));
                         component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " no getmap"));
                     } else{
                         // Disabled for this category and setting.
-                        component = new TextComponent("NO");
-                        component.setBold(true);
+                        component = new TextComponent("NOO");
                         component.setColor(ChatColor.RED);
-                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle setting") }));
+                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.toString() + ": " + setting.toString() + " to yes") }));
                         component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " yes getmap"));
                     }
                     builder.addExtra(component);
+                    TextComponent space = new TextComponent(" ");
+                    builder.addExtra(space);
                 }
                 TextComponent name = new TextComponent(setting.toString());
-                name.setColor(ChatColor.LIGHT_PURPLE);
-                TextComponent description = new TextComponent(" : " + setting.getDescription());
+                name.setColor(ChatColor.YELLOW);
+                TextComponent description = new TextComponent(": " + setting.getDescription());
                 description.setColor(ChatColor.GRAY);
                 name.addExtra(description);
                 builder.addExtra(name);
                 player.spigot().sendMessage(builder);
             }
+            return;
         }
         if(args.length != 4 && args.length != 5){
             player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction perm [<category> <settings> <yes | no>]")));
             player.sendMessage(Chat.format("&cCategories: &7" + StringUtils.join(PermCategory.values(), ", ")));
             player.sendMessage(Chat.format("&cSettings: &7" + StringUtils.join(PermSetting.values(), ", ")));
             return;
+        }
+
+        // Set the permission setting.
+        PermCategory category = PermCategory.fromString(args[1]).orElse(null);
+        PermSetting setting = PermSetting.fromString(args[2]).orElse(null);
+        if(category == null || setting == null || (!args[3].equalsIgnoreCase
+                ("yes") && !args[3].equalsIgnoreCase("no"))){
+            player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
+            return;
+        }
+        boolean yes = args[3].equalsIgnoreCase("yes") ? true : false;
+        faction.setSetting(category, setting, yes);
+        if(args.length == 5 && args[4].equals("getmap"))
+            player.performCommand("faction perm"); // To get the map again.
+        else {
+            player.sendMessage(Chat.format(Settings.CHANGED_SETTING
+                    .replace("{category}", category.toString().toLowerCase())
+                    .replace("{setting}", setting.toString().toLowerCase())
+                    .replace("{value}", args[3].toLowerCase()))
+            );
         }
     }
 }

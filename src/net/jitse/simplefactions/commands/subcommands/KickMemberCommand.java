@@ -5,6 +5,7 @@ import net.jitse.simplefactions.commands.SubCommand;
 import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.factions.Role;
+import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
 import org.bukkit.command.CommandSender;
@@ -48,6 +49,8 @@ public class KickMemberCommand extends SubCommand {
             SimpleFactions.getInstance().getFactionsTagManager().removeTag(memberOptional.get());
             SimpleFactions.getInstance().getFactionsTagManager().resetTags(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(memberOptional.get().getBukkitPlayer()));
             SimpleFactions.getInstance().getFactionsTagManager().initTags(SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(memberOptional.get().getBukkitPlayer()));
+            if(PlayerListener.getPlayerChatChannelMap().containsKey(memberOptional.get().getUUID()))
+                PlayerListener.getPlayerChatChannelMap().remove(memberOptional.get().getUUID());
         }
         SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(memberOptional.get().getBukkitPlayer()).setPower(memberOptional.get().getPower());
         faction.getMembers().remove(memberOptional.get());

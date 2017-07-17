@@ -3,6 +3,7 @@ package net.jitse.simplefactions.managers;
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.events.FactionCreatedEvent;
 import net.jitse.simplefactions.factions.*;
+import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.PermSerializer;
 import org.bukkit.Bukkit;
@@ -64,6 +65,8 @@ public class FactionsManager {
             });
             SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(member.getBukkitPlayer()).setPower(member.getPower());
             SimpleFactions.getInstance().getFactionsTagManager().removeTag(member);
+            if(PlayerListener.getPlayerChatChannelMap().containsKey(member.getUUID()))
+                PlayerListener.getPlayerChatChannelMap().remove(member.getUUID());
         });
         this.factions.remove(faction);
     }

@@ -1,15 +1,18 @@
 package net.jitse.simplefactions.factions;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 /**
  * Created by Jitse on 17-7-2017.
  */
 public enum PermSetting {
-    BUILD("Be able to build."),
-    PAINBUILD("Be able to build, but get damaged while doing so."),
+    BUILD("Ability to build."),
+    PAINBUILD("Get damaged while building."),
     DOOR("Ability to use doors."),
     BUTTON("Ability to use buttons."),
     LEVER("Ability to use levers."),
-    PRESSUREPLATES("Ability to use pressure plates.");
+    PRESSUREPLATES("Usage of pressure plates.");
 
     String description;
 
@@ -19,5 +22,9 @@ public enum PermSetting {
 
     public String getDescription(){
         return this.description;
+    }
+
+    public static Optional<PermSetting> fromString(String str) {
+        return Stream.of(values()).filter(setting -> setting.toString().equalsIgnoreCase(str)).findFirst();
     }
 }
