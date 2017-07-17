@@ -27,7 +27,7 @@ public class Settings {
     public static final String FACTION_TAG = "[{faction}]"; // brackets can only be removed or replaced with a single character!
     public static final int RELATION_EXPIRE_MINUTES = 5;
     public static final int POWER_LOST_ON_DEATH = 20;
-    public static final double PAINBUILD_DAMAGE = 1.0;
+    public static final double PAINBUILD_DAMAGE = 3.0;
 
     public static final String CHANGED_SETTING = "&fYou've changed &7&o{category}: &7&o{setting}&r &fto &e&o{value}&r&f.";
     public static final String NOW_IN_CHANNEL = "&fYou're now in chat channel &a&o{channel}&r&f.";
@@ -36,7 +36,7 @@ public class Settings {
     public static final String NOT_ENOUGH_POWER = "&cYour faction doesn't have enough power for that action!";
     public static final String REVOKED_ACCESS_TO_PARTNER = "&fRevoked access to build from &7&o{partner}&r&f.";
     public static final String NOT_VALID_PARTNER = "&cThat is not a valid partner of your faction.";
-    public static final String LAND_CLAIMED = "&cThis piece of land has been claimed by &f&o{faction}&r&f.";
+    public static final String LAND_CLAIMED = "&cYou are not allowed to do that with &f&o{faction}&r&c's land.";
     public static final String ADDED_PARTNER = "&fSuccessfully added the specified partner to this piece of land.";
     public static final String CAN_ALREADY_BUILD = "&cThe specified partner can already build on this piece of land.";
     public static final String COOLDOWN_MESSAGE = "&cYou must wait before you can use this action again.";

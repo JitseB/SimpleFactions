@@ -42,7 +42,7 @@ public class PlayerListener implements Listener {
         return playerChatChannelMap;
     }
 
-    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
         if(!playerChatChannelMap.containsKey(player.getUniqueId())) return;

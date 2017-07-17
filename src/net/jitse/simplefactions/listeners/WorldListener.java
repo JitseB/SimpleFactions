@@ -4,11 +4,13 @@ import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -23,43 +25,61 @@ import java.util.UUID;
  */
 public class WorldListener implements Listener {
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerBlockBreak(BlockBreakEvent event){
+        Logger.log(Logger.LogLevel.WARNING, "Block break event");
         Player player = event.getPlayer();
         Chunk chunk = event.getBlock().getChunk();
         Faction fplayer = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
         Faction fchunk = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
         if(fchunk != null){
             // Permission settings logic.
-            if((fchunk.getAllies().contains(fplayer) && fplayer.getSetting(PermCategory.ALL, PermSetting.BUILD))
-                    || (fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.ENE, PermSetting.BUILD))
-                    || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.NEU, PermSetting.BUILD))){
-                return; // Allies and setting enabled.
+            if(fplayer == null){
+                if(fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD)) return;
+                else if(fchunk.getSetting(PermCategory.NEU, PermSetting.PAINBUILD)){
+                    player.damage(Settings.PAINBUILD_DAMAGE);
+                    return;
+                } else event.setCancelled(true);
             }
-            if((fchunk.getAllies().contains(fplayer) && fplayer.getSetting(PermCategory.ALL, PermSetting.PAINBUILD))
-                    || (fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.ENE, PermSetting.PAINBUILD))
-                    || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.NEU, PermSetting.PAINBUILD))){
-                player.damage(Settings.PAINBUILD_DAMAGE);
-                return; // Allowed, yet painful...
-            }
-            if(fchunk.equals(fplayer)){
+            else if(fchunk.equals(fplayer)){
                 Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
                 switch (role){
                     case MEMBER:
                         if(fplayer.getSetting(PermCategory.MEM, PermSetting.BUILD)) return;
-                        else if(fplayer.getSetting(PermCategory.MEM, PermSetting.PAINBUILD)) {
+                        else if(fplayer.getSetting(PermCategory.MEM, PermSetting.PAINBUILD)){
                             player.damage(Settings.PAINBUILD_DAMAGE);
                             return;
+                        } else {
+                            event.setCancelled(true);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
+                            return;
                         }
-                        break;
                     case MOD:
                         if(fplayer.getSetting(PermCategory.MOD, PermSetting.BUILD)) return;
-                        else if(fplayer.getSetting(PermCategory.MOD, PermSetting.PAINBUILD)) {
+                        else if(fplayer.getSetting(PermCategory.MOD, PermSetting.PAINBUILD)){
                             player.damage(Settings.PAINBUILD_DAMAGE);
                             return;
+                        } else {
+                            event.setCancelled(true);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
+                            return;
                         }
-                        break;
+                    default:
+                        return; // Owner role.
                 }
+            }
+            else{
+                if((fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.BUILD))
+                        || (fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.BUILD))
+                        || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD))){
+                    return;
+                }
+                else if((fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.PAINBUILD))
+                        || (fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.PAINBUILD))
+                        || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.PAINBUILD))){
+                    player.damage(Settings.PAINBUILD_DAMAGE);
+                    return;
+                } else event.setCancelled(true);
             }
             // Partner logic.
             List<Partner> partnerList = fchunk.getPartners(chunk);
@@ -94,7 +114,7 @@ public class WorldListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerBlockPlace(BlockPlaceEvent event){
         Player player = event.getPlayer();
         Chunk chunk = event.getBlock().getChunk();
@@ -102,35 +122,52 @@ public class WorldListener implements Listener {
         Faction fchunk = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
         if(fchunk != null){
             // Permission settings logic.
-            if((fchunk.getAllies().contains(fplayer) && fplayer.getSetting(PermCategory.ALL, PermSetting.BUILD))
-                    || (fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.ENE, PermSetting.BUILD))
-                    || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.NEU, PermSetting.BUILD))){
-                return; // Allies and setting enabled.
+            if(fplayer == null){
+                if(fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD)) return;
+                else if(fchunk.getSetting(PermCategory.NEU, PermSetting.PAINBUILD)){
+                    player.damage(Settings.PAINBUILD_DAMAGE);
+                    return;
+                } else event.setCancelled(true);
             }
-            if((fchunk.getAllies().contains(fplayer) && fplayer.getSetting(PermCategory.ALL, PermSetting.PAINBUILD))
-                    || (fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.ENE, PermSetting.PAINBUILD))
-                    || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fplayer.getSetting(PermCategory.NEU, PermSetting.PAINBUILD))){
-                player.damage(Settings.PAINBUILD_DAMAGE);
-                return; // Allowed, yet painful...
-            }
-            if(fchunk.equals(fplayer)){
+            else if(fchunk.equals(fplayer)){
                 Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
                 switch (role){
                     case MEMBER:
                         if(fplayer.getSetting(PermCategory.MEM, PermSetting.BUILD)) return;
-                        else if(fplayer.getSetting(PermCategory.MEM, PermSetting.PAINBUILD)) {
+                        else if(fplayer.getSetting(PermCategory.MEM, PermSetting.PAINBUILD)){
                             player.damage(Settings.PAINBUILD_DAMAGE);
                             return;
+                        } else {
+                            event.setCancelled(true);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
+                            return;
                         }
-                        break;
                     case MOD:
                         if(fplayer.getSetting(PermCategory.MOD, PermSetting.BUILD)) return;
-                        else if(fplayer.getSetting(PermCategory.MOD, PermSetting.PAINBUILD)) {
+                        else if(fplayer.getSetting(PermCategory.MOD, PermSetting.PAINBUILD)){
                             player.damage(Settings.PAINBUILD_DAMAGE);
                             return;
+                        } else {
+                            event.setCancelled(true);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
+                            return;
                         }
-                        break;
+                    default:
+                        return; // Owner role.
                 }
+            }
+            else{
+                if((fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.BUILD))
+                        || (fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.BUILD))
+                        || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD))){
+                    return;
+                }
+                else if((fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.PAINBUILD))
+                        || (fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.PAINBUILD))
+                        || (!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.PAINBUILD))){
+                    player.damage(Settings.PAINBUILD_DAMAGE);
+                    return;
+                } else event.setCancelled(true);
             }
             // Partner logic.
             List<Partner> partnerList = fchunk.getPartners(chunk);
@@ -165,7 +202,7 @@ public class WorldListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event){
         boolean approved = false;
         if(event.getAction() == Action.PHYSICAL && (event.getClickedBlock().getType() == Material.GOLD_PLATE || event.getClickedBlock().getType() == Material.IRON_PLATE
@@ -177,6 +214,33 @@ public class WorldListener implements Listener {
             Chunk chunk = event.getClickedBlock().getChunk();
             Faction fplayer = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
             Faction fchunk = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
+
+            // Guarantee function. heh.
+            if(fchunk.equals(fplayer)){
+                Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
+                switch (role){
+                    case MEMBER:
+                        if(fplayer.getSetting(PermCategory.MEM, PermSetting.BUILD)) return;
+                        else {
+                            event.setCancelled(true);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
+                            return;
+                        }
+                    case MOD:
+                        if(fplayer.getSetting(PermCategory.MOD, PermSetting.BUILD)) return;
+                        else {
+                            event.setCancelled(true);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
+                            return;
+                        }
+                    default:
+                        return; // Owner role.
+                }
+            }
+            else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.BUILD)) return;
+            else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.BUILD)) return;
+            else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD)) return;
+
             if(fchunk != null){
                 Block block = event.getClickedBlock();
                 if(block.getType() == Material.WOOD_DOOR || block.getType() == Material.ACACIA_DOOR
@@ -189,15 +253,30 @@ public class WorldListener implements Listener {
                         switch (role){
                             case MEMBER:
                                 if(fplayer.getSetting(PermCategory.MEM, PermSetting.DOOR)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
                             case MOD:
                                 if(fplayer.getSetting(PermCategory.MOD, PermSetting.DOOR)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
+                            default:
+                                return; // Owner role.
                         }
                     }
                     else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.DOOR)) return;
                     else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.DOOR)) return;
                     else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.DOOR)) return;
+                    else {
+                        event.setCancelled(true);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
+                        return;
+                    }
                 }
                 if(block.getType() == Material.STONE_BUTTON || block.getType() == Material.WOOD_BUTTON){
                     // Button permission logic.
@@ -206,15 +285,30 @@ public class WorldListener implements Listener {
                         switch (role){
                             case MEMBER:
                                 if(fplayer.getSetting(PermCategory.MEM, PermSetting.BUTTON)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
                             case MOD:
                                 if(fplayer.getSetting(PermCategory.MOD, PermSetting.BUTTON)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
+                            default:
+                                return; // Owner role.
                         }
                     }
                     else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.BUTTON)) return;
                     else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.BUTTON)) return;
                     else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.BUTTON)) return;
+                    else {
+                        event.setCancelled(true);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
+                        return;
+                    }
                 }
                 if(block.getType() == Material.LEVER){
                     // Lever permission logic.
@@ -223,15 +317,30 @@ public class WorldListener implements Listener {
                         switch (role){
                             case MEMBER:
                                 if(fplayer.getSetting(PermCategory.MEM, PermSetting.LEVER)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
                             case MOD:
                                 if(fplayer.getSetting(PermCategory.MOD, PermSetting.LEVER)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
+                            default:
+                                return; // Owner role.
                         }
                     }
                     else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.LEVER)) return;
                     else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.LEVER)) return;
                     else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.LEVER)) return;
+                    else {
+                        event.setCancelled(true);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
+                        return;
+                    }
                 }
                 if(block.getType() == Material.GOLD_PLATE || block.getType() == Material.IRON_PLATE
                         || block.getType() == Material.STONE_PLATE || block.getType() == Material.WOOD_PLATE){
@@ -241,15 +350,30 @@ public class WorldListener implements Listener {
                         switch (role){
                             case MEMBER:
                                 if(fplayer.getSetting(PermCategory.MEM, PermSetting.PRESSUREPLATE)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
                             case MOD:
                                 if(fplayer.getSetting(PermCategory.MOD, PermSetting.PRESSUREPLATE)) return;
-                                break;
+                                else {
+                                    event.setCancelled(true);
+                                    sendLandAlreadyClaimedMessage(player, fchunk);
+                                    return;
+                                }
+                            default:
+                                return; // Owner role.
                         }
                     }
                     else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.PRESSUREPLATE)) return;
                     else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.PRESSUREPLATE)) return;
                     else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.PRESSUREPLATE)) return;
+                    else {
+                        event.setCancelled(true);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
+                        return;
+                    }
                 }
                 // Partner logic.
                 List<Partner> partnerList = fchunk.getPartners(chunk);
