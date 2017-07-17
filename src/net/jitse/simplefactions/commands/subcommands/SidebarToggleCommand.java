@@ -20,8 +20,8 @@ public class SidebarToggleCommand extends SubCommand {
 
     private List<UUID> cooldown = new ArrayList<>();
 
-    public SidebarToggleCommand(Role role){
-        super(role, "simplefactions.commands.sidebartoggle");
+    public SidebarToggleCommand(){
+        super(Role.MEMBER, "simplefactions.commands.sidebartoggle");
     }
 
     @Override

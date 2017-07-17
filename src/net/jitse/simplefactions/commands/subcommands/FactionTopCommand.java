@@ -14,8 +14,8 @@ import java.util.*;
  */
 public class FactionTopCommand extends SubCommand {
 
-    public FactionTopCommand(Role role){
-        super(role, "simplefactions.commands.factiontop");
+    public FactionTopCommand(){
+        super(Role.MEMBER, "simplefactions.commands.factiontop");
     }
 
     @Override
@@ -23,13 +23,13 @@ public class FactionTopCommand extends SubCommand {
         Chat.centeredMessage(sender, Chat.format("&8-----     &5&lServer&r&5 Top Factions:     &8-----"));
         HashMap<String, Double> map  = new HashMap<>();
         for(Faction faction : SimpleFactions.getInstance().getFactionsManager().getFactions()){
-            map.put(faction.getName(), faction.getBalance());
+            map.put(faction.getName(), faction.getTotalBalance());
         }
         List<String> top10 = topNKeys(map, 10);
         int n = 1;
         for(String fname : top10){
             Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(fname);
-            sender.sendMessage(Chat.format("&7#" + n + " &f" + fname + " &8: &e" + faction.getBalance()));
+            sender.sendMessage(Chat.format("&7#" + n + " &f" + fname + " &8: &e" + faction.getTotalBalance()));
             n++;
         }
     }

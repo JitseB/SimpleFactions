@@ -15,15 +15,13 @@ import java.util.UUID;
 public class Player {
 
     private final UUID uuid;
-    private int kills, deaths, power;
+    private int power;
     private Timestamp lastseen;
     private boolean sidebar;
     private Faction location;
 
-    public Player(UUID uuid, int kills, int deaths, int power, Timestamp lastseen, boolean sidebar){
+    public Player(UUID uuid, int power, Timestamp lastseen, boolean sidebar){
         this.uuid = uuid;
-        this.kills = kills;
-        this.deaths = deaths;
         this.power = power;
         this.lastseen = lastseen;
         this.sidebar = sidebar;
@@ -53,14 +51,6 @@ public class Player {
 
     public UUID getUUID(){
         return this.uuid;
-    }
-
-    public int getKills(){
-        return this.kills;
-    }
-
-    public int getDeaths(){
-        return this.deaths;
     }
 
     public void setPower(int power){

@@ -6,10 +6,8 @@ import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,8 +19,8 @@ import java.util.*;
  */
 public class FactionMapCommand extends SubCommand {
 
-    public FactionMapCommand(Role role){
-        super(role, "simplefactions.commands.factionmap");
+    public FactionMapCommand(){
+        super(Role.MEMBER, "simplefactions.commands.factionmap");
     }
 
     @Override

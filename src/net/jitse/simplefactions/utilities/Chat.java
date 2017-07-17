@@ -21,6 +21,7 @@ public class Chat {
 
     private final static int CENTER_PX = 154;
 
+    // Not my method, credits go to @SirSpoodles on SpigotMC
     public static void centeredMessage(CommandSender sender, String msg) {
         int messagePxSize = 0;
         boolean previousCode = false;

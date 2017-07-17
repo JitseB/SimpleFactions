@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 public enum Commands {
 
-    CREATE_FACTION(new CreateFactionCommand(Role.MEMBER), false),
+    // Commands which require to be in a faction.
     LEAVE_FACTION(new LeaveFactionCommand(Role.MEMBER), true),
     DISBAND_FACTION(new DisbandFactionCommand(Role.OWNER), true),
     SET_HOME(new SetHomeCommand(Role.MEMBER), true),
@@ -22,23 +22,28 @@ public enum Commands {
     DELETE_HOME(new DelHomeCommand(Role.MOD), true),
     INVITE(new InviteCommand(Role.MOD), true),
     CLAIM_LAND(new ClaimCommand(Role.MOD), true),
-    JOIN(new JoinFactionCommand(Role.MEMBER), false),
-    FACTION_TOP(new FactionTopCommand(Role.MEMBER), false),
     ACCESS(new AccessCommand(Role.MOD), true),
-    FACTION_MAP(new FactionMapCommand(Role.MEMBER), false),
     KICK_MEMBER(new KickMemberCommand(Role.MOD), true),
     ENEMY(new EnemyCommand(Role.OWNER), true),
     REVOKE(new RevokeCommand(Role.MOD), true),
-    SIDEBAR_TOGGLE(new SidebarToggleCommand(Role.MEMBER), false),
     NEUTRAL(new NeutralCommand(Role.OWNER), true),
     ALLY(new AllyCommand(Role.OWNER), true),
-    SHOW(new ShowCommand(Role.MEMBER), false),
     FLY(new FlyCommand(Role.MEMBER), true),
     RE_HOME(new ReHomeCommand(Role.MOD), true),
     OPEN(new OpenCommand(Role.MOD), true),
     ROLE(new RoleCommand(Role.OWNER), true),
     AUTO_CLAIM(new AutoClaimCommand(Role.MOD), true),
-    POWER(new PowerCommand(Role.MEMBER), false),
+    CHAT(new ChatCommand(Role.MEMBER), true),
+    PERM(new PermCommand(Role.OWNER), true),
+
+    // Commands which don't require to be in a faction.
+    CREATE_FACTION(new CreateFactionCommand(), false),
+    JOIN(new JoinFactionCommand(), false),
+    FACTION_TOP(new FactionTopCommand(), false),
+    FACTION_MAP(new FactionMapCommand(), false),
+    SHOW(new ShowCommand(), false),
+    SIDEBAR_TOGGLE(new SidebarToggleCommand(), false),
+    POWER(new PowerCommand(), false),
     RESET_SYSTEM(new ResetCommand(), false);
 
     private SubCommand subCommand;

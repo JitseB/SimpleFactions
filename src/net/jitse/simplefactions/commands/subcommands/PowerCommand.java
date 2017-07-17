@@ -14,8 +14,8 @@ import org.bukkit.entity.Player;
  */
 public class PowerCommand extends SubCommand {
 
-    public PowerCommand(Role role){
-        super(role, "simplefactions.commands.power");
+    public PowerCommand(){
+        super(Role.MEMBER, "simplefactions.commands.power");
     }
 
     @Override

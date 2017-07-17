@@ -18,6 +18,8 @@ public class Settings {
     public static final ChatColor OWN_FACTION_COLOR = ChatColor.GREEN;
     public static final ChatColor ENEMY_FACTION_COLOR = ChatColor.RED;
     public static final ChatColor ALLY_FACTION_COLOR = ChatColor.LIGHT_PURPLE;
+    public static final ChatColor OWN_FACTION_COLOR_CHAT_CHAT_ACCENT = ChatColor.DARK_GREEN;
+    public static final ChatColor ALLY_FACTION_COLOR_CHAT_ACCENT = ChatColor.DARK_PURPLE;
     public static final int MAX_MEMBERS = 50;
     public static final int INVITE_EXPIRE_TIME = 60;
     public static final int MAX_PROXY_PLAYERS = 450;
@@ -26,6 +28,8 @@ public class Settings {
     public static final int RELATION_EXPIRE_MINUTES = 5;
     public static final int POWER_LOST_ON_DEATH = 20;
 
+    public static final String NOW_IN_CHANNEL = "&fYou're now in chat channel &a&o{channel}&r&f.";
+    public static final String ALREADY_IN_CHANNEL = "&cYou're already in chat channel &7&f{channel}&r&c.";
     public static final String CHUNK_NOT_CLAIMED = "&cThis piece of land isn't claimed by your faction.";
     public static final String NOT_ENOUGH_POWER = "&cYour faction doesn't have enough power for that action!";
     public static final String REVOKED_ACCESS_TO_PARTNER = "&fRevoked access to build from &7&o{partner}&r&f.";

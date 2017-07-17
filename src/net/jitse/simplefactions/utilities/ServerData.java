@@ -9,13 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Jitse on 13-11-2016.
  */
 public class ServerData implements PluginMessageListener {
 
-    private final HashMap<String, Integer> data = new HashMap<>();
+    private final Map<String, Integer> data = new HashMap<>();
     private final SimpleFactions plugin;
 
     public ServerData(SimpleFactions plugin){
@@ -44,8 +45,8 @@ public class ServerData implements PluginMessageListener {
         Bukkit.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
 
-    public Integer getCachedPlayerCount(String name) {
+    public int getCachedPlayerCount(String name) {
         if(data.containsKey(name)) return data.get(name);
-        else return 0;
+        return 0;
     }
 }

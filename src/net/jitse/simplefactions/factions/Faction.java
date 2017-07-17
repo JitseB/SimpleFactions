@@ -25,10 +25,11 @@ public class Faction {
     private Set<Chunk> chunks;
     private Set<Faction> allies, enemies;
     private Map<Chunk, List<Partner>> partnerMap = new HashMap<>();
+    private Map<PermCategory, List<PermSetting>> permissions;
     private Set<Home> homes;
     private boolean open;
 
-    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes, boolean open, Timestamp founded){
+    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes, boolean open, Timestamp founded, Map<PermCategory, List<PermSetting>> permissions){
         this.name = name;
         this.creator = creator;
         this.members = members;
@@ -38,10 +39,16 @@ public class Faction {
         this.homes = homes;
         this.open = open;
         this.founded = founded;
+        this.permissions = permissions;
         this.partnerMap = new HashMap<>();
     }
 
-    public double getBalance(){
+    public boolean getSetting(PermCategory category, PermSetting setting){
+        if(!permissions.containsKey(category)) return false;
+        return permissions.get(category).contains(setting);
+    }
+
+    public double getTotalBalance(){
         double total = 0;
         for(Member member : this.members){
             total += SimpleFactions.getInstance().getEconomy().getBalance(member.getBukkitOfflinePlayer());

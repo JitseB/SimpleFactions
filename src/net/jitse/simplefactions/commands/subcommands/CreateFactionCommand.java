@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
  */
 public class CreateFactionCommand extends SubCommand {
 
-    public CreateFactionCommand(Role role){
-        super(role, "simplefactions.command.create");
+    public CreateFactionCommand(){
+        super(Role.MEMBER, "simplefactions.command.create");
     }
 
     @Override

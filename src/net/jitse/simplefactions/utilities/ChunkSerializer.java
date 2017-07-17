@@ -24,8 +24,7 @@ public class ChunkSerializer {
         if(input == null) return chunks;
         if(input.contains(";")){
             for(String element : input.split(";")){
-                if(!element.contains(":") || element.split(":").length != 3)
-                    continue;
+                if(!element.contains(":") || element.split(":").length != 3) continue;
                 String[] chunkInfo = element.split(":");
                 chunks.add(Bukkit.getWorld(chunkInfo[0]).getChunkAt(Integer.valueOf(chunkInfo[1]), Integer.valueOf(chunkInfo[2])));
             }

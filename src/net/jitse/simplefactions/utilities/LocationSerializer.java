@@ -14,7 +14,6 @@ public class LocationSerializer {
     }
     public static Location deserialize(String input){
         String[] info = input.split(";");
-
         return new Location(
                 Bukkit.getWorld(info[0]),
                 Double.parseDouble(info[1]),

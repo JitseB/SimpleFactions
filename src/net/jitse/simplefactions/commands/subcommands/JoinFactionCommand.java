@@ -17,8 +17,8 @@ import java.sql.Timestamp;
  */
 public class JoinFactionCommand extends SubCommand {
 
-    public JoinFactionCommand(Role role) {
-        super(role, "simplefactions.commands.join");
+    public JoinFactionCommand() {
+        super(Role.MEMBER, "simplefactions.commands.join");
     }
 
     @Override

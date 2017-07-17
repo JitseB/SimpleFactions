@@ -30,12 +30,11 @@ public class SimpleFactions extends JavaPlugin {
     private final SidebarManager sidebarManager = new SidebarManager();
     private final TrustedManager trustedManager = new TrustedManager(this);
 
-    private Economy economy = null;
+    private Economy economy;
     private MySql mysql;
     private ServerData serverDataManager;
 
     private Set<Player> players = new HashSet<>();
-
     private boolean joinable = false;
 
     @Override
@@ -53,10 +52,10 @@ public class SimpleFactions extends JavaPlugin {
 
         getCommand("factions").setExecutor(new FactionsCommand());
 
-        this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, `max-power` INT, balance INT, open TINYINT(1), claimed MEDIUMTEXT");
+        this.mysql.createTable("Factions", "name VARCHAR(16), creator VARCHAR(36), created TIMESTAMP, `max-power` INT, balance INT, open TINYINT(1), claimed MEDIUMTEXT, permissions TEXT");
         this.mysql.createTable("FactionHomes", "faction VARCHAR(16), name VARCHAR(16), location TEXT");
         this.mysql.createTable("FactionMembers", "faction VARCHAR(16), uuid VARCHAR(36), role VARCHAR(6), joinedfaction TIMESTAMP");
-        this.mysql.createTable("FactionPlayers", "uuid VARCHAR(36), lastseen TIMESTAMP, power INT, kills INT, deaths INT, sidebar TINYINT(1)");
+        this.mysql.createTable("FactionPlayers", "uuid VARCHAR(36), lastseen TIMESTAMP, power INT, sidebar TINYINT(1)");
         this.mysql.createTable("FactionRelations", "`faction-one` VARCHAR(16), `faction-two` VARCHAR(16), relation VARCHAR(7)");
         this.mysql.createTable("FactionTrusted", "faction VARCHAR(16), partner VARCHAR(36), chunk TEXT");
 
@@ -76,7 +75,7 @@ public class SimpleFactions extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Database connection might flip out when reloading too often. Restart the server instead.");
+        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Some functions might not work as they should. Restart the server instead.");
         if(this.mysql != null) this.mysql.close();
     }
 

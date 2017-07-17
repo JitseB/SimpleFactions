@@ -34,7 +34,7 @@ public class WorldListener implements Listener {
                 if(fchunk == fplayer) event.setCancelled(false);
                 else {
                     event.setCancelled(true);
-                    sendMessage(player, fchunk);
+                    sendLandAlreadyClaimedMessage(player, fchunk);
                 }
                 return;
             } else{
@@ -51,13 +51,13 @@ public class WorldListener implements Listener {
                     }
                     if(fchunk != fplayer) {
                         event.setCancelled(true);
-                        sendMessage(player, fchunk);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
                     }
                     return;
                 }
             }
             event.setCancelled(true);
-            sendMessage(player, fchunk);
+            sendLandAlreadyClaimedMessage(player, fchunk);
         }
     }
 
@@ -73,7 +73,7 @@ public class WorldListener implements Listener {
                 if(fchunk == fplayer) event.setCancelled(false);
                 else {
                     event.setCancelled(true);
-                    sendMessage(player, fchunk);
+                    sendLandAlreadyClaimedMessage(player, fchunk);
                 }
                 return;
             } else{
@@ -90,13 +90,13 @@ public class WorldListener implements Listener {
                     }
                     if(fchunk != fplayer) {
                         event.setCancelled(true);
-                        sendMessage(player, fchunk);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
                     }
                     return;
                 }
             }
             event.setCancelled(true);
-            sendMessage(player, fchunk);
+            sendLandAlreadyClaimedMessage(player, fchunk);
         }
     }
 
@@ -113,7 +113,7 @@ public class WorldListener implements Listener {
                     if(fchunk == fplayer) event.setCancelled(false);
                     else {
                         event.setCancelled(true);
-                        sendMessage(player, fchunk);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
                     }
                     return;
                 } else{
@@ -130,18 +130,18 @@ public class WorldListener implements Listener {
                         }
                         if(fchunk != fplayer) {
                             event.setCancelled(true);
-                            sendMessage(player, fchunk);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
                         }
                         return;
                     }
                 }
                 event.setCancelled(true);
-                sendMessage(player, fchunk);
+                sendLandAlreadyClaimedMessage(player, fchunk);
             }
         }
     }
 
-    private void sendMessage(Player player, Faction faction){
+    private void sendLandAlreadyClaimedMessage(Player player, Faction faction){
         player.sendMessage(Chat.format(Settings.LAND_CLAIMED.replace("{faction}", faction.getName())));
     }
 }

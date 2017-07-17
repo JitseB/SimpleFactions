@@ -44,6 +44,8 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("claim")) Commands.CLAIM_LAND.execute(sender, args);
             else if(args[0].equalsIgnoreCase("autoclaim")) Commands.AUTO_CLAIM.execute(sender, args);
             else if(args[0].equalsIgnoreCase("show")) Commands.SHOW.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("perm")) Commands.PERM.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("chat")) Commands.CHAT.execute(sender, args);
             else if(args[0].equalsIgnoreCase("power") || args[0].equalsIgnoreCase("pow")) Commands.POWER.execute(sender, args);
             else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction help")));
         }
@@ -60,19 +62,19 @@ public class FactionsCommand implements CommandExecutor {
             sender.sendMessage(getInfo("/faction delhome <name>", "Delete a home from your faction."));
             sender.sendMessage(getInfo("/faction rehome [name]", "Set a faction's home to a new location."));
             sender.sendMessage(getInfo("/faction role <player> <role>", "Set a member's faction role."));
-            sender.sendMessage(getInfo("/faction enemy <faction>", "Become enemies with a faction."));
-            sender.sendMessage(getInfo("/faction allies <faction>", "Become allies with a faction."));
+            sender.sendMessage(getInfo("/faction <enemy | allies | neutral> <faction>", "Set a relation with a faction."));
             sender.sendMessage(getInfo("/faction sidebar", "Toggle your sidebar scoreboard (on/off)."));
+            sender.sendMessage(getInfo("/faction perm [<permission> <category> <yes | no>]", "Set your faction's permissions."));
             return;
         }
         else if(args.length == 2 && args[0].equalsIgnoreCase("help") && args[1].equalsIgnoreCase("3")){
             Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (3/3):     &8-----"));
-            sender.sendMessage(getInfo("/faction neutral <faction>", "Become neutral with a faction."));
             sender.sendMessage(getInfo("/faction open <yes | no>", "Set your faction open to join."));
             sender.sendMessage(getInfo("/faction show [faction]", "Show a (or your) faction's info."));
             sender.sendMessage(getInfo("/faction power", "Show how much power you have."));
             sender.sendMessage(getInfo("/faction fly", "Toggle fly-mode on your faction's land."));
             sender.sendMessage(getInfo("/faction map", "See all faction claims nearby."));
+            sender.sendMessage(getInfo("/faction chat <all | faction | allies>", "Set the chat channel you're in."));
             sender.sendMessage(getInfo("/faction access <player | faction> <name>", "Allow players to build on this specific piece of land."));
             sender.sendMessage(getInfo("/faction revoke <player | faction> <name>", "Revoke access to the land given with the &e/faction access command&f."));
             return;
@@ -91,9 +93,5 @@ public class FactionsCommand implements CommandExecutor {
 
     private String getInfo(String syntax, String description){
         return Chat.format("&f" + syntax + " &8: &7" + description);
-    }
-
-    private String getAdminInfo(String syntax, String description){
-        return Chat.format("&4" + syntax + "&8: &c" + description);
     }
 }

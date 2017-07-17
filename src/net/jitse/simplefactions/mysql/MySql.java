@@ -34,10 +34,6 @@ public class MySql {
         this.hikariDataSource.close();
     }
 
-    public HikariDataSource getHikariDataSource() {
-        return this.hikariDataSource;
-    }
-
     public Connection getConnection() throws SQLException {
         return hikariDataSource.getConnection();
     }

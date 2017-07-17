@@ -1,10 +1,7 @@
 package net.jitse.simplefactions;
 
 import net.jitse.simplefactions.factions.*;
-import net.jitse.simplefactions.utilities.ChunkSerializer;
-import net.jitse.simplefactions.utilities.LocationSerializer;
-import net.jitse.simplefactions.utilities.Logger;
-import net.jitse.simplefactions.utilities.RelationState;
+import net.jitse.simplefactions.utilities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -34,7 +31,8 @@ public class FactionsLoader {
                 while (factionSet.next()){
                     factions.add(new Faction(factionSet.getString("name"), UUID.fromString(factionSet.getString("creator")),
                             new HashSet<>(), ChunkSerializer.deserialize(factionSet.getString("claimed")), new HashSet<>(),
-                            new HashSet<>(), new HashSet<>(), factionSet.getBoolean("open"), factionSet.getTimestamp("created"))
+                            new HashSet<>(), new HashSet<>(), factionSet.getBoolean("open"), factionSet.getTimestamp("created"),
+                            PermSerializer.deserialize(factionSet.getString("permissions")))
                     );
                 }
             } catch (SQLException exception){
@@ -74,9 +72,12 @@ public class FactionsLoader {
                                     if(!playerSet.next()) return;
                                     faction.addMember(
                                             new Member(
-                                                    UUID.fromString(playerSet.getString("uuid")), joinedFaction, role,
-                                                    playerSet.getInt("kills"), playerSet.getInt("deaths"), playerSet.getBoolean("sidebar"),
-                                                    playerSet.getInt("power"), playerSet.getTimestamp("lastseen")
+                                                    UUID.fromString(playerSet.getString("uuid")),
+                                                    joinedFaction,
+                                                    role,
+                                                    playerSet.getBoolean("sidebar"),
+                                                    playerSet.getInt("power"),
+                                                    playerSet.getTimestamp("lastseen")
                                             ), false, false
                                     );
                                 } catch (SQLException exception){
