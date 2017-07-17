@@ -27,6 +27,7 @@ public class Settings {
     public static final String FACTION_TAG = "[{faction}]"; // brackets can only be removed or replaced with a single character!
     public static final int RELATION_EXPIRE_MINUTES = 5;
     public static final int POWER_LOST_ON_DEATH = 20;
+    public static final double PAINBUILD_DAMAGE = 1.0;
 
     public static final String CHANGED_SETTING = "&fYou've changed &7&o{category}: &7&o{setting}&r &fto &e&o{value}&r&f.";
     public static final String NOW_IN_CHANNEL = "&fYou're now in chat channel &a&o{channel}&r&f.";

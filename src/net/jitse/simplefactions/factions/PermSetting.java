@@ -12,7 +12,7 @@ public enum PermSetting {
     DOOR("Ability to use doors."),
     BUTTON("Ability to use buttons."),
     LEVER("Ability to use levers."),
-    PRESSUREPLATES("Usage of pressure plates.");
+    PRESSUREPLATE("Usage of pressure plates.");
 
     String description;
 

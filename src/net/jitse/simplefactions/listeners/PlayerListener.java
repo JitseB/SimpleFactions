@@ -51,15 +51,15 @@ public class PlayerListener implements Listener {
         switch (chatChannel){
             case FACTION:
                 faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(onlineMember -> onlineMember.getBukkitPlayer().sendMessage(
-                        Chat.format(Settings.OWN_FACTION_COLOR_CHAT_CHAT_ACCENT + player.getName() + "&8: " + Settings.OWN_FACTION_COLOR + event.getMessage())
+                        Chat.format(Settings.OWN_FACTION_COLOR_CHAT_CHAT_ACCENT + player.getName() + Settings.OWN_FACTION_COLOR + ": " + event.getMessage())
                 ));
                 break;
             case ALLIES:
                 faction.getAllies().forEach(allies -> allies.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(onlineAlly -> onlineAlly.getBukkitPlayer().sendMessage(
-                        Chat.format(Settings.ALLY_FACTION_COLOR_CHAT_ACCENT + player.getName() + "&8: " + Settings.ALLY_FACTION_COLOR + event.getMessage())
+                        Chat.format(Settings.ALLY_FACTION_COLOR_CHAT_ACCENT + player.getName() + Settings.ALLY_FACTION_COLOR + ": " + event.getMessage())
                 )));
                 faction.getMembers().stream().filter(member -> member.getBukkitOfflinePlayer().isOnline()).forEach(onlineMember -> onlineMember.getBukkitPlayer().sendMessage(
-                        Chat.format(Settings.ALLY_FACTION_COLOR_CHAT_ACCENT + player.getName() + "&8: " + Settings.ALLY_FACTION_COLOR + event.getMessage())
+                        Chat.format(Settings.ALLY_FACTION_COLOR_CHAT_ACCENT + player.getName() + Settings.ALLY_FACTION_COLOR + ": " + event.getMessage())
                 ));
                 break;
             default:
