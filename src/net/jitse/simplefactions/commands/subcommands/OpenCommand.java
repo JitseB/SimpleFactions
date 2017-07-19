@@ -35,6 +35,10 @@ public class OpenCommand extends SubCommand {
             return;
         }
         Boolean newState = args[1].equalsIgnoreCase("yes") ? true : false;
+        if(faction.isOpen() == newState){
+            player.sendMessage(Chat.format(Settings.FACTION_ALREADY_STATE.replace("{open}", (newState ? "open" : "closed"))));
+            return;
+        }
         faction.setOpen(newState);
         player.sendMessage(Chat.format(Settings.UPDATED_FACTION_OPEN.replace("{newstate}", (newState ? "open" : "closed"))));
         if(newState) Chat.broadcast(Chat.format(Settings.FACTION_NOW_OPEN.replace("{faction}", faction.getName())));

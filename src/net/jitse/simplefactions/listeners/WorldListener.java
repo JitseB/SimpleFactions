@@ -12,9 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
@@ -92,16 +90,20 @@ public class WorldListener implements Listener {
             } else{
                 for(Partner partner : partnerList){
                     if(!(partner.getData() instanceof UUID)) continue;
-                    if(partner.getData().equals(player.getUniqueId()))
+                    if(partner.getData().equals(player.getUniqueId())) {
+                        event.setCancelled(false);
                         return; // Allowed standalone partner.
+                    }
                 }
-                if(fplayer != null){
+                if(!fchunk.equals(fplayer)) {
                     for(Partner partner : partnerList){
                         if(!(partner.getData() instanceof Faction)) continue;
-                        if(((Faction) partner.getData()).getName().equals(fplayer.getName()))
+                        if(((Faction) partner.getData()).getName().equals(fplayer.getName())) {
+                            event.setCancelled(false);
                             return; // Allowed faction partner.
+                        }
                     }
-                    if(!fchunk.equals(fplayer)) {
+                    if(fchunk != fplayer) {
                         event.setCancelled(true);
                         sendLandAlreadyClaimedMessage(player, fchunk);
                     }
@@ -180,14 +182,18 @@ public class WorldListener implements Listener {
             } else{
                 for(Partner partner : partnerList){
                     if(!(partner.getData() instanceof UUID)) continue;
-                    if(partner.getData().equals(player.getUniqueId()))
+                    if(partner.getData().equals(player.getUniqueId())) {
+                        event.setCancelled(false);
                         return; // Allowed standalone partner.
+                    }
                 }
                 if(!fchunk.equals(fplayer)) {
                     for(Partner partner : partnerList){
                         if(!(partner.getData() instanceof Faction)) continue;
-                        if(((Faction) partner.getData()).getName().equals(fplayer.getName()))
+                        if(((Faction) partner.getData()).getName().equals(fplayer.getName())) {
+                            event.setCancelled(false);
                             return; // Allowed faction partner.
+                        }
                     }
                     if(fchunk != fplayer) {
                         event.setCancelled(true);
@@ -388,16 +394,20 @@ public class WorldListener implements Listener {
                 } else{
                     for(Partner partner : partnerList){
                         if(!(partner.getData() instanceof UUID)) continue;
-                        if(partner.getData().equals(player.getUniqueId()))
+                        if(partner.getData().equals(player.getUniqueId())) {
+                            event.setCancelled(false);
                             return; // Allowed standalone partner.
+                        }
                     }
-                    if(fplayer != null){
+                    if(!fchunk.equals(fplayer)) {
                         for(Partner partner : partnerList){
                             if(!(partner.getData() instanceof Faction)) continue;
-                            if(((Faction) partner.getData()).getName().equals(fplayer.getName()))
+                            if(((Faction) partner.getData()).getName().equals(fplayer.getName())) {
+                                event.setCancelled(false);
                                 return; // Allowed faction partner.
+                            }
                         }
-                        if(!fchunk.equals(fplayer)) {
+                        if(fchunk != fplayer) {
                             event.setCancelled(true);
                             sendLandAlreadyClaimedMessage(player, fchunk);
                         }

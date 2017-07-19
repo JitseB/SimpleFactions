@@ -123,3 +123,4 @@ Messages:
   NoRolePermissionForCommand: "&fSeems like you don't have the correct role for this command, you need to be at least of the role &7&o{role}&f."
   ClaimedRadiusOfChunks: "&fYou claimed land in a radius! (Radius: &7&o{radius}&r&f)."
   SetHomeOnlyOnOwnLand: "&cYou can only set homes on your own land!"
+  FactionAlreadyState: "&cYour faction is already &f&o{open}&r&c."

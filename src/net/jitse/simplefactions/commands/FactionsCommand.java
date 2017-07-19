@@ -47,7 +47,7 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("perm")) Commands.PERM.execute(sender, args);
             else if(args[0].equalsIgnoreCase("chat")) Commands.CHAT.execute(sender, args);
             else if(args[0].equalsIgnoreCase("power") || args[0].equalsIgnoreCase("pow")) Commands.POWER.execute(sender, args);
-            else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction help")));
+            else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction help [page]")));
         }
         return true;
     }
