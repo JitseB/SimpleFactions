@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 
@@ -66,6 +67,18 @@ public class PlayerListener implements Listener {
                 break;
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPlayerDamageByPlayer(EntityDamageByEntityEvent event){
+        if(!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player))
+            return;
+        Faction fplayer = SimpleFactions.getInstance().getFactionsManager().getFaction((Player) event.getEntity());
+        Faction fdamager = SimpleFactions.getInstance().getFactionsManager().getFaction((Player) event.getDamager());
+        if(fplayer == null || fdamager == null)
+            return;
+        if(fplayer.getAllies().contains(fdamager) || fplayer.equals(fdamager))
+            event.setCancelled(true);
     }
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)

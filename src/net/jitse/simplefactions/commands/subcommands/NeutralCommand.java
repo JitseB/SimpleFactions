@@ -11,6 +11,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -42,11 +43,13 @@ public class NeutralCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction enemy <faction>")));
             return;
         }
-        Faction target = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
-        if(target == null){
-            player.sendMessage(Chat.format(Settings.FACTION_NOT_EXISTS.replace("{faction}", args[1])));
-            return;
+        Faction targetTemp = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
+        Player targetPlayer = Bukkit.getPlayer(args[1]);
+        if(targetPlayer != null && targetPlayer.isOnline()){
+            Faction temp = SimpleFactions.getInstance().getFactionsManager().getFaction(targetPlayer);
+            if(temp != null) targetTemp = temp;
         }
+        Faction target = targetTemp; // Stupid 'effectively final' Java...
         if(target.equals(faction)){
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;

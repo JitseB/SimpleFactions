@@ -93,7 +93,7 @@ public class SidebarManager {
                 Team networkTeam = scoreboard.getTeam("#sf-network");
                 OfflinePlayer networkPlayer = Bukkit.getOfflinePlayer(Chat.format("&f/&c"));
                 networkTeam.addEntry(networkPlayer.getName());
-                networkTeam.setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("ALL"))));
+                networkTeam.setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("PUBLIC"))));
                 networkTeam.setSuffix(Chat.format(String.valueOf(Settings.MAX_PROXY_PLAYERS)));
                 sidebar.getScore(networkPlayer).setScore(1);
 
@@ -145,7 +145,7 @@ public class SidebarManager {
                 Team networkTeam = scoreboard.getTeam("#sf-network");
                 OfflinePlayer networkPlayer = Bukkit.getOfflinePlayer(Chat.format("&f/&c"));
                 networkTeam.addEntry(networkPlayer.getName());
-                networkTeam.setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("ALL"))));
+                networkTeam.setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("PUBLIC"))));
                 networkTeam.setSuffix(Chat.format(String.valueOf(Settings.MAX_PROXY_PLAYERS)));
                 sidebar.getScore(networkPlayer).setScore(1);
 
@@ -160,7 +160,7 @@ public class SidebarManager {
     }
 
     public void startRunnables(SimpleFactions plugin){
-        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> plugin.getServerDataManager().requestPlayerCount("ALL"), 0, 10);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> plugin.getServerDataManager().requestPlayerCount("PUBLIC"), 0, 10);
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             for(org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()){
                 try{
@@ -174,7 +174,7 @@ public class SidebarManager {
                         if(scoreboard.getTeam("#sf-player") == null) this.set(fplayer);
                         else{
                             scoreboard.getTeam("#sf-date").setSuffix(DateTimeFormatter.ofPattern(Settings.DATE_NOTATION).format(LocalDate.now()));
-                            scoreboard.getTeam("#sf-network").setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("ALL"))));
+                            scoreboard.getTeam("#sf-network").setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("PUBLIC"))));
                             scoreboard.getTeam("#sf-network").setSuffix(Chat.format(String.valueOf(Settings.MAX_PROXY_PLAYERS)));
                         }
                     } else{

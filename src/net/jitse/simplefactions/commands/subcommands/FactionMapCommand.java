@@ -6,6 +6,7 @@ import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Chunk;
@@ -31,6 +32,7 @@ public class FactionMapCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
+        Pole pole = getPole(player);
 
         Chat.centeredMessage(sender, Chat.format("&8-----     &5&lMap&r&5 (Hover to view faction names):     &8-----"));
 
@@ -47,17 +49,52 @@ public class FactionMapCommand extends SubCommand {
             for (int j = -15; j <= 15; j++) {
                 if(i == 0 && j == 0){
                     TextComponent component = new TextComponent("+");
-                    component.setColor(net.md_5.bungee.api.ChatColor.DARK_PURPLE);
+                    component.setColor(ChatColor.DARK_PURPLE);
                     TextComponent you = new TextComponent("Your location");
-                    you.setColor(net.md_5.bungee.api.ChatColor.DARK_PURPLE);
+                    you.setColor(ChatColor.DARK_PURPLE);
                     component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { you }));
+                    line.addExtra(component);
+                    continue;
+                }
+                if(i == -4 && j == -14){
+                    // North.
+                    TextComponent component = new TextComponent("N");
+                    if(pole == Pole.NORTH) component.setColor(pole == Pole.NORTH ? ChatColor.RED : ChatColor.WHITE);
+                    line.addExtra(component);
+                    continue;
+                }
+                if(i == -3 && j == -15){
+                    // West.
+                    TextComponent component = new TextComponent("W");
+                    if(pole == Pole.WEST) component.setColor(pole == Pole.WEST ? ChatColor.RED : ChatColor.WHITE);
+                    line.addExtra(component);
+                    continue;
+                }
+                if(i == -3 && j == -13){
+                    // East.
+                    TextComponent component = new TextComponent("E");
+                    if(pole == Pole.EAST) component.setColor(pole == Pole.EAST ? ChatColor.RED : ChatColor.WHITE);
+                    line.addExtra(component);
+                    continue;
+                }
+                if(i == -2 && j == -14){
+                    // South.
+                    TextComponent component = new TextComponent("S");
+                    if(pole == Pole.SOUTH) component.setColor(pole == Pole.SOUTH ? ChatColor.RED : ChatColor.WHITE);
+                    line.addExtra(component);
+                    continue;
+                }
+                if(i == -3 && j == -14){
+                    // Center of NESW.
+                    TextComponent component = new TextComponent("+");
+                    component.setColor(ChatColor.DARK_RED);
                     line.addExtra(component);
                     continue;
                 }
                 Chunk current = player.getLocation().getChunk();
                 Chunk check = player.getWorld().getChunkAt(current.getX() + i, current.getZ() + j);
                 Faction fcheck = SimpleFactions.getInstance().getFactionsManager().getFaction(check);
-                net.md_5.bungee.api.ChatColor color = Settings.NEUTRAL_FACTION_COLOR.asBungee();
+                ChatColor color = Settings.NEUTRAL_FACTION_COLOR.asBungee();
                 if(faction != null){
                     if(faction == fcheck) color = Settings.OWN_FACTION_COLOR.asBungee();
                     else if(faction.getEnemies().contains(fcheck)) color = Settings.ENEMY_FACTION_COLOR.asBungee();
@@ -94,7 +131,7 @@ public class FactionMapCommand extends SubCommand {
                 }
                 else {
                     TextComponent nothing = new TextComponent("+");
-                    nothing.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+                    nothing.setColor(ChatColor.GRAY);
                     line.addExtra(nothing);
                 }
             }
@@ -106,4 +143,15 @@ public class FactionMapCommand extends SubCommand {
             player.spigot().sendMessage(spaced);
         }
     }
+
+    private Pole getPole(Player player){
+        int yaw = Math.round(player.getLocation().getYaw());
+        if(315 < yaw || yaw <= 45) return Pole.SOUTH;
+        else if(45 < yaw && yaw <= 135) return Pole.WEST;
+        else if(135 < yaw && yaw <= 225) return Pole.NORTH;
+        else if(225 < yaw && yaw <= 315) return Pole.EAST;
+        return null;
+    }
+
+    enum Pole{ NORTH, EAST, SOUTH, WEST }
 }

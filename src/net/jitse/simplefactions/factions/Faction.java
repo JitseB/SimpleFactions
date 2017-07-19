@@ -71,6 +71,10 @@ public class Faction {
         }
     }
 
+    public boolean hasClaimedChunk(Chunk chunk){
+        return this.getClaimedChunks().contains(chunk);
+    }
+
     public double getTotalBalance(){
         double total = 0;
         for(Member member : this.members){

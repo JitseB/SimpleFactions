@@ -30,6 +30,10 @@ public class ReHomeCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
+        if(!faction.hasClaimedChunk(player.getLocation().getChunk())){
+            player.sendMessage(Chat.format(Settings.SETHOME_ONLY_ON_OWN_LAND));
+            return;
+        }
         String homeName = args.length == 2 ? args[1] : Settings.DEFAULT_FACTION_HOME;
         Optional<Home> homeOptional = faction.getHomes().stream().filter(home -> home.getName().equalsIgnoreCase(homeName)).findFirst();
         if(!homeOptional.isPresent()){

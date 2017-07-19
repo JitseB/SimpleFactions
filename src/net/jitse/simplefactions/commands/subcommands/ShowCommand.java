@@ -6,6 +6,7 @@ import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -36,6 +37,11 @@ public class ShowCommand extends SubCommand {
             return;
         }
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(args[1]);
+        Player targetPlayer = Bukkit.getPlayer(args[1]);
+        if(targetPlayer != null && targetPlayer.isOnline()){
+            Faction temp = SimpleFactions.getInstance().getFactionsManager().getFaction(targetPlayer);
+            if(temp != null) faction = temp;
+        }
         if(faction == null){
             sender.sendMessage(Chat.format(Settings.FACTION_NOT_EXISTS.replace("{faction}", args[1])));
             return;

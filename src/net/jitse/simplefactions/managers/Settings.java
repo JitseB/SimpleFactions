@@ -16,6 +16,7 @@ public class Settings {
     public static final String SCOREBOARD_NAME = CONFIG.getString("ScoreboardName"); // Max 32 chars.
     public static final int PLAYER_MAX_POWER = CONFIG.getInt("PlayerMaxPower");
     public static final int MAX_LINE_CLAIM = CONFIG.getInt("MaxLineClaim");
+    public static final int MAX_RADIUS_CLAIM = CONFIG.getInt("MaxRadiusClaim");
     public static final int TP_DELAY = CONFIG.getInt("TpDelay");
     public static final String DEFAULT_FACTION_HOME = CONFIG.getString("DefaultFactionHome");
     public static final ChatColor NEUTRAL_FACTION_COLOR = ChatColor.valueOf(CONFIG.getString("NeutralFactionColor"));
@@ -34,6 +35,8 @@ public class Settings {
     public static final double PAINBUILD_DAMAGE = CONFIG.getDouble("PainBuildDamage");
     public static final String WILDERNESS_NAME = CONFIG.getString("WildernessName");
 
+    public static final String SETHOME_ONLY_ON_OWN_LAND = CONFIG.getString("Messages.SetHomeOnlyOnOwnLand");
+    public static final String CLAIMED_RADIUS_OF_CHUNKS = CONFIG.getString("Messages.ClaimedRadiusOfChunks");
     public static final String CHANGED_SETTING = CONFIG.getString("Messages.ChangedSetting");
     public static final String NOW_IN_CHANNEL = CONFIG.getString("Messages.NowInChannel");
     public static final String ALREADY_IN_CHANNEL = CONFIG.getString("Messages.AlreadyInChannel");

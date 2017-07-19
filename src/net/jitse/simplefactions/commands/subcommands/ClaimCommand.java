@@ -8,10 +8,13 @@ import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -105,6 +108,48 @@ public class ClaimCommand extends SubCommand {
                 sender.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             }
         }
-        else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction claim [line, max: " + Settings.MAX_LINE_CLAIM + "]")));
+        else if(args.length == 3 && args[1].equalsIgnoreCase("radius")){
+            try{
+                int radius = Integer.parseInt(args[2]);
+                if(radius > Settings.MAX_RADIUS_CLAIM){
+                    sender.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
+                    return;
+                }
+
+                List<Chunk> pending = new ArrayList<>();
+                Chunk currentChunk = player.getLocation().getChunk();
+                for (int i = 0 - radius; i <= radius; i++) {
+                    for (int j = 0 - radius; j <= radius; j++) {
+                        pending.add(player.getWorld().getChunkAt(currentChunk.getX() + i, currentChunk.getZ() + j));
+                    }
+                }
+
+                boolean failed = false;
+                for(Chunk chunk : pending){
+                    Faction check = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
+                    if(check != null && check != faction){
+                        player.sendMessage(Chat.format(Settings.CHUNK_ALREADY_CLAIMED.replace("{faction}", check.getName())));
+                        failed = true;
+                        return;
+                    }
+                }
+                if(failed) return;
+                pending.forEach(checkedChunk -> {
+                    if(!faction.getClaimedChunks().contains(checkedChunk)) {
+                        faction.claimChunk(true, checkedChunk);
+                        Bukkit.getOnlinePlayers().stream()
+                                .filter(online -> online.getLocation().getChunk().getX() == checkedChunk.getX() && online.getLocation().getChunk().getZ() == checkedChunk.getZ())
+                                .forEach(online -> {
+                                    if(online != player) online.sendMessage(Chat.format(Settings.NOW_IN.replace("{land}", faction.getName())));
+                                    SimpleFactions.getInstance().getFactionsManager().getFactionsPlayer(online).setLocation(faction);
+                                });
+                    }
+                });
+                player.sendMessage(Chat.format(Settings.CLAIMED_RADIUS_OF_CHUNKS.replace("{radius}", String.valueOf(radius))));
+            } catch (NumberFormatException exception){
+                sender.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
+            }
+        }
+        else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction claim [radius, max: " + Settings.MAX_RADIUS_CLAIM + " | line, max: " + Settings.MAX_LINE_CLAIM + "]")));
     }
 }

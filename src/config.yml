@@ -5,6 +5,7 @@ ServerName: "&c&lDECIMATE &f&lPVP&r"
 ScoreboardName: "&cDecimate&fPVP"
 PlayerMaxPower: 100
 MaxLineClaim: 5
+MaxRadiusClaim: 3
 # TpDelay is in seconds.
 TpDelay: 5
 # Used when /faction sethome without any args.
@@ -120,3 +121,5 @@ Messages:
   CreatedFactionBroadcast: "&7&o{player} &r&fcreated faction &c&o{faction}&r&f."
   NoPermissionForCommand: "&fSeems like you don't have permission to execute this command, you need to have access to &7&o{permission}&f."
   NoRolePermissionForCommand: "&fSeems like you don't have the correct role for this command, you need to be at least of the role &7&o{role}&f."
+  ClaimedRadiusOfChunks: "&fYou claimed land in a radius! (Radius: &7&o{radius}&r&f)."
+  SetHomeOnlyOnOwnLand: "&cYou can only set homes on your own land!"

@@ -6,7 +6,6 @@ import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.minecraft.server.v1_12_R1.PlayerList;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -27,7 +26,7 @@ public class ChatCommand extends SubCommand {
         }
         Player player = (Player) sender;
         if(args.length != 2){
-            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction chat <all | faction | allies>")));
+            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction chat <public | faction | allies>")));
             return;
         }
         ChatChannel chatChannel = ChatChannel.fromString(args[1]).orElse(null);
@@ -35,7 +34,7 @@ public class ChatCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
-        if(chatChannel == ChatChannel.ALL){
+        if(chatChannel == ChatChannel.PUBLIC){
             if(PlayerListener.getPlayerChatChannelMap().containsKey(player.getUniqueId())) {
                 PlayerListener.getPlayerChatChannelMap().remove(player.getUniqueId());
                 player.sendMessage(Chat.format(Settings.NOW_IN_CHANNEL.replace("{channel}", chatChannel.toString().toLowerCase())));
