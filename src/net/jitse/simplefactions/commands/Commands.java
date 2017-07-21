@@ -34,6 +34,7 @@ public enum Commands {
     AUTO_CLAIM(new AutoClaimCommand(Role.MOD), true),
     CHAT(new ChatCommand(Role.MEMBER), true),
     PERM(new PermCommand(Role.OWNER), true),
+    UNCLAIM(new UnclaimCommand(Role.OWNER), true),
 
     // Commands which don't require to be in a faction.
     CREATE_FACTION(new CreateFactionCommand(), false),
@@ -41,6 +42,7 @@ public enum Commands {
     JOIN(new JoinFactionCommand(), false),
     FACTION_TOP(new FactionTopCommand(), false),
     FACTION_MAP(new FactionMapCommand(), false),
+    ADMIN(new AdminCommand(), false),
     SHOW(new ShowCommand(), false),
     SIDEBAR_TOGGLE(new SidebarToggleCommand(), false),
     POWER(new PowerCommand(), false),

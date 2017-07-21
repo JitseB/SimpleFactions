@@ -104,9 +104,13 @@ public class FactionsManager {
     }
 
     public void createFaction(String name, Player creator, boolean open){
-        Map<PermCategory, List<PermSetting>> defaultPermissions = new HashMap<>();
-        defaultPermissions.put(PermCategory.MOD, Arrays.asList(PermSetting.BUILD, PermSetting.DOOR, PermSetting.BUTTON, PermSetting.LEVER, PermSetting.PRESSUREPLATES, PermSetting.FLY));
-        defaultPermissions.put(PermCategory.MEM, Arrays.asList(PermSetting.BUILD, PermSetting.DOOR, PermSetting.BUTTON, PermSetting.LEVER, PermSetting.PRESSUREPLATES, PermSetting.FLY));
+        Map<PermCategory, ArrayList<PermSetting>> defaultPermissions = new HashMap<>();
+        ArrayList<PermSetting> modSettings = new ArrayList<>();
+        modSettings.addAll(Arrays.asList(PermSetting.BUILD, PermSetting.DOOR, PermSetting.BUTTON, PermSetting.LEVER, PermSetting.PRESSUREPLATES, PermSetting.FLY));
+        ArrayList<PermSetting> memSettings = new ArrayList<>();
+        memSettings.addAll(Arrays.asList(PermSetting.BUILD, PermSetting.DOOR, PermSetting.BUTTON, PermSetting.LEVER, PermSetting.PRESSUREPLATES, PermSetting.FLY));
+        defaultPermissions.put(PermCategory.MOD, modSettings);
+        defaultPermissions.put(PermCategory.MEM, memSettings);
         this.plugin.getMySql().execute("INSERT INTO Factions VALUES(?,?,?,?,?,?,NULL,?);",
                 name, creator.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), Settings.PLAYER_MAX_POWER, 0, open, PermSerializer.serialize(defaultPermissions)
         );

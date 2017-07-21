@@ -23,11 +23,11 @@ public class Faction {
     private Set<Chunk> chunks;
     private Set<Faction> allies, enemies;
     private Map<Chunk, List<Partner>> partnerMap = new HashMap<>();
-    private Map<PermCategory, List<PermSetting>> permissions;
+    private Map<PermCategory, ArrayList<PermSetting>> permissions;
     private Set<Home> homes;
     private boolean open;
 
-    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes, boolean open, Timestamp founded, Map<PermCategory, List<PermSetting>> permissions){
+    public Faction(String name, UUID creator, Set<Member> members, Set<Chunk> chunks, Set<Faction> allies, Set<Faction> enemies, Set<Home> homes, boolean open, Timestamp founded, Map<PermCategory, ArrayList<PermSetting>> permissions){
         this.name = name;
         this.creator = creator;
         this.members = members;
@@ -49,14 +49,14 @@ public class Faction {
     public void setSetting(PermCategory category, PermSetting setting, boolean yes){
         if(this.permissions.containsKey(category)){
             if(!this.permissions.get(category).contains(setting) && yes){
-                List<PermSetting> temp = this.permissions.get(category);
+                ArrayList<PermSetting> temp = this.permissions.get(category);
                 temp.add(setting);
                 this.permissions.remove(category);
                 this.permissions.put(category, temp);
                 SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET permissions=? WHERE name=?;", PermSerializer.serialize(this.permissions), this.name);
             }
             else if(this.permissions.get(category).contains(setting) && !yes){
-                List<PermSetting> temp = this.permissions.get(category);
+                ArrayList<PermSetting> temp = this.permissions.get(category);
                 temp.remove(setting);
                 this.permissions.remove(category);
                 if(temp.size() > 0) this.permissions.put(category, temp);
@@ -64,7 +64,7 @@ public class Faction {
             } // Else: Already inside of the list, nothing changed.
         } else{
             if(!yes) return; // List only contains the 'yes' items.
-            List<PermSetting> newList = new ArrayList<>();
+            ArrayList<PermSetting> newList = new ArrayList<>();
             newList.add(setting);
             this.permissions.put(category, newList);
             SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET permissions=? WHERE name=?;", PermSerializer.serialize(this.permissions), this.name);

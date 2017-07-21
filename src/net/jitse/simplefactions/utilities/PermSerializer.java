@@ -11,13 +11,13 @@ import java.util.*;
  */
 public class PermSerializer {
 
-    public static Map<PermCategory, List<PermSetting>> deserialize(String input){
-        Map<PermCategory, List<PermSetting>> map = new HashMap<>();
+    public static Map<PermCategory, ArrayList<PermSetting>> deserialize(String input){
+        Map<PermCategory, ArrayList<PermSetting>> map = new HashMap<>();
         for(String element : input.split(";")){
             if(element == null || element.equals("")) continue;
             PermCategory category = PermCategory.valueOf(element.substring(0, 3));
             List<String> list = Arrays.asList((element.substring(3, element.length()).split(":")));
-            List<PermSetting> settings = new ArrayList<>();
+            ArrayList<PermSetting> settings = new ArrayList<>();
             for (String item: list){
                 if(item == null || item.equals("")) continue;
                 settings.add(PermSetting.valueOf(item));
@@ -27,9 +27,9 @@ public class PermSerializer {
         return map;
     }
 
-    public static String serialize(Map<PermCategory, List<PermSetting>> input){
+    public static String serialize(Map<PermCategory, ArrayList<PermSetting>> input){
         StringBuilder builder = new StringBuilder();
-        for(Map.Entry<PermCategory, List<PermSetting>> entry : input.entrySet()){
+        for(Map.Entry<PermCategory, ArrayList<PermSetting>> entry : input.entrySet()){
             String item = StringUtils.join(entry.getValue(), ":");
             builder.append(entry.getKey().toString() + item + ";");
         }

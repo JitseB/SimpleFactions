@@ -79,8 +79,7 @@ public class PermCommand extends SubCommand {
         // Set the permission setting.
         PermCategory category = PermCategory.fromString(args[1]).orElse(null);
         PermSetting setting = PermSetting.fromString(args[2]).orElse(null);
-        if(category == null || setting == null || (!args[3].equalsIgnoreCase
-                ("yes") && !args[3].equalsIgnoreCase("no"))){
+        if(category == null || setting == null || (!args[3].equalsIgnoreCase("yes") && !args[3].equalsIgnoreCase("no"))){
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
