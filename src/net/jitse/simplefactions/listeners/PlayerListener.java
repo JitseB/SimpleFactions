@@ -4,13 +4,14 @@ import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.subcommands.AutoClaimCommand;
 import net.jitse.simplefactions.events.PlayerChangeChunkEvent;
 import net.jitse.simplefactions.events.PlayerLeaveServerEvent;
-import net.jitse.simplefactions.factions.ChatChannel;
-import net.jitse.simplefactions.factions.Faction;
-import net.jitse.simplefactions.factions.Member;
+import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.Logger;
+import net.jitse.simplefactions.utilities.RelationState;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -123,6 +124,74 @@ public class PlayerListener implements Listener {
                 else player.sendMessage(Chat.format(Settings.ENTERING_LAND.replace("{land}", newLocation.getName())));
             }
             fplayer.setLocation(newLocation);
+        }
+
+        // Flight logic.
+        Faction playerFaction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
+        Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(event.getTo());
+        if(faction == null){
+            if((player.getAllowFlight() || player.isFlying()) && player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR){
+                player.sendMessage(Chat.format(Settings.DISABLED_FLIGHT));
+                player.setAllowFlight(false);
+                player.setFlying(false);
+            }
+            return;
+        }
+        boolean allowedFlight = false;
+        if(playerFaction != null && faction.equals(playerFaction)){
+            Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
+            switch (role){
+                case MEMBER:
+                    if(faction.getSetting(PermCategory.MEM, PermSetting.FLY))
+                        allowedFlight = true;
+                    break;
+                case MOD:
+                    if(faction.getSetting(PermCategory.MOD, PermSetting.FLY))
+                        allowedFlight = true;
+                    break;
+                case OWNER:
+                    allowedFlight = true;
+                    break;
+            }
+        } else{
+            if(playerFaction == null && faction.getSetting(PermCategory.NEU, PermSetting.FLY)){
+                allowedFlight = true;
+            } else{
+                RelationState relation = faction.getAllies().contains(playerFaction) ? RelationState.ALLIES : (faction.getEnemies().contains(playerFaction) ? RelationState.ENEMIES : null);
+                if(relation == null){
+                    if(relation == null && faction.getSetting(PermCategory.NEU, PermSetting.FLY))
+                        allowedFlight = true;
+                } else{
+                    switch (relation){
+                        case ALLIES:
+                            if(relation == null && faction.getSetting(PermCategory.ALL, PermSetting.FLY))
+                                allowedFlight = true;
+                            break;
+                        case ENEMIES:
+                            if(relation == null && faction.getSetting(PermCategory.ENE, PermSetting.FLY))
+                                allowedFlight = true;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        if(!allowedFlight && playerFaction != null){
+            boolean partners = false;
+            for(Partner partner : faction.getPartners(event.getTo())){
+                if(partner.getData() instanceof Faction && partner.getData().equals(playerFaction))
+                    partners = true;
+                if(partner.getData() instanceof UUID && partner.getData().equals(player.getUniqueId()))
+                    partners = true;
+            }
+            if(partners && faction.getSetting(PermCategory.MEM, PermSetting.FLY))
+                allowedFlight = true;
+        }
+        if(!allowedFlight && (player.getAllowFlight() || player.isFlying()) && player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR){
+            player.sendMessage(Chat.format(Settings.DISABLED_FLIGHT));
+            player.setAllowFlight(false);
+            player.setFlying(false);
         }
     }
 

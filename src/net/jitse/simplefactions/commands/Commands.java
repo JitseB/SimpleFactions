@@ -28,7 +28,6 @@ public enum Commands {
     REVOKE(new RevokeCommand(Role.MOD), true),
     NEUTRAL(new NeutralCommand(Role.OWNER), true),
     ALLY(new AllyCommand(Role.OWNER), true),
-    FLY(new FlyCommand(Role.MEMBER), true),
     RE_HOME(new ReHomeCommand(Role.MOD), true),
     OPEN(new OpenCommand(Role.MOD), true),
     ROLE(new RoleCommand(Role.OWNER), true),
@@ -38,6 +37,7 @@ public enum Commands {
 
     // Commands which don't require to be in a faction.
     CREATE_FACTION(new CreateFactionCommand(), false),
+    FLY(new FlyCommand(), false),
     JOIN(new JoinFactionCommand(), false),
     FACTION_TOP(new FactionTopCommand(), false),
     FACTION_MAP(new FactionMapCommand(), false),

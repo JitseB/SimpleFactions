@@ -12,7 +12,8 @@ public enum PermSetting {
     DOOR("Ability to use doors."),
     BUTTON("Ability to use buttons."),
     LEVER("Ability to use levers."),
-    PRESSUREPLATE("Usage of pressure plates.");
+    FLY("Access to /faction fly."),
+    PRESSUREPLATES("Pressure plate usage.");
 
     String description;
 
@@ -26,5 +27,9 @@ public enum PermSetting {
 
     public static Optional<PermSetting> fromString(String str) {
         return Stream.of(values()).filter(setting -> setting.toString().equalsIgnoreCase(str)).findFirst();
+    }
+
+    public String getUpperCamelCaseString(){
+        return this.toString().substring(0, 1).toUpperCase() + this.toString().substring(1, this.toString().length()).toLowerCase();
     }
 }

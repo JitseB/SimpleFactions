@@ -35,6 +35,9 @@ public class Settings {
     public static final double PAINBUILD_DAMAGE = CONFIG.getDouble("PainBuildDamage");
     public static final String WILDERNESS_NAME = CONFIG.getString("WildernessName");
 
+    public static final String DISABLED_FLIGHT = CONFIG.getString("Messages.DisabledFlight");
+    public static final String ENABLED_FLIGHT = CONFIG.getString("Messages.EnabledFlight");
+    public static final String FLY_ONLY_ON_TRUSTED_LAND = CONFIG.getString("Messages.FlyOnlyOnTrustedLand");
     public static final String FACTION_ALREADY_STATE = CONFIG.getString("Messages.FactionAlreadyState");
     public static final String SETHOME_ONLY_ON_OWN_LAND = CONFIG.getString("Messages.SetHomeOnlyOnOwnLand");
     public static final String CLAIMED_RADIUS_OF_CHUNKS = CONFIG.getString("Messages.ClaimedRadiusOfChunks");

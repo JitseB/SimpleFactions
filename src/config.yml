@@ -124,3 +124,6 @@ Messages:
   ClaimedRadiusOfChunks: "&fYou claimed land in a radius! (Radius: &7&o{radius}&r&f)."
   SetHomeOnlyOnOwnLand: "&cYou can only set homes on your own land!"
   FactionAlreadyState: "&cYour faction is already &f&o{open}&r&c."
+  FlyOnlyOnTrustedLand: "&cYou can only use &e&o/faction fly&r&c on land that belongs to your faction or you're trusted on!"
+  DisabledFlight: "&cDisabled flight mode."
+  EnabledFlight: "&aEnabled flight mode."

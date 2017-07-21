@@ -46,20 +46,20 @@ public class PermCommand extends SubCommand {
                         // Enabled for this category and setting.
                         component = new TextComponent("YES");
                         component.setColor(ChatColor.GREEN);
-                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.toString() + ": " + setting.toString() + " to no") }));
+                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.getDescription() + ": " + setting.getUpperCamelCaseString() + " to no") }));
                         component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " no getmap"));
                     } else{
                         // Disabled for this category and setting.
                         component = new TextComponent("NOO");
                         component.setColor(ChatColor.RED);
-                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.toString() + ": " + setting.toString() + " to yes") }));
+                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.getDescription() + ": " + setting.getUpperCamelCaseString() + " to yes") }));
                         component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " yes getmap"));
                     }
                     builder.addExtra(component);
                     TextComponent space = new TextComponent(" ");
                     builder.addExtra(space);
                 }
-                TextComponent name = new TextComponent(setting.toString());
+                TextComponent name = new TextComponent(setting.getUpperCamelCaseString());
                 name.setColor(ChatColor.YELLOW);
                 TextComponent description = new TextComponent(": " + setting.getDescription());
                 description.setColor(ChatColor.GRAY);

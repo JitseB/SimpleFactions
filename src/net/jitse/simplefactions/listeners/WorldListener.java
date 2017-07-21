@@ -4,7 +4,6 @@ import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -356,14 +355,14 @@ public class WorldListener implements Listener {
                         Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
                         switch (role){
                             case MEMBER:
-                                if(fplayer.getSetting(PermCategory.MEM, PermSetting.PRESSUREPLATE)) return;
+                                if(fplayer.getSetting(PermCategory.MEM, PermSetting.PRESSUREPLATES)) return;
                                 else {
                                     event.setCancelled(true);
                                     sendLandAlreadyClaimedMessage(player, fchunk);
                                     return;
                                 }
                             case MOD:
-                                if(fplayer.getSetting(PermCategory.MOD, PermSetting.PRESSUREPLATE)) return;
+                                if(fplayer.getSetting(PermCategory.MOD, PermSetting.PRESSUREPLATES)) return;
                                 else {
                                     event.setCancelled(true);
                                     sendLandAlreadyClaimedMessage(player, fchunk);
@@ -373,9 +372,9 @@ public class WorldListener implements Listener {
                                 return; // Owner role.
                         }
                     }
-                    else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.PRESSUREPLATE)) return;
-                    else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.PRESSUREPLATE)) return;
-                    else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.PRESSUREPLATE)) return;
+                    else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.PRESSUREPLATES)) return;
+                    else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.PRESSUREPLATES)) return;
+                    else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.PRESSUREPLATES)) return;
                     else {
                         event.setCancelled(true);
                         sendLandAlreadyClaimedMessage(player, fchunk);
