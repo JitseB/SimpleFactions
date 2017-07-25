@@ -3,6 +3,7 @@ package net.jitse.simplefactions.commands.subcommands;
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
 import net.jitse.simplefactions.factions.Faction;
+import net.jitse.simplefactions.factions.Home;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
@@ -28,6 +29,13 @@ public class UnclaimCommand extends SubCommand {
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
         Chunk chunk = player.getLocation().getChunk();
-        // test
+        for(Home home : faction.getHomes()){ // Don't have to loop through ALL factions, because only faction members can place homes on their land!
+            if(chunk.equals(home.getLocation().getChunk())){
+                faction.getHomes().remove(home);
+                SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=? AND name=?;", faction.getName(), home.getName());
+            }
+        }
+        faction.unclaimChunk(chunk);
+        player.sendMessage(Chat.format(Settings.UNCLAIMED_LAND));
     }
 }

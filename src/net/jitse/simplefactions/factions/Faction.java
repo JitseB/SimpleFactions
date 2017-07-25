@@ -177,6 +177,11 @@ public class Faction {
             SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET claimed=? WHERE name=?;", ChunkSerializer.serialize(this.chunks), this.name);
     }
 
+    public void unclaimChunk(Chunk... chunk){
+        this.chunks.removeAll(Arrays.asList(chunk));
+        SimpleFactions.getInstance().getMySql().execute("UPDATE Factions SET claimed=? WHERE name=?;", ChunkSerializer.serialize(this.chunks), this.name);
+    }
+
     public void addMember(Member member, boolean updateSql, boolean updateScoreboards){
         this.members.add(member);
         if(updateScoreboards){

@@ -2,6 +2,7 @@ package net.jitse.simplefactions;
 
 import net.jitse.simplefactions.commands.Commands;
 import net.jitse.simplefactions.commands.FactionsCommand;
+import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.listeners.WorldListener;
@@ -11,6 +12,7 @@ import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.ServerData;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -74,6 +76,29 @@ public class SimpleFactions extends JavaPlugin {
         Arrays.stream(Commands.values()).forEach(command -> Bukkit.getPluginManager().registerEvents(command.getSubCommand(), this));
 
         new FactionsLoader(this).load(() -> {
+            if(this.factionsManager.getFaction(Settings.SPAWN_NAME) == null){
+                // Create Spawn Factions (Not actual factions with members).
+                this.factionsManager.createFaction(Settings.SPAWN_NAME, null, false);
+                Faction faction = this.factionsManager.getFaction(Settings.SPAWN_NAME);
+                Chunk worldCenter = Bukkit.getWorlds().get(0).getChunkAt(0, 0);
+                for (int i = 0 - Settings.SPAWN_RADIUS; i <= Settings.SPAWN_RADIUS; i++) {
+                    for (int j = 0 - Settings.SPAWN_RADIUS; j <= Settings.SPAWN_RADIUS; j++)
+                        faction.claimChunk(true, worldCenter.getWorld().getChunkAt(worldCenter.getX() + i, worldCenter.getZ() + j));
+                }
+            }
+            if(this.factionsManager.getFaction(Settings.WARZONE_NAME) == null){
+                // Create Warzone Factions (Not actual factions with members).
+                this.factionsManager.createFaction(Settings.WARZONE_NAME, null, false);
+                Faction faction = this.factionsManager.getFaction(Settings.WARZONE_NAME);
+                Chunk worldCenter = Bukkit.getWorlds().get(0).getChunkAt(0, 0);
+                for (int i = 0 - Settings.WARZONE_RADIUS; i <= Settings.WARZONE_RADIUS; i++) {
+                    for (int j = 0 - Settings.WARZONE_RADIUS; j <= Settings.WARZONE_RADIUS; j++) {
+                        Chunk pending = worldCenter.getWorld().getChunkAt(worldCenter.getX() + i, worldCenter.getZ() + j);
+                        if(this.factionsManager.getFaction(pending) == null)
+                            faction.claimChunk(true, worldCenter.getWorld().getChunkAt(worldCenter.getX() + i, worldCenter.getZ() + j));
+                    }
+                }
+            }
             Bukkit.getScheduler().runTask(this, () -> Bukkit.getOnlinePlayers().forEach(playerListener::handlePlayerJoin));
             this.sidebarManager.startRunnables(this);
             new PowerManager().startRunnables(this);

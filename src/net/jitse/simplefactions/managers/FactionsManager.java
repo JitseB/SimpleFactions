@@ -111,28 +111,47 @@ public class FactionsManager {
         memSettings.addAll(Arrays.asList(PermSetting.BUILD, PermSetting.DOOR, PermSetting.BUTTON, PermSetting.LEVER, PermSetting.PRESSUREPLATES, PermSetting.FLY));
         defaultPermissions.put(PermCategory.MOD, modSettings);
         defaultPermissions.put(PermCategory.MEM, memSettings);
-        this.plugin.getMySql().execute("INSERT INTO Factions VALUES(?,?,?,?,?,?,NULL,?);",
-                name, creator.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), Settings.PLAYER_MAX_POWER, 0, open, PermSerializer.serialize(defaultPermissions)
-        );
-        Chat.broadcast(Settings.CREATED_FACTION_BROADCAST.replace("{player}", creator.getName()).replace("{faction}", name));
-        Set<Member> members = new HashSet<>();
-        Member member = new Member(creator.getUniqueId(), new Timestamp(System.currentTimeMillis()), Role.OWNER, this.getFactionsPlayer(creator));
-        Faction createdFaction = new Faction(
-                name,
-                creator.getUniqueId(),
-                members,
-                new HashSet<>(),
-                new HashSet<>(),
-                new HashSet<>(),
-                new HashSet<>(),
-                open,
-                new Timestamp(System.currentTimeMillis()),
-                defaultPermissions
-        );
-        createdFaction.addMember(member, true, false);
-        this.factions.add(createdFaction);
-        Bukkit.getPluginManager().callEvent(new FactionCreatedEvent(createdFaction));
-        this.plugin.getFactionsTagManager().removeTag(this.getFactionsPlayer(creator));
-        this.plugin.getFactionsTagManager().initTag(member);
+        if(creator == null){
+            this.plugin.getMySql().execute("INSERT INTO Factions VALUES(?,NULL,?,?,?,?,NULL,?);",
+                    name, new Timestamp(System.currentTimeMillis()), Settings.PLAYER_MAX_POWER, 0, open, PermSerializer.serialize(defaultPermissions)
+            );
+            Faction createdFaction = new Faction(
+                    name,
+                    null,
+                    new HashSet<>(),
+                    new HashSet<>(),
+                    new HashSet<>(),
+                    new HashSet<>(),
+                    new HashSet<>(),
+                    open,
+                    new Timestamp(System.currentTimeMillis()),
+                    defaultPermissions
+            );
+            this.factions.add(createdFaction);
+        } else {
+            this.plugin.getMySql().execute("INSERT INTO Factions VALUES(?,?,?,?,?,?,NULL,?);",
+                    name, creator.getUniqueId().toString(), new Timestamp(System.currentTimeMillis()), Settings.PLAYER_MAX_POWER, 0, open, PermSerializer.serialize(defaultPermissions)
+            );
+            Chat.broadcast(Settings.CREATED_FACTION_BROADCAST.replace("{player}", creator.getName()).replace("{faction}", name));
+            Set<Member> members = new HashSet<>();
+            Member member = new Member(creator.getUniqueId(), new Timestamp(System.currentTimeMillis()), Role.OWNER, this.getFactionsPlayer(creator));
+            Faction createdFaction = new Faction(
+                    name,
+                    creator.getUniqueId(),
+                    members,
+                    new HashSet<>(),
+                    new HashSet<>(),
+                    new HashSet<>(),
+                    new HashSet<>(),
+                    open,
+                    new Timestamp(System.currentTimeMillis()),
+                    defaultPermissions
+            );
+            createdFaction.addMember(member, true, false);
+            this.factions.add(createdFaction);
+            Bukkit.getPluginManager().callEvent(new FactionCreatedEvent(createdFaction));
+            this.plugin.getFactionsTagManager().removeTag(this.getFactionsPlayer(creator));
+            this.plugin.getFactionsTagManager().initTag(member);
+        }
     }
 }

@@ -29,7 +29,7 @@ public class FactionsLoader {
         this.plugin.getMySql().selectSync("SELECT * FROM Factions;", factionSet -> {
             try{
                 while (factionSet.next()){
-                    factions.add(new Faction(factionSet.getString("name"), UUID.fromString(factionSet.getString("creator")),
+                    factions.add(new Faction(factionSet.getString("name"), factionSet.getString("creator") == null ? null : UUID.fromString(factionSet.getString("creator")),
                             new HashSet<>(), ChunkSerializer.deserialize(factionSet.getString("claimed")), new HashSet<>(),
                             new HashSet<>(), new HashSet<>(), factionSet.getBoolean("open"), factionSet.getTimestamp("created"),
                             PermSerializer.deserialize(factionSet.getString("permissions")))
@@ -116,7 +116,7 @@ public class FactionsLoader {
                         this.plugin.getFactionsManager().init(factions);
 
                         // And finally, execute the runnable.
-                        finished.run();
+                        Bukkit.getScheduler().runTask(this.plugin, () -> finished.run());
                     });
                 });
             });

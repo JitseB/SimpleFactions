@@ -30,6 +30,12 @@ PowerLostOnDeath: 20
 # PainBuildDamage: 1.0 = half a heart.
 PainBuildDamage: 3.0
 WildernessName: "&r&a&oWilderness"
+# For SpawnName & WarzoneName are chatcolors unsupported!
+SpawnName: "Spawn"
+WarzoneName: "Warzone"
+# Notice: These radiuses are in chunks
+SpawnLandRadius: 2
+WarzoneLandRadius: 5
 
 # MySQL database information:
 MySQL:
@@ -127,3 +133,5 @@ Messages:
   FlyOnlyOnTrustedLand: "&cYou can only use &e&o/faction fly&r&c on land that belongs to your faction or you're trusted on!"
   DisabledFlight: "&cDisabled flight mode."
   EnabledFlight: "&aEnabled flight mode."
+  UnclaimedLand: "&6You've unclaimed this piece of land."
+
