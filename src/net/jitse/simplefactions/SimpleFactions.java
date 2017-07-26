@@ -31,9 +31,9 @@ public class SimpleFactions extends JavaPlugin {
     private final FactionsTagManager factionsTagManager = new FactionsTagManager();
     private final SidebarManager sidebarManager = new SidebarManager();
     private final TrustedManager trustedManager = new TrustedManager(this);
+    private final MySql mysql = new MySql();
 
     private Economy economy;
-    private MySql mysql;
     private ServerData serverDataManager;
 
     private Set<Player> players = new HashSet<>();
@@ -53,13 +53,13 @@ public class SimpleFactions extends JavaPlugin {
             //return;
         }
 
-        this.mysql = new MySql(
-                getConfig().getString("MySQL.host"),
-                getConfig().getInt("MySQL.port"),
-                getConfig().getString("MySQL.username"),
-                getConfig().getString("MySQL.password"),
-                getConfig().getString("MySQL.database")
-        );
+        if(!this.mysql.connect(getConfig().getString("MySQL.host"),
+                getConfig().getInt("MySQL.port"), getConfig().getString("MySQL.username"),
+                getConfig().getString("MySQL.password"), getConfig().getString("MySQL.database"))){
+            Logger.log(Logger.LogLevel.ERROR, "Was not able to connect to the database, please check your config.yml!");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         getCommand("factions").setExecutor(new FactionsCommand());
 
@@ -109,8 +109,7 @@ public class SimpleFactions extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Logger.log(Logger.LogLevel.WARNING, "Reloading is not recommended. Some functions might not work as they should. Restart the server instead.");
-        if(this.mysql != null) this.mysql.close();
+        if(this.mysql != null && this.mysql.isConnected()) this.mysql.close();
     }
 
     private boolean setupEconomy() {

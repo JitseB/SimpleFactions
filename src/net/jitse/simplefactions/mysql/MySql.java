@@ -16,18 +16,28 @@ import java.sql.SQLException;
  */
 public class MySql {
 
-    private final HikariDataSource hikariDataSource;
+    private HikariDataSource hikariDataSource;
 
-    public MySql(String host, int port, String username, String password, String database) {
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:mysql://" + host + ':' + port + '/' + database);
-        hikariConfig.setUsername(username);
-        hikariConfig.setPassword(password);
-        hikariConfig.addDataSourceProperty("useSSL", "false");
-        hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
-        hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
-        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        hikariDataSource = new HikariDataSource(hikariConfig);
+    public boolean connect(String host, int port, String username, String password, String database){
+        try{
+            HikariConfig hikariConfig = new HikariConfig();
+            hikariConfig.setJdbcUrl("jdbc:mysql://" + host + ':' + port + '/' + database);
+            hikariConfig.setUsername(username);
+            hikariConfig.setPassword(password);
+            hikariConfig.addDataSourceProperty("useSSL", "false");
+            hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+            hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+            hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+            hikariDataSource = new HikariDataSource(hikariConfig);
+        } catch (Exception exception) {
+            hikariDataSource = null;
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isConnected(){
+        return hikariDataSource == null ? false : !hikariDataSource.isClosed();
     }
 
     public void close() {
