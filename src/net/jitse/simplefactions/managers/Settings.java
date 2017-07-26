@@ -39,6 +39,7 @@ public class Settings {
     public static final int SPAWN_RADIUS = CONFIG.getInt("SpawnLandRadius");
     public static final int WARZONE_RADIUS = CONFIG.getInt("WarzoneLandRadius");
 
+    public static final String NOT_ALLOWED_IN_SPAWN_OR_WARZONE = CONFIG.getString("Messages.NotAllowedInSpawnOrWarzone");
     public static final String UNCLAIMED_LAND = CONFIG.getString("Messages.UnclaimedLand");
     public static final String DISABLED_FLIGHT = CONFIG.getString("Messages.DisabledFlight");
     public static final String ENABLED_FLIGHT = CONFIG.getString("Messages.EnabledFlight");

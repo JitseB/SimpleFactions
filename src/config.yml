@@ -134,4 +134,5 @@ Messages:
   DisabledFlight: "&cDisabled flight mode."
   EnabledFlight: "&aEnabled flight mode."
   UnclaimedLand: "&6You've unclaimed this piece of land."
+  NotAllowedInSpawnOrWarzone: "&cThat action is not allowed here."
 
