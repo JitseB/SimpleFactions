@@ -46,7 +46,7 @@ public class PermCommand extends SubCommand {
                     if(setting == PermSetting.PRESSUREPLATES && category == PermCategory.ENE){
                         component = new TextComponent("NOO");
                         component.setColor(ChatColor.GRAY);
-                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Unavailable, this setting can't be changed") }));
+                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent(ChatColor.GRAY + "Unavailable, this setting can't be changed") }));
                     } else{
                         if(faction.getSetting(category, setting)){
                             // Enabled for this category and setting.

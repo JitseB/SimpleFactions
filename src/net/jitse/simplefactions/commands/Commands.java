@@ -6,6 +6,7 @@ import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -64,6 +65,10 @@ public enum Commands {
     public void execute(CommandSender sender, String[] args){
         if(!(sender instanceof Player)) this.subCommand.perform(sender, args);
         else{
+            if(this == Commands.RESET_SYSTEM){
+                sender.sendMessage(Chat.format("&cThis command is console only!"));
+                return;
+            }
             Player player = (Player) sender;
             if(!player.hasPermission(this.subCommand.getPermission())){
                 player.sendMessage(Chat.format(Settings.NO_PERMISSION_COMMAND.replace("{permission}", this.subCommand.getPermission())));
