@@ -187,6 +187,9 @@ public class SidebarManager {
                             scoreboard.getTeam("#sf-power").setSuffix(String.valueOf(member.getFaction().getMaxPower()));
                             scoreboard.getTeam("#sf-online").setPrefix(Chat.format("&c" + member.getFaction().getOnlineMembers()));
                             scoreboard.getTeam("#sf-online").setSuffix(Chat.format(String.valueOf(member.getFaction().getMembers().size())));
+                            scoreboard.getTeam("#sf-date").setSuffix(DateTimeFormatter.ofPattern(Settings.DATE_NOTATION).format(LocalDate.now()));
+                            scoreboard.getTeam("#sf-network").setPrefix(Chat.format("&fNetwork: &c" + String.valueOf(SimpleFactions.getInstance().getServerDataManager().getCachedPlayerCount("PUBLIC"))));
+                            scoreboard.getTeam("#sf-network").setSuffix(Chat.format(String.valueOf(Settings.MAX_PROXY_PLAYERS)));
                         }
                     }
                 } catch (Exception ignored) {
