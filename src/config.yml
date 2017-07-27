@@ -20,7 +20,7 @@ FactionMaxMembers: 50
 # FactionInviteExpireTime is in seconds.
 FactionInviteExpireTime: 60
 # MaxProxyPlayers for BungeeCord support (Scoreboard item).
-MaxProxyPlayer: 450
+MaxProxyPlayers: 450
 DateNotation: "MM/dd/yy"
 # FactionTag: Brackets can only be removed or replaced with a single character!
 FactionTag: "[{faction}]"
