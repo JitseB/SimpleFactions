@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
@@ -214,6 +215,85 @@ public class WorldListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerBucketUse(PlayerBucketEmptyEvent event){
+        boolean approved = false;
+        if(event.getBlockClicked() != null){
+            Player player = event.getPlayer();
+            if(AdminCommand.getBypassing().contains(player.getUniqueId())){
+                return;
+            }
+            Chunk chunk = event.getBlockClicked().getChunk();
+            Faction fplayer = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
+            Faction fchunk = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
+
+            // Guarantee function. heh.
+            if(fchunk != null && fplayer != null){
+                if(fchunk.equals(fplayer)){
+                    Role role = SimpleFactions.getInstance().getFactionsManager().getMember(player).getRole();
+                    switch (role){
+                        case MEMBER:
+                            if(fplayer.getSetting(PermCategory.MEM, PermSetting.BUILD)) return;
+                            else {
+                                event.setCancelled(true);
+                                sendLandAlreadyClaimedMessage(player, fchunk);
+                                return;
+                            }
+                        case MOD:
+                            if(fplayer.getSetting(PermCategory.MOD, PermSetting.BUILD)) return;
+                            else {
+                                event.setCancelled(true);
+                                sendLandAlreadyClaimedMessage(player, fchunk);
+                                return;
+                            }
+                        default:
+                            return; // Owner role.
+                    }
+                }
+                else if(fchunk.getAllies().contains(fplayer) && fchunk.getSetting(PermCategory.ALL, PermSetting.BUILD)) return;
+                else if(fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.ENE, PermSetting.BUILD)) return;
+                else if(!fchunk.getAllies().contains(fplayer) && !fchunk.getEnemies().contains(fplayer) && fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD)) return;
+            }
+
+            if(fchunk != null){
+                // Partner logic.
+                List<Partner> partnerList = fchunk.getPartners(chunk);
+                if(partnerList == null){
+                    if(fchunk.equals(fplayer)) event.setCancelled(false);
+                    else {
+                        event.setCancelled(true);
+                        sendLandAlreadyClaimedMessage(player, fchunk);
+                    }
+                    return;
+                } else{
+                    for(Partner partner : partnerList){
+                        if(!(partner.getData() instanceof UUID)) continue;
+                        if(partner.getData().equals(player.getUniqueId())) {
+                            event.setCancelled(false);
+                            return; // Allowed standalone partner.
+                        }
+                    }
+                    if(!fchunk.equals(fplayer)) {
+                        for(Partner partner : partnerList){
+                            if(!(partner.getData() instanceof Faction)) continue;
+                            if(((Faction) partner.getData()).getName().equals(fplayer.getName())) {
+                                event.setCancelled(false);
+                                return; // Allowed faction partner.
+                            }
+                        }
+                        if(fchunk != fplayer) {
+                            event.setCancelled(true);
+                            sendLandAlreadyClaimedMessage(player, fchunk);
+                        }
+                        return;
+                    }
+                }
+                event.setCancelled(true);
+                sendLandAlreadyClaimedMessage(player, fchunk);
+            }
+        }
+    }
+
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event){
         boolean approved = false;
@@ -236,7 +316,7 @@ public class WorldListener implements Listener {
                     if(event.getPlayer().getItemOnCursor() != null && event.getPlayer().getItemOnCursor().getType() == Material.MONSTER_EGG /*|| event.getItemInHand().getType() == Material.ENDER_PEARL*/){
                         player.sendMessage(Chat.format(Settings.NOT_ALLOWED_IN_SPAWN_OR_WARZONE));
                         event.setCancelled(true);
-                    }
+                    } else return;
                 }
             }
 
