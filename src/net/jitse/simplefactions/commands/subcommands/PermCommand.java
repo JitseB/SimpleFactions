@@ -90,6 +90,12 @@ public class PermCommand extends SubCommand {
             player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
             return;
         }
+        if(setting == PermSetting.PAINBUILD){ // Disabled, client request.
+            player.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction perm [<category> <settings> <yes | no>]")));
+            player.sendMessage(Chat.format("&cCategories: &7" + StringUtils.join(PermCategory.values(), ", ")));
+            player.sendMessage(Chat.format("&cSettings: &7" + StringUtils.join(PermSetting.values(), ", ")));
+            return;
+        }
         boolean yes = args[3].equalsIgnoreCase("yes") ? true : false;
         faction.setSetting(category, setting, yes);
         if(args.length == 5 && args[4].equals("getmap"))
