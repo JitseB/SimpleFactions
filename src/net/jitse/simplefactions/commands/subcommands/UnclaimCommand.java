@@ -28,14 +28,31 @@ public class UnclaimCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
-        Chunk chunk = player.getLocation().getChunk();
-        for(Home home : faction.getHomes()){ // Don't have to loop through ALL factions, because only faction members can place homes on their land!
-            if(chunk.equals(home.getLocation().getChunk())){
-                faction.getHomes().remove(home);
-                SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=? AND name=?;", faction.getName(), home.getName());
+        if(args.length == 2 && args[1].equalsIgnoreCase("all")){
+            if(faction.getClaimedChunks().size() == 0){
+                player.sendMessage(Chat.format(Settings.NO_CLAIMED_LAND));
+                return;
             }
+            for(Chunk chunk : faction.getClaimedChunks()){
+                for(Home home : faction.getHomes()){ // Don't have to loop through ALL factions, because only faction members can place homes on their land!
+                    if(chunk.equals(home.getLocation().getChunk())){
+                        faction.getHomes().remove(home);
+                        SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=? AND name=?;", faction.getName(), home.getName());
+                    }
+                }
+                faction.unclaimChunk(chunk);
+            }
+            player.sendMessage(Chat.format(Settings.UNCLAIMED_ALL_LAND));
+        } else{
+            Chunk chunk = player.getLocation().getChunk();
+            for(Home home : faction.getHomes()){
+                if(chunk.equals(home.getLocation().getChunk())){
+                    faction.getHomes().remove(home);
+                    SimpleFactions.getInstance().getMySql().execute("DELETE FROM FactionHomes WHERE faction=? AND name=?;", faction.getName(), home.getName());
+                }
+            }
+            faction.unclaimChunk(chunk);
+            player.sendMessage(Chat.format(Settings.UNCLAIMED_LAND));
         }
-        faction.unclaimChunk(chunk);
-        player.sendMessage(Chat.format(Settings.UNCLAIMED_LAND));
     }
 }

@@ -62,7 +62,7 @@ public class ClaimCommand extends SubCommand {
                     sender.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
                     return;
                 }
-                int yaw = Math.round(player.getLocation().getYaw());
+                int yaw = Math.abs(Math.round(player.getLocation().getYaw()));
                 List<Chunk> pending = new ArrayList<>();
                 pending.add(player.getLocation().getChunk());
                 String pole = "";

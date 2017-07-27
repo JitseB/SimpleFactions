@@ -10,7 +10,6 @@ import net.jitse.simplefactions.utilities.Chat;
 import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.RelationState;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -177,7 +176,7 @@ public class PlayerListener implements Listener {
                 }
             }
         }
-        if(!allowedFlight && playerFaction != null){
+        if(!allowedFlight && playerFaction != null && faction.getPartners(event.getTo()) != null){
             boolean partners = false;
             for(Partner partner : faction.getPartners(event.getTo())){
                 if(partner.getData() instanceof Faction && partner.getData().equals(playerFaction))

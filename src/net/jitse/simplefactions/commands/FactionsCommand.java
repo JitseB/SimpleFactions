@@ -46,8 +46,9 @@ public class FactionsCommand implements CommandExecutor {
             else if(args[0].equalsIgnoreCase("claim")) Commands.CLAIM_LAND.execute(sender, args);
             else if(args[0].equalsIgnoreCase("autoclaim")) Commands.AUTO_CLAIM.execute(sender, args);
             else if(args[0].equalsIgnoreCase("show")) Commands.SHOW.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("homes")) Commands.HOMES.execute(sender, args);
             else if(args[0].equalsIgnoreCase("perm")) Commands.PERM.execute(sender, args);
-            else if(args[0].equalsIgnoreCase("chat")) Commands.CHAT.execute(sender, args);
+            else if(args[0].equalsIgnoreCase("chat") || args[0].equalsIgnoreCase("c")) Commands.CHAT.execute(sender, args);
             else if(args[0].equalsIgnoreCase("power") || args[0].equalsIgnoreCase("pow")) Commands.POWER.execute(sender, args);
             else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{syntax}", "/faction help [page]")));
         }
@@ -76,7 +77,7 @@ public class FactionsCommand implements CommandExecutor {
             sender.sendMessage(getInfo("/faction power", "Show how much power you have."));
             sender.sendMessage(getInfo("/faction fly", "Toggle fly-mode on your faction's land."));
             sender.sendMessage(getInfo("/faction map", "See all faction claims nearby."));
-            sender.sendMessage(getInfo("/faction unclaim", "Unclaim the piece of land you're in."));
+            sender.sendMessage(getInfo("/faction unclaim [all]", "Unclaim land of your faction."));
             sender.sendMessage(getInfo("/faction chat <public | faction | allies>", "Set the chat channel you're in."));
             sender.sendMessage(getInfo("/faction access <player | faction> <name>", "Allow players to build on this specific piece of land."));
             sender.sendMessage(getInfo("/faction revoke <player | faction> <name>", "Revoke access to the land given with the &e/faction access command&f."));

@@ -2,6 +2,7 @@ package net.jitse.simplefactions.commands.subcommands;
 
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
+import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
@@ -19,6 +20,10 @@ public class ResetCommand extends SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
+        if(sender instanceof Player){
+            sender.sendMessage(Chat.format("&cThis command is console only!"));
+            return;
+        }
         SimpleFactions.getInstance().setJoinable(false);
         Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(Chat.format(Settings.SERVER_NAME + "\n\n" + Settings.SYSTEM_RESET_KICK)));
         SimpleFactions.getInstance().getMySql().execute("TRUNCATE TABLE Factions;");

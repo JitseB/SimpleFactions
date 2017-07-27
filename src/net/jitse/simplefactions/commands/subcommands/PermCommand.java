@@ -39,21 +39,28 @@ public class PermCommand extends SubCommand {
             Chat.centeredMessage(sender, Chat.format("&7Faction owners have all permission by default."));
             player.sendMessage(Chat.format("&e" + StringUtils.join(PermCategory.values(), " ")));
             for(PermSetting setting : PermSetting.values()){
+                if(setting == PermSetting.PAINBUILD) continue; // Client request.
                 TextComponent builder = new TextComponent();
                 for(PermCategory category : PermCategory.values()){
                     TextComponent component;
-                    if(faction.getSetting(category, setting)){
-                        // Enabled for this category and setting.
-                        component = new TextComponent("YES");
-                        component.setColor(ChatColor.GREEN);
-                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.getDescription() + ": " + setting.getUpperCamelCaseString() + " to no") }));
-                        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " no getmap"));
-                    } else{
-                        // Disabled for this category and setting.
+                    if(setting == PermSetting.PRESSUREPLATES && category == PermCategory.ENE){
                         component = new TextComponent("NOO");
-                        component.setColor(ChatColor.RED);
-                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.getDescription() + ": " + setting.getUpperCamelCaseString() + " to yes") }));
-                        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " yes getmap"));
+                        component.setColor(ChatColor.GRAY);
+                        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Unavailable, this setting can't be changed") }));
+                    } else{
+                        if(faction.getSetting(category, setting)){
+                            // Enabled for this category and setting.
+                            component = new TextComponent("YES");
+                            component.setColor(ChatColor.GREEN);
+                            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.getDescription() + ": " + setting.getUpperCamelCaseString() + " to no") }));
+                            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " no getmap"));
+                        } else{
+                            // Disabled for this category and setting.
+                            component = new TextComponent("NOO");
+                            component.setColor(ChatColor.RED);
+                            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] { new TextComponent("Click to toggle this setting\n" + category.getDescription() + ": " + setting.getUpperCamelCaseString() + " to yes") }));
+                            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/faction perm " + category.toString() + " " + setting.toString() + " yes getmap"));
+                        }
                     }
                     builder.addExtra(component);
                     TextComponent space = new TextComponent(" ");

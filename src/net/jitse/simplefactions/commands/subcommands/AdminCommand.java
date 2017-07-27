@@ -2,6 +2,7 @@ package net.jitse.simplefactions.commands.subcommands;
 
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
+import net.jitse.simplefactions.events.PlayerLeaveServerEvent;
 import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Home;
 import net.jitse.simplefactions.factions.Role;
@@ -10,14 +11,32 @@ import net.jitse.simplefactions.utilities.Chat;
 import org.bukkit.Chunk;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Jitse on 21-7-2017.
  */
-public class AdminCommand extends SubCommand {
+public class AdminCommand extends SubCommand implements Listener {
+
+    private static Set<UUID> bypassing = new HashSet<>();
 
     public AdminCommand(){
         super(Role.MEMBER, "simplefactions.admin");
+    }
+
+    public static Set<UUID> getBypassing(){
+        return bypassing;
+    }
+
+    @EventHandler
+    public void onServerLeave(PlayerLeaveServerEvent event){
+        if(bypassing.contains(event.getPlayer().getUniqueId()))
+            bypassing.remove(event.getPlayer().getUniqueId());
     }
 
     @Override
@@ -49,6 +68,20 @@ public class AdminCommand extends SubCommand {
             faction.unclaimChunk(chunk);
             player.sendMessage(Chat.format(Settings.UNCLAIMED_LAND));
         }
-        else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{snytax}", "/faction <disband | unclaim> [faction]")));
+        else if(args.length == 2 && args[1].equalsIgnoreCase("bypass")){
+            if(!(sender instanceof Player)){
+                sender.sendMessage(Chat.format(Settings.PLAYER_ONLY_COMMAND));
+                return;
+            }
+            Player player = (Player) sender;
+            if(bypassing.contains(player.getUniqueId())){
+                bypassing.remove(player.getUniqueId());
+                player.sendMessage(Chat.format(Settings.TOGGLED_BYPASS_OFF));
+            } else{
+                bypassing.add(player.getUniqueId());
+                player.sendMessage(Chat.format(Settings.TOGGLED_BYPASS_ON));
+            }
+        }
+        else sender.sendMessage(Chat.format(Settings.COMMAND_USAGE_MESSAGE.replace("{snytax}", "/faction <disband | unclaim | bypass> [faction]")));
     }
 }

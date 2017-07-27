@@ -1,6 +1,8 @@
 package net.jitse.simplefactions.listeners;
 
 import net.jitse.simplefactions.SimpleFactions;
+import net.jitse.simplefactions.commands.Commands;
+import net.jitse.simplefactions.commands.subcommands.AdminCommand;
 import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
@@ -25,7 +27,7 @@ public class WorldListener implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerBlockBreak(BlockBreakEvent event){
         Player player = event.getPlayer();
-        if(player.hasPermission("simplefactions.build.override")){
+        if(AdminCommand.getBypassing().contains(player.getUniqueId())){
             return;
         }
         Chunk chunk = event.getBlock().getChunk();
@@ -120,20 +122,13 @@ public class WorldListener implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerBlockPlace(BlockPlaceEvent event){
         Player player = event.getPlayer();
-        if(player.hasPermission("simplefactions.build.override")){
+        if(AdminCommand.getBypassing().contains(player.getUniqueId())){
             return;
         }
         Chunk chunk = event.getBlock().getChunk();
         Faction fplayer = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
         Faction fchunk = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
         if(fchunk != null){
-            // Spawn & Warzone logic.
-            if(fchunk.getName().equals(Settings.SPAWN_NAME) || fchunk.getName().equals(Settings.WARZONE_NAME)){
-                if(event.getItemInHand() != null && event.getItemInHand().getType() == Material.MONSTER_EGG /*|| event.getItemInHand().getType() == Material.ENDER_PEARL*/){
-                    player.sendMessage(Chat.format(Settings.NOT_ALLOWED_IN_SPAWN_OR_WARZONE));
-                    event.setCancelled(true);
-                }
-            }
             // Permission settings logic.
             if(fplayer == null){
                 if(fchunk.getSetting(PermCategory.NEU, PermSetting.BUILD)) return;
@@ -228,12 +223,22 @@ public class WorldListener implements Listener {
         }
         if(event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK || approved){
             Player player = event.getPlayer();
-            if(player.hasPermission("simplefactions.build.override")){
+            if(AdminCommand.getBypassing().contains(player.getUniqueId())){
                 return;
             }
             Chunk chunk = event.getClickedBlock().getChunk();
             Faction fplayer = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
             Faction fchunk = SimpleFactions.getInstance().getFactionsManager().getFaction(chunk);
+
+            if(fchunk != null){
+                // Spawn & Warzone logic.
+                if(fchunk.getName().equals(Settings.SPAWN_NAME) || fchunk.getName().equals(Settings.WARZONE_NAME)){
+                    if(event.getPlayer().getItemOnCursor() != null && event.getPlayer().getItemOnCursor().getType() == Material.MONSTER_EGG /*|| event.getItemInHand().getType() == Material.ENDER_PEARL*/){
+                        player.sendMessage(Chat.format(Settings.NOT_ALLOWED_IN_SPAWN_OR_WARZONE));
+                        event.setCancelled(true);
+                    }
+                }
+            }
 
             // Guarantee function. heh.
             if(fchunk != null && fplayer != null){

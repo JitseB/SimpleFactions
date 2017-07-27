@@ -4,11 +4,13 @@ import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
 import net.jitse.simplefactions.factions.Faction;
 import net.jitse.simplefactions.factions.Role;
+import net.jitse.simplefactions.listeners.PlayerListener;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,8 +35,7 @@ public class FactionMapCommand extends SubCommand {
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
         Pole pole = getPole(player);
-
-        Chat.centeredMessage(sender, Chat.format("&8-----     &5&lMap&r&5 (Hover to view faction names):     &8-----"));
+        player.sendMessage(Chat.format("&cGenerating the factions map..."));
 
         Map<Faction, String> symbols = new HashMap<>();
         Queue<String> availableSymbols = new LinkedList<>();
@@ -137,6 +138,7 @@ public class FactionMapCommand extends SubCommand {
             }
             list.add(line);
         }
+        Chat.centeredMessage(sender, Chat.format("&8-----     &5&lMap&r&5 (Hover to view faction names):     &8-----"));
         for(TextComponent line : list) {
             TextComponent spaced = new TextComponent("                ");
             spaced.addExtra(line);
@@ -144,12 +146,12 @@ public class FactionMapCommand extends SubCommand {
         }
     }
 
-    private Pole getPole(Player player){
-        int yaw = Math.round(player.getLocation().getYaw());
-        if(315 < yaw || yaw <= 45) return Pole.SOUTH;
-        else if(45 < yaw && yaw <= 135) return Pole.WEST;
-        else if(135 < yaw && yaw <= 225) return Pole.NORTH;
-        else if(225 < yaw && yaw <= 315) return Pole.EAST;
+    private FactionMapCommand.Pole getPole(Player player){
+        int yaw = Math.abs(Math.round(player.getLocation().getYaw()));
+        if(315 < yaw || yaw <= 45) return FactionMapCommand.Pole.SOUTH;
+        else if(45 < yaw && yaw <= 135) return FactionMapCommand.Pole.WEST;
+        else if(135 < yaw && yaw <= 225) return FactionMapCommand.Pole.NORTH;
+        else if(225 < yaw && yaw <= 315) return FactionMapCommand.Pole.EAST;
         return null;
     }
 

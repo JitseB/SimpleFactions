@@ -88,6 +88,7 @@ public class Faction {
     }
 
     public List<Partner> getPartners(Chunk chunk){
+        if(!this.partnerMap.containsKey(chunk)) return null;
         return this.partnerMap.get(chunk);
     }
 

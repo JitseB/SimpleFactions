@@ -39,6 +39,10 @@ public class Settings {
     public static final int SPAWN_RADIUS = CONFIG.getInt("SpawnLandRadius");
     public static final int WARZONE_RADIUS = CONFIG.getInt("WarzoneLandRadius");
 
+    public static final String TOGGLED_BYPASS_ON = CONFIG.getString("Messages.ToggledBypassOn");
+    public static final String TOGGLED_BYPASS_OFF = CONFIG.getString("Messages.ToggledBypassOff");
+    public static final String NO_CLAIMED_LAND = CONFIG.getString("Messages.NoClaimedLand");
+    public static final String UNCLAIMED_ALL_LAND = CONFIG.getString("Messages.UnclaimedAllLand");
     public static final String NOT_ALLOWED_IN_SPAWN_OR_WARZONE = CONFIG.getString("Messages.NotAllowedInSpawnOrWarzone");
     public static final String UNCLAIMED_LAND = CONFIG.getString("Messages.UnclaimedLand");
     public static final String DISABLED_FLIGHT = CONFIG.getString("Messages.DisabledFlight");
@@ -128,4 +132,5 @@ public class Settings {
     public static final String CREATED_FACTION_BROADCAST = CONFIG.getString("Messages.CreatedFactionBroadcast");
     public static final String NO_PERMISSION_COMMAND = CONFIG.getString("Messages.NoPermissionForCommand");
     public static final String NO_ROLE_PERMISSION_COMMAND = CONFIG.getString("Messages.NoRolePermissionForCommand");
+    public static final String HOMES_HOME = CONFIG.getString("Messages.HomesList");
 }

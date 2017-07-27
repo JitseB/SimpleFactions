@@ -35,6 +35,7 @@ public enum Commands {
     CHAT(new ChatCommand(Role.MEMBER), true),
     PERM(new PermCommand(Role.OWNER), true),
     UNCLAIM(new UnclaimCommand(Role.OWNER), true),
+    HOMES(new HomesCommand(Role.MEMBER), true),
 
     // Commands which don't require to be in a faction.
     CREATE_FACTION(new CreateFactionCommand(), false),
