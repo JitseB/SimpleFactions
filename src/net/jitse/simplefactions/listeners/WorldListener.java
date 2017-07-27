@@ -14,6 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -24,6 +26,16 @@ import java.util.UUID;
  * Created by Jitse on 23-6-2017.
  */
 public class WorldListener implements Listener {
+
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntitySpawn(CreatureSpawnEvent event){
+        if(event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.DEFAULT){
+            Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(event.getLocation().getChunk());
+            if(faction != null && (faction.getName().equals(Settings.SPAWN_NAME) || faction.getName().equals(Settings.WARZONE_NAME))){
+                event.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerBlockBreak(BlockBreakEvent event){
