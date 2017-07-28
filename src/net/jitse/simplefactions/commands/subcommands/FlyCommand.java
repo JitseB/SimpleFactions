@@ -5,7 +5,6 @@ import net.jitse.simplefactions.commands.SubCommand;
 import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.RelationState;
 import org.bukkit.Chunk;
 import org.bukkit.Location;

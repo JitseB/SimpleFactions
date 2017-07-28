@@ -1,12 +1,10 @@
 package net.jitse.simplefactions.listeners;
 
 import net.jitse.simplefactions.SimpleFactions;
-import net.jitse.simplefactions.commands.Commands;
 import net.jitse.simplefactions.commands.subcommands.AdminCommand;
 import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,7 +14,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 

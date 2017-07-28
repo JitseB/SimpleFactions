@@ -3,7 +3,6 @@ package net.jitse.simplefactions.utilities;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 

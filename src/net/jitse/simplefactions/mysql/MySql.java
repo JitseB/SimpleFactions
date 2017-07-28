@@ -2,13 +2,10 @@ package net.jitse.simplefactions.mysql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.utilities.Logger;
-import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**

@@ -6,7 +6,6 @@ import net.jitse.simplefactions.factions.Member;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -2,11 +2,9 @@ package net.jitse.simplefactions.commands.subcommands;
 
 import net.jitse.simplefactions.SimpleFactions;
 import net.jitse.simplefactions.commands.SubCommand;
-import net.jitse.simplefactions.factions.Player;
 import net.jitse.simplefactions.factions.Role;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
-import net.jitse.simplefactions.utilities.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
