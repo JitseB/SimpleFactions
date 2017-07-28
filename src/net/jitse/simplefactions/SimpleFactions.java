@@ -33,7 +33,7 @@ public class SimpleFactions extends JavaPlugin {
     private final TrustedManager trustedManager = new TrustedManager(this);
     private final MySql mysql = new MySql();
 
-    private Economy economy;
+    private Economy econ;
     private ServerData serverDataManager;
 
     private Set<Player> players = new HashSet<>();
@@ -49,8 +49,8 @@ public class SimpleFactions extends JavaPlugin {
 
         if(!setupEconomy()){
             Logger.log(Logger.LogLevel.ERROR, "Disabled due to no Vault dependency found.");
-            //getServer().getPluginManager().disablePlugin(this);
-            //return;
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         if(!this.mysql.connect(getConfig().getString("MySQL.host"),
@@ -113,13 +113,16 @@ public class SimpleFactions extends JavaPlugin {
     }
 
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) return false;
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) return false;
-        economy = rsp.getProvider();
-        return economy != null;
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
     }
-
     public static SimpleFactions getInstance(){
         return plugin;
     }
@@ -157,7 +160,7 @@ public class SimpleFactions extends JavaPlugin {
     }
 
     public Economy getEconomy(){
-        return this.economy;
+        return this.econ;
     }
 
     public ServerData getServerDataManager(){

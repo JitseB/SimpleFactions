@@ -15,7 +15,7 @@ OwnFactionColor: "GREEN"
 EnemyFactionColor: "RED"
 AllyFactionColor: "LIGHT_PURPLE"
 OwnFactionColorChatAccent: "DARK_GREEN"
-AllyFactionColorChatAccent: "DARK_GREEN"
+AllyFactionColorChatAccent: "DARK_PURPLE"
 FactionMaxMembers: 50
 # FactionInviteExpireTime is in seconds.
 FactionInviteExpireTime: 60

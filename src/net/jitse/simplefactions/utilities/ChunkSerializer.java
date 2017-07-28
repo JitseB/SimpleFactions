@@ -21,6 +21,7 @@ public class ChunkSerializer {
 
     public static Set<Chunk> deserialize(String input){
         Set<Chunk> chunks = new HashSet<>();
+        if(input.equals("")) return chunks;
         if(input == null) return chunks;
         if(input.contains(";")){
             for(String element : input.split(";")){

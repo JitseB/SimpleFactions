@@ -5,8 +5,10 @@ import net.jitse.simplefactions.commands.SubCommand;
 import net.jitse.simplefactions.factions.*;
 import net.jitse.simplefactions.managers.Settings;
 import net.jitse.simplefactions.utilities.Chat;
+import net.jitse.simplefactions.utilities.Logger;
 import net.jitse.simplefactions.utilities.RelationState;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -57,16 +59,16 @@ public class FlyCommand extends SubCommand {
             } else{
                 RelationState relation = faction.getAllies().contains(playerFaction) ? RelationState.ALLIES : (faction.getEnemies().contains(playerFaction) ? RelationState.ENEMIES : null);
                 if(relation == null){
-                    if(relation == null && faction.getSetting(PermCategory.NEU, PermSetting.FLY))
+                    if(faction.getSetting(PermCategory.NEU, PermSetting.FLY))
                         allowedFlight = true;
                 } else{
                     switch (relation){
                         case ALLIES:
-                            if(relation == null && faction.getSetting(PermCategory.ALL, PermSetting.FLY))
+                            if(faction.getSetting(PermCategory.ALL, PermSetting.FLY))
                                 allowedFlight = true;
                             break;
                         case ENEMIES:
-                            if(relation == null && faction.getSetting(PermCategory.ENE, PermSetting.FLY))
+                            if(faction.getSetting(PermCategory.ENE, PermSetting.FLY))
                                 allowedFlight = true;
                             break;
                         default:
@@ -75,7 +77,7 @@ public class FlyCommand extends SubCommand {
                 }
             }
         }
-        if(!allowedFlight && playerFaction != null){
+        if(!allowedFlight && playerFaction != null && faction.getPartners(currentChunk) != null){
             boolean partners = false;
             for(Partner partner : faction.getPartners(currentChunk)){
                 if(partner.getData() instanceof Faction && partner.getData().equals(playerFaction))
@@ -93,6 +95,16 @@ public class FlyCommand extends SubCommand {
         // Player is allowed on this chunk to fly.
         player.setAllowFlight(!player.getAllowFlight()); // Toggle flight.
         if(player.getAllowFlight()) player.sendMessage(Chat.format(Settings.ENABLED_FLIGHT));
-        else player.sendMessage(Chat.format(Settings.DISABLED_FLIGHT));
+        else {
+            player.teleport(new Location(
+                    player.getWorld(),
+                    player.getLocation().getX(),
+                    player.getWorld().getHighestBlockYAt(player.getLocation()),
+                    player.getLocation().getZ(),
+                    player.getLocation().getYaw(),
+                    player.getLocation().getPitch())
+            );
+            player.sendMessage(Chat.format(Settings.DISABLED_FLIGHT));
+        }
     }
 }

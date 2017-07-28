@@ -29,7 +29,11 @@ public class HomesCommand extends SubCommand {
         }
         Player player = (Player) sender;
         Faction faction = SimpleFactions.getInstance().getFactionsManager().getFaction(player);
+        if(faction.getHomes().size() == 0){
+            player.sendMessage(Chat.format(Settings.INVALID_COMMAND_USAGE));
+            return;
+        }
         String homes = String.join(", ", faction.getHomes().stream().map(Home::getName).collect(Collectors.toList()));
-        player.sendMessage(Settings.HOMES_HOME.replace("{homes}", homes));
+        player.sendMessage(Chat.format(Settings.HOMES_HOME.replace("{homes}", homes)));
     }
 }

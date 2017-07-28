@@ -58,32 +58,42 @@ public class FactionsCommand implements CommandExecutor {
     private void sendHelpMessage(CommandSender sender, String[] args){
         sender.sendMessage("");
         if(args.length == 2 && args[0].equalsIgnoreCase("help") && args[1].equalsIgnoreCase("2")){
-            Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (2/3):     &8-----"));
+            Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (2/4):     &8-----"));
             sender.sendMessage(getInfo("/faction kick <player>", "Kick a player from your faction."));
             sender.sendMessage(getInfo("/faction sethome [name]", "Set a home for your faction."));
             sender.sendMessage(getInfo("/faction home [name]", "Teleport yourself to a home."));
             sender.sendMessage(getInfo("/faction delhome <name>", "Delete a home from your faction."));
             sender.sendMessage(getInfo("/faction rehome [name]", "Set a faction's home to a new location."));
+            sender.sendMessage(getInfo("/faction homes", "List all your faction's homes."));
             sender.sendMessage(getInfo("/faction role <player> <role>", "Set a member's faction role."));
             sender.sendMessage(getInfo("/faction <enemy | allies | neutral> <player | faction>", "Set a relation with a faction."));
-            sender.sendMessage(getInfo("/faction sidebar", "Toggle your sidebar scoreboard (on/off)."));
-            sender.sendMessage(getInfo("/faction perm [<permission> <category> <yes | no>]", "Set your faction's permissions."));
             return;
         }
         else if(args.length == 2 && args[0].equalsIgnoreCase("help") && args[1].equalsIgnoreCase("3")){
-            Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (3/3):     &8-----"));
+            Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (3/4):     &8-----"));
             sender.sendMessage(getInfo("/faction open <yes | no>", "Set your faction open to join."));
             sender.sendMessage(getInfo("/faction show [player | faction]", "Show a (or your) faction's info."));
             sender.sendMessage(getInfo("/faction power", "Show how much power you have."));
             sender.sendMessage(getInfo("/faction fly", "Toggle fly-mode on your faction's land."));
             sender.sendMessage(getInfo("/faction map", "See all faction claims nearby."));
             sender.sendMessage(getInfo("/faction unclaim [all]", "Unclaim land of your faction."));
-            sender.sendMessage(getInfo("/faction chat <public | faction | allies>", "Set the chat channel you're in."));
             sender.sendMessage(getInfo("/faction access <player | faction> <name>", "Allow players to build on this specific piece of land."));
             sender.sendMessage(getInfo("/faction revoke <player | faction> <name>", "Revoke access to the land given with the &e/faction access command&f."));
             return;
         }
-        Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (1/3):     &8-----"));
+        else if(args.length == 2 && args[0].equalsIgnoreCase("help") && args[1].equalsIgnoreCase("4")){
+            Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (4/4):     &8-----"));
+            sender.sendMessage(getInfo("/faction perm [<permission> <category> <yes | no>]", "Set your faction's permissions."));
+            sender.sendMessage(getInfo("/faction chat <public | faction | allies>", "Set the chat channel you're in."));
+            sender.sendMessage(getInfo("/faction sidebar", "Toggle your sidebar scoreboard (on/off)."));
+            sender.sendMessage(getInfo("/faction top", "List the top 10 best factions of the server."));
+            sender.sendMessage("");
+            Chat.centeredMessage(sender, Chat.format("&8-----     &c&lAdministrator&r&c Command List (1/1):     &8-----"));
+            sender.sendMessage(getInfo("/faction <disband | unclaim | bypass> [faction]", "Main administrator command."));
+            sender.sendMessage(getInfo("/faction reset", "Reset the full factions system."));
+            return;
+        }
+        Chat.centeredMessage(sender, Chat.format("&8-----     &5&lSimpleFactions&r&5 Command List (1/4):     &8-----"));
         sender.sendMessage(getInfo("/faction help [page]", "Get command help list."));
         sender.sendMessage(getInfo("/faction create <name>", "Create your own faction."));
         sender.sendMessage(getInfo("/faction join <faction>", "Join a faction."));
@@ -92,7 +102,6 @@ public class FactionsCommand implements CommandExecutor {
         sender.sendMessage(getInfo("/faction claim [radius, max: " + Settings.MAX_RADIUS_CLAIM + " | line, max: " + Settings.MAX_LINE_CLAIM + "]", "Claim land for your faction."));
         sender.sendMessage(getInfo("/faction autoclaim", "Toggle autoclaim-mode."));
         sender.sendMessage(getInfo("/faction invite <player>", "Invite a player to your faction."));
-        sender.sendMessage(getInfo("/faction top", "List the top 10 best factions of the server."));
     }
 
     private String getInfo(String syntax, String description){

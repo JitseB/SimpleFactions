@@ -131,6 +131,14 @@ public class PlayerListener implements Listener {
         if(faction == null){
             if((player.getAllowFlight() || player.isFlying()) && player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR){
                 player.sendMessage(Chat.format(Settings.DISABLED_FLIGHT));
+                player.teleport(new Location(
+                        player.getWorld(),
+                        player.getLocation().getX(),
+                        player.getWorld().getHighestBlockYAt(player.getLocation()),
+                        player.getLocation().getZ(),
+                        player.getLocation().getYaw(),
+                        player.getLocation().getPitch())
+                );
                 player.setAllowFlight(false);
                 player.setFlying(false);
             }
@@ -158,16 +166,16 @@ public class PlayerListener implements Listener {
             } else{
                 RelationState relation = faction.getAllies().contains(playerFaction) ? RelationState.ALLIES : (faction.getEnemies().contains(playerFaction) ? RelationState.ENEMIES : null);
                 if(relation == null){
-                    if(relation == null && faction.getSetting(PermCategory.NEU, PermSetting.FLY))
+                    if(faction.getSetting(PermCategory.NEU, PermSetting.FLY))
                         allowedFlight = true;
                 } else{
                     switch (relation){
                         case ALLIES:
-                            if(relation == null && faction.getSetting(PermCategory.ALL, PermSetting.FLY))
+                            if(faction.getSetting(PermCategory.ALL, PermSetting.FLY))
                                 allowedFlight = true;
                             break;
                         case ENEMIES:
-                            if(relation == null && faction.getSetting(PermCategory.ENE, PermSetting.FLY))
+                            if(faction.getSetting(PermCategory.ENE, PermSetting.FLY))
                                 allowedFlight = true;
                             break;
                         default:
@@ -191,6 +199,14 @@ public class PlayerListener implements Listener {
             player.sendMessage(Chat.format(Settings.DISABLED_FLIGHT));
             player.setAllowFlight(false);
             player.setFlying(false);
+            player.teleport(new Location(
+                    player.getWorld(),
+                    player.getLocation().getX(),
+                    player.getWorld().getHighestBlockYAt(player.getLocation()),
+                    player.getLocation().getZ(),
+                    player.getLocation().getYaw(),
+                    player.getLocation().getPitch())
+            );
         }
     }
 
